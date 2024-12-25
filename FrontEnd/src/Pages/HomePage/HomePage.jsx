@@ -2,6 +2,7 @@ import React from 'react';
 import HeroSection from '../../Components/Navbar/HeroSection';
 import ProcessSteps from '../../Components/ProcessSteps/ProcessSteps';
 import HappyStories from '../../Components/HappyStories/HappyStories';
+import YourStory from '../../Components/YourStory/YourStory';
 
 
 const HomePage = () => {
@@ -10,6 +11,7 @@ const HomePage = () => {
      <HeroSection />
      <ProcessSteps />
      <HappyStories />
+     <YourStory />
     </div>
   );
 };

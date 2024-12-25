@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import RegistrationPopup from '../RegistrationPopup/RegistrationPopup';
 
 const CustomNavbar = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const handleShowPopup = () => setShowPopup(true);
+  const handleClosePopup = () => setShowPopup(false);
+
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container>
@@ -16,10 +21,11 @@ const CustomNavbar = () => {
           <Button variant="outline-primary" as={Link} to="/login" className="me-2">
             Login
           </Button>
-          <Button variant="primary" as={Link} to="/register">
+          <Button variant="outline-primary" as={Link} to="/register" onClick={handleShowPopup}>
             Register
           </Button>
         </Navbar.Collapse>
+        <RegistrationPopup show={showPopup} onHide={handleClosePopup} />
       </Container>
     </Navbar>
   );
