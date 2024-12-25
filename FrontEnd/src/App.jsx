@@ -4,6 +4,7 @@ import Home from './Pages/HomePage/HomePage';
 import About from './Pages/AboutPage/AboutPage';
 import Login from './Pages/LoginPage/LoginPage';
 import Navbar from './Components/Navbar/Navbar';
+import Footer from './Components/Footer/Footer';
 import RegisterPage from './Pages/RegisterPage/RegisterPage';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
+      <Footer />
     </>
   );
 };
