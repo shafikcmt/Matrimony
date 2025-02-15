@@ -28,6 +28,7 @@ const CustomNavbar = () => {
             <NavDropdown title="Pages" id="profile-dropdown">
               <NavDropdown.Item as={Link} to="/profile-update">Update Profile</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/profile-view">View Profile</NavDropdown.Item>
+
            </NavDropdown>
           </Nav>
           <Button variant="outline-primary" onClick={handleLoginShow} className="me-2">
