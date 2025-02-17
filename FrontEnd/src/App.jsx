@@ -8,6 +8,7 @@ import Footer from './Components/Footer/Footer';
 import RegisterPage from './Pages/RegisterPage/RegisterPage';
 import ProfileUpdatePage from './Pages/ProfileUpdatePage/ProfileUpdatePage';
 import ProfileView from './Components/Profile/ProfileView';
+import Dashboard from './Components/UserDashboard/UserDashboard';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile-update" element={<ProfileUpdatePage />} />
         <Route path="/profile-view" element={<ProfileView />} />
+        <Route path="/user-dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </>
