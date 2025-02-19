@@ -25,10 +25,12 @@ const CustomNavbar = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
+            
             <NavDropdown title="Pages" id="profile-dropdown">
               <NavDropdown.Item as={Link} to="/profile-update">Update Profile</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/profile-view">View Profile</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/user-dashboard">Dashboard</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/admin-dashboard">Admin Dashboard</NavDropdown.Item>
 
            </NavDropdown>
           </Nav>
