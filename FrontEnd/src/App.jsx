@@ -11,6 +11,7 @@ import ProfileView from './Components/Profile/ProfileView';
 import Dashboard from './Components/UserDashboard/UserDashboard';
 import SearchResults from './Components/SearchResult/SearchResults';
 import AdminDashboard from './Components/admin-dashboard/AdminDashboard';
+import MembershipPlans from './Components/Membership/MembershipPlans';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/user-dashboard" element={<Dashboard />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/membership-plans" element={<MembershipPlans />} />
       </Routes>
       <Footer />
     </>

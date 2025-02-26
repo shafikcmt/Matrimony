@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const dummyProfiles = [
     { id: 1, name: "Rahul Sharma", age: 28, religion: "Hindu", motherTongue: "Hindi", lookingFor: "woman" },
@@ -33,8 +34,13 @@ const SearchResults = () => {
   };
 
   const [filteredProfiles, setFilteredProfiles] = useState([]);
+  const [currentUser, setCurrentUser] = useState({ isPremium: false });
 
   useEffect(() => {
+    axios.get("http://localhost:5000/api/user-profile").then((res) => {
+      setCurrentUser(res.data);
+    });
+
     let results = dummyProfiles.filter((profile) => {
       return (
         (filters.lookingFor ? profile.lookingFor === filters.lookingFor : true) &&
@@ -56,11 +62,21 @@ const SearchResults = () => {
             <Col md={4} key={profile.id} className="mb-3">
               <Card>
                 <Card.Body>
-                  <Card.Title>{profile.name}</Card.Title>
+                  <Card.Title>{profile.name} {currentUser.isPremium && <span className="badge bg-success">Premium</span>}</Card.Title>
+                  {currentUser.isPremium ? (
+                    <img src="https://via.placeholder.com/150" alt="User" className="img-fluid" />
+                  ) : (
+                    <div className="blurred-box">Photo Locked</div>
+                  )}
                   <Card.Text>Age: {profile.age}</Card.Text>
                   <Card.Text>Religion: {profile.religion}</Card.Text>
                   <Card.Text>Mother Tongue: {profile.motherTongue}</Card.Text>
-                  <Button variant="primary">View Profile</Button>
+                  <Card.Text>Phone: {currentUser.isPremium ? "9876543210" : "XXX-XXX-XXXX"}</Card.Text>
+                  {currentUser.isPremium ? (
+                    <Button variant="primary">View Profile</Button>
+                  ) : (
+                    <Button variant="warning" onClick={() => alert("Buy Premium to view details!")}>Buy Premium</Button>
+                  )}
                 </Card.Body>
               </Card>
             </Col>

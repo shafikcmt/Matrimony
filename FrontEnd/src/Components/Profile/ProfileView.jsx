@@ -31,7 +31,7 @@ const ProfileView = () => {
       <Card className="border-0 mb-4 shadow-sm">
         <Card.Header className="bg-danger text-white text-center py-4">
           <Image
-            src="https://via.placeholder.com/200"
+            src="./FrontEnd/public/profile-icon.jpg"
             roundedCircle
             className="border border-4 border-white shadow mb-3"
             style={{ width: "120px", height: "120px", objectFit: "cover" }}
