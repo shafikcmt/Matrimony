@@ -1,0 +1,19 @@
+.dashboard-sidebar {
+    padding: 15px;
+  }
+  
+  .dashboard-sidebar .card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .dashboard-sidebar .list-group-item {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .dashboard-sidebar .list-group-item:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+  }
+  

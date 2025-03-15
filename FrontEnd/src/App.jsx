@@ -20,6 +20,7 @@ const App = () => {
         <Route path="/profile-update" element={<ProfileUpdatePage />} />
       </Routes>
       <Footer />
+      
     </>
   );
 };
