@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
   darkMode: ['class'],
@@ -85,6 +86,36 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-new': {
+          'scrollbar-width': 'thin',                  
+          'scrollbar-color': '#ff3366 transparent',   
+        },
+        '.scrollbar-new::-webkit-scrollbar': {
+          width: '6px',                               
+        },
+        '.scrollbar-new::-webkit-scrollbar-thumb': {
+          background: '#ff3366',                      
+          borderRadius: '6px',                        
+        },
+        '.scrollbar-new::-webkit-scrollbar-thumb:hover': {
+          background: '#555',                         
+        },
+        '.scrollbar-new::-webkit-scrollbar-track': {
+          background: 'transparent',                  
+        },
+        
+        '.scrollbar-new::-webkit-scrollbar-button:single-button': {
+          display: 'none',                            
+        },
+      });
+    }),
+  ],
+  
+  
+  
 };
 export default config;
