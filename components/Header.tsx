@@ -37,7 +37,7 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <header className={`sticky top-0 z-50 bg-white shadow-sm transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""}`}>
+      <header className={`sticky top-0 z-50 bg-white shadow-lg transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
 

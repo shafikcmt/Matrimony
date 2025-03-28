@@ -1,84 +1,167 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Facebook, Twitter, Instagram, Mail } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Loader2, Mail, Phone } from "lucide-react"
+import { supabase } from '@/lib/supabase'
 
-const Login = () => {
+export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    identifier: '', // Can be email or phone
+    password: '',
+  })
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const { signIn } = useAuth()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const validateForm = () => {
+    // Check if identifier is email or phone
+    const isEmail = formData.identifier.includes('@')
+    const isPhone = /^[0-9]{10}$/.test(formData.identifier)
+
+    if (!isEmail && !isPhone) {
+      setError('Please enter a valid email or phone number')
+      return false
+    }
+
+    // Password validation
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long')
+      return false
+    }
+
+    return true
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+
+    if (!validateForm()) {
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      // If identifier is phone number, first get the email from profiles
+      let email = formData.identifier
+      if (!email.includes('@')) {
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('phone', formData.identifier)
+          .single()
+
+        if (profileError || !profile) {
+          throw new Error('No account found with this phone number')
+        }
+        email = profile.email
+      }
+
+      // Sign in with email and password
+      await signIn(email, formData.password)
+      
+      // Redirect to the intended page or dashboard
+      const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+      router.push(redirectTo)
+    } catch (error: any) {
+      console.error('Login error:', error)
+      if (error.message.includes('Email not confirmed')) {
+        setError('Please verify your email before logging in')
+      } else if (error.message.includes('Invalid login credentials')) {
+        setError('Invalid credentials. Please try again.')
+      } else {
+        setError(error.message)
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-md md:max-w-lg p-8 md:p-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-accent text-center mb-6">
-          Login to your Account
-        </h2>
-
-        {/* Email & Password Fields */}
-        <form className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email/Phone</label>
-            <Input
-              type="text"
-              placeholder="Email Or Phone"
-              className="w-full px-4 shadow-md py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
-            />
-            <p className="text-xs text-gray-400 mt-1">Use country code before number</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <div className="text-red-500 text-center">{error}</div>
+          )}
+          <div className="rounded-md shadow-sm space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="identifier">Email or Phone Number</Label>
+              <Input
+                id="identifier"
+                name="identifier"
+                type="text"
+                required
+                value={formData.identifier}
+                onChange={handleChange}
+                placeholder="Enter your email or phone number"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                minLength={8}
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <Input
-              type="password"
-              placeholder="********"
-              className="w-full px-4 shadow-md py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link href="/forgot-password" className="text-indigo-600 hover:text-indigo-500">
+                Forgot your password?
+              </Link>
+            </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <Link href="#" className="text-sm text-accent hover:underline">
-              Forgot Password?
-            </Link>
-          </div>
-
-          <Button className="w-full bg-accent hover:bg-accent/80 text-white">
-            Login to your Account
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              'Sign In'
+            )}
           </Button>
         </form>
-
-        {/* Social Login */}
-        <div className="mt-8">
-          <div className="relative flex justify-center items-center">
-            <span className="px-4 bg-white text-gray-500">Or Login With</span>
-          </div>
-
-          <div className="flex justify-center gap-4 mt-4">
-            <Link href="#" className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700">
-              <Facebook className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-red-500 text-white hover:bg-red-600">
-              <Instagram className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-gray-600 text-white hover:bg-gray-700">
-              <Mail className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-blue-400 text-white hover:bg-blue-500">
-              <Twitter className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Register Link */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-accent hover:underline">
-              Create an account
-            </Link>
-          </p>
+        <div className="text-center">
+          <Link href="/register" className="text-indigo-600 hover:text-indigo-500">
+            Don't have an account? Sign up
+          </Link>
         </div>
       </div>
     </div>
-  );
-};
-
-export default Login;
+  )
+}

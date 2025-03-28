@@ -1,20 +1,20 @@
-import Header from '@/components/Header';
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import Footer from '@/components/Footer';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { AuthProvider } from '@/lib/auth-context'
+import MainWrapper from '@/components/MainWrapper'
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Heavenly-Match - Find Your Perfect Match',
-  description: 'Find your life partner with our trusted matrimonial service',
-};
+  title: 'Matrimony App',
+  description: 'Find your perfect match',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -26,10 +26,12 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <MainWrapper>
+            {children}
+          </MainWrapper>
+        </AuthProvider>
       </body>
     </html>
-  );
+  )
 }

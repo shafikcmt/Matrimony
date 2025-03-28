@@ -1,161 +1,262 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Facebook, Twitter, Instagram, Mail } from "lucide-react";
+import { Loader2, Mail, Phone, User, Calendar } from "lucide-react";
+import { supabase } from '@/lib/supabase';
 
-const Register = () => {
+export default function RegisterPage() {
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    phone: '',
+    password: '',
+    date_of_birth: '',
+  })
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const { signUp } = useAuth()
+  const router = useRouter()
+
+  const validateForm = () => {
+    // Email validation (Gmail only)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid Gmail address')
+      return false
+    }
+
+    // Phone validation (exactly 10 digits)
+    const phoneRegex = /^[0-9]{10}$/
+    if (!phoneRegex.test(formData.phone)) {
+      setError('Please enter a valid 10-digit phone number')
+      return false
+    }
+
+    // Age validation (minimum 18 years)
+    const today = new Date()
+    const birthDate = new Date(formData.date_of_birth)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--
+    }
+    if (age < 18) {
+      setError('You must be at least 18 years old to register')
+      return false
+    }
+
+    // Password validation (minimum 8 characters)
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long')
+      return false
+    }
+
+    return true
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setSuccess(null)
+
+    if (!validateForm()) {
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      // Check for existing email and phone in profiles
+      const { data: existingUser, error: userError } = await supabase
+        .from('profiles')
+        .select('email, phone')
+        .or(`email.eq.${formData.email},phone.eq.${formData.phone}`)
+        .single()
+
+      if (userError && userError.code !== 'PGRST116') {
+        console.error('Error checking existing user:', userError)
+        throw new Error('Failed to check existing user')
+      }
+
+      if (existingUser) {
+        if (existingUser.email === formData.email) {
+          throw new Error('An account with this email already exists. Please login.')
+        }
+        if (existingUser.phone === formData.phone) {
+          throw new Error('An account with this phone number already exists. Please login.')
+        }
+      }
+
+      // Try to sign up
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.full_name,
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+
+      if (signUpError) {
+        console.error('Sign up error:', signUpError)
+        throw new Error('Failed to create user account')
+      }
+
+      if (!signUpData.user?.id) {
+        throw new Error('Failed to create user account')
+      }
+
+      // Create the profile using service role client
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: signUpData.user.id,
+            full_name: formData.full_name,
+            email: formData.email,
+            phone: formData.phone,
+            date_of_birth: formData.date_of_birth,
+          },
+        ])
+
+      if (profileError) {
+        console.error('Profile creation error:', profileError)
+        // If profile creation fails, we should clean up the auth user
+        await supabase.auth.signOut()
+        throw new Error(`Failed to create profile: ${profileError.message}`)
+      }
+
+      // Show success message
+      setSuccess('Registration successful! Please check your email to verify your account.')
+      setTimeout(() => {
+        router.push('/login')
+      }, 3000)
+    } catch (error: any) {
+      console.error('Registration error:', error)
+      setError(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-md md:max-w-lg lg:max-w-2xl p-8 md:p-12">
-        
-        {/* Heading */}
-        <h2 className="text-2xl md:text-3xl font-bold text-accent text-center mb-2">
-          Create Your Account
-        </h2>
-        <p className="text-sm text-gray-500 text-center mb-8">
-          Fill out the form to get started.
-        </p>
-
-        <form className="space-y-6">
-          
-          {/* On Behalf */}
-          <div>
-            <Label htmlFor="behalf">On Behalf</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="friend">Friend</SelectItem>
-                <SelectItem value="family">Family</SelectItem>
-                <SelectItem value="self">Self</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* First & Last Name */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="first-name">First Name</Label>
-              <Input id="first-name" placeholder="First Name" />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Create your account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <div className="text-red-500 text-center">{error}</div>
+          )}
+          {success && (
+            <div className="text-green-500 text-center">{success}</div>
+          )}
+          <div className="rounded-md shadow-sm space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="full_name">Full Name</Label>
+              <Input
+                id="full_name"
+                name="full_name"
+                type="text"
+                required
+                value={formData.full_name}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+              />
             </div>
-            
-            <div>
-              <Label htmlFor="last-name">Last Name</Label>
-              <Input id="last-name" placeholder="Last Name" />
+            <div className="space-y-2">
+              <Label htmlFor="email">Email (Gmail only)</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your Gmail address"
+              />
             </div>
-          </div>
-
-          {/* Gender & Date of Birth */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="gender">Gender</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Gender" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Enter your phone number"
+                pattern="[0-9]{10}"
+                maxLength={10}
+              />
             </div>
-            
-            <div>
-              <Label htmlFor="dob">Date of Birth</Label>
-              <Input id="dob" type="date" />
+            <div className="space-y-2">
+              <Label htmlFor="date_of_birth">Date of Birth</Label>
+              <Input
+                id="date_of_birth"
+                name="date_of_birth"
+                type="date"
+                required
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                max={new Date().toISOString().split('T')[0]}
+              />
             </div>
-          </div>
-
-          {/* Email/Phone */}
-          <div>
-            <Label htmlFor="phone">Email / Phone</Label>
-            <div className="flex">
-              <span className="bg-gray-100 px-4 py-2 border border-r-0 rounded-l-md text-gray-700">
-                +91
-              </span>
-              <Input id="phone" placeholder="81234 56789" className="rounded-l-none" />
-            </div>
-          </div>
-
-          {/* Password & Confirm Password */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="********" />
-              <p className="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                minLength={8}
+              />
             </div>
-
-            <div>
-              <Label htmlFor="confirm-password">Confirm Password</Label>
-              <Input id="confirm-password" type="password" placeholder="********" />
-              <p className="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
-            </div>
           </div>
 
-          {/* Referral Code */}
-          <div>
-            <Label htmlFor="referral">Referral Code</Label>
-            <Input id="referral" placeholder="Referral Code" />
-          </div>
-
-          {/* Terms & Conditions */}
-          <div className="flex items-center gap-2">
-            <Checkbox id="terms" />
-            <Label htmlFor="terms" className="text-sm">
-              By signing up you agree to our{" "}
-              <Link href="#" className="text-accent hover:underline">
-                terms and conditions
-              </Link>.
-            </Label>
-          </div>
-
-          {/* Submit Button */}
-          <Button className="w-full bg-accent hover:bg-pink-600 text-white">
-            Create Account
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              'Create Account'
+            )}
           </Button>
         </form>
-
-        {/* Social Login */}
-        <div className="mt-8">
-          <div className="relative flex justify-center items-center">
-            <span className="px-4 bg-white text-gray-500">Or Join With</span>
-          </div>
-
-          <div className="flex justify-center gap-4 mt-4">
-            <Link href="#" className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700">
-              <Facebook className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-red-500 text-white hover:bg-red-600">
-              <Instagram className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-gray-600 text-white hover:bg-gray-700">
-              <Mail className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="p-3 rounded-full bg-blue-400 text-white hover:bg-blue-500">
-              <Twitter className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Login Link */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link href="/login" className="text-accent hover:underline">
-              Login to your Account
-            </Link>
-          </p>
+        <div className="text-center">
+          <Link href="/login" className="text-indigo-600 hover:text-indigo-500">
+            Already have an account? Sign in
+          </Link>
         </div>
       </div>
     </div>
-  );
-};
-
-export default Register;
+  )
+}

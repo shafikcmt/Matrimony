@@ -1,98 +1,116 @@
-import { Facebook, Twitter, Instagram, Youtube, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Linkedin, Mail, Phone, MapPin, Globe } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1C1F2A] text-white py-12">
-      <div className="container mx-auto px-6">
-        
-        {/* Top Section */}
-        <div className="text-center mb-10">
-          <h2 className="text-accent cursor-pointer text-3xl font-bold">
-            HEAVENLY MATCH
-          </h2>
-          <p className="text-sm text-gray-400 mt-2 max-w-2xl mx-auto leading-relaxed">
-            But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born 
-            and I will give you a complete account of the system...
-          </p>
+    <footer className="bg-[#1C1F2A] text-white">
+      {/* Newsletter Section */}
+      <div className="border-b border-gray-700">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <h3 className="text-xl font-semibold">Subscribe to Our Newsletter</h3>
+              <p className="text-gray-400 mt-2">Stay updated with latest matches and features</p>
+            </div>
+            <div className="flex w-full md:w-auto gap-2">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="px-4 py-2 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent flex-1 md:w-64"
+              />
+              <button className="bg-accent hover:bg-accent/90 px-6 py-2 rounded-lg transition">
+                Subscribe
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-accent pt-8">
-          
-          {/* Contacts */}
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Company Info */}
           <div>
-            <h3 className="text-accent cursor-pointer font-bold text-lg">CONTACTS</h3>
-            <ul className="mt-4 space-y-3 text-gray-300">
-              <li>
-                <span className="font-semibold">📍 Address:</span> <br />
-                1329 40th St Apt A Orlando, FL
-              </li>
-              <li>
-                <span className="font-semibold">🌐 Website:</span> <br />
-                www.envato.com
-              </li>
-              <li>
-                <span className="font-semibold">✉️ Email:</span> <br />
-                support@envato.com
-              </li>
-              <li>
-                <span className="font-semibold">📞 Phone:</span> <br />
-                +01-321-200-6932 <br />
-                +01-321-200-6933
-              </li>
+            <h2 className="text-2xl font-bold text-accent mb-6">HEAVENLY MATCH</h2>
+            <p className="text-gray-400 mb-6">
+              Connecting hearts, creating lasting relationships. Your trusted platform for finding meaningful connections.
+            </p>
+            <div className="flex gap-4">
+              <Facebook className="w-6 h-6 text-blue-500 hover:scale-110 transition cursor-pointer" />
+              <Twitter className="w-6 h-6 text-sky-400 hover:scale-110 transition cursor-pointer" />
+              <Instagram className="w-6 h-6 text-pink-500 hover:scale-110 transition cursor-pointer" />
+              <Youtube className="w-6 h-6 text-red-500 hover:scale-110 transition cursor-pointer" />
+              <Linkedin className="w-6 h-6 text-blue-600 hover:scale-110 transition cursor-pointer" />
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <ul className="space-y-3">
+              {['Home', 'About Us', 'How It Works', 'Premium Members', 'Success Stories'].map((item) => (
+                <li key={item}>
+                  <Link href="#" className="text-gray-400 hover:text-accent transition duration-300">
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Main Menu */}
+          {/* Support */}
           <div>
-            <h3 className="text-accent cursor-pointer font-bold text-lg">MAIN MENU</h3>
-            <ul className="mt-4 space-y-2 text-gray-300">
-              <li className="hover:text-accent cursor-pointer transition">Home</li>
-              <li className="hover:text-accent cursor-pointer transition">How It Works</li>
-              <li className="hover:text-accent cursor-pointer transition">Premium Members</li>
-              <li className="hover:text-accent cursor-pointer transition">Packages</li>
-              <li className="hover:text-accent cursor-pointer transition">Real Reviews</li>
+            <h3 className="text-lg font-semibold mb-6">Support</h3>
+            <ul className="space-y-3">
+              {['Help Center', 'Safety Tips', 'Privacy Policy', 'Terms of Service', 'Contact Us'].map((item) => (
+                <li key={item}>
+                  <Link href="#" className="text-gray-400 hover:text-accent transition duration-300">
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Quick Search */}
+          {/* Contact Info */}
           <div>
-            <h3 className="text-accent cursor-pointer font-bold text-lg">QUICK SEARCH</h3>
-            <ul className="mt-4 space-y-2 text-gray-300">
-              <li className="hover:text-accent cursor-pointer transition">All Members</li>
-              <li className="hover:text-accent cursor-pointer transition">Premium Members</li>
-              <li className="hover:text-accent cursor-pointer transition">Free Members</li>
-              <li className="hover:text-accent cursor-pointer transition">Search</li>
+            <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-gray-400">
+                <MapPin className="w-5 h-5 text-accent shrink-0 mt-1" />
+                <span>1329 40th St Apt A Orlando, FL</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-400">
+                <Phone className="w-5 h-5 text-accent shrink-0" />
+                <span>+01-321-200-6932</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-400">
+                <Mail className="w-5 h-5 text-accent shrink-0" />
+                <span>support@heavenlymatch.com</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-400">
+                <Globe className="w-5 h-5 text-accent shrink-0" />
+                <span>www.heavenlymatch.com</span>
+              </li>
             </ul>
           </div>
+        </div>
+      </div>
 
-          {/* Useful Links */}
-          <div>
-            <h3 className="text-accent cursor-pointer font-bold text-lg">USEFUL LINKS</h3>
-            <ul className="mt-4 space-y-2 text-gray-300">
-              <li className="hover:text-accent cursor-pointer transition">FAQ</li>
-              <li className="hover:text-accent cursor-pointer transition">Terms & Conditions</li>
-              <li className="hover:text-accent cursor-pointer transition">Privacy Policy</li>
-              <li className="hover:text-accent cursor-pointer transition">Request a Refund</li>
-            </ul>
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-700">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-400 text-sm text-center md:text-left">
+              © {new Date().getFullYear()} Heavenly Match. All rights reserved.
+            </p>
+            <div className="flex gap-6">
+              <Link href="#" className="text-gray-400 hover:text-accent text-sm">Privacy Policy</Link>
+              <Link href="#" className="text-gray-400 hover:text-accent text-sm">Terms of Service</Link>
+              <Link href="#" className="text-gray-400 hover:text-accent text-sm">Cookie Policy</Link>
+            </div>
           </div>
-
         </div>
-
-        {/* Social Links */}
-        <div className="flex justify-center items-center gap-6 mt-10">
-          <Facebook className="text-blue-500 w-8 h-8 cursor-pointer hover:scale-110 transition" />
-          <Twitter className="text-sky-400 w-8 h-8 cursor-pointer hover:scale-110 transition" />
-          <Instagram className="text-accent w-8 h-8 cursor-pointer hover:scale-110 transition" />
-          <Youtube className="text-red-500 w-8 h-8 cursor-pointer hover:scale-110 transition" />
-          <Linkedin className="text-blue-600 w-8 h-8 cursor-pointer hover:scale-110 transition" />
-        </div>
-
-        {/* Bottom Section */}
-        <div className="text-center text-gray-400 text-sm mt-10 border-t border-accent pt-4">
-          ©2025 heavenlymatch.com | Trademarks and brands are the property of their respective owners.
-        </div>
-
       </div>
     </footer>
   );
