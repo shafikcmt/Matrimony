@@ -25,6 +25,7 @@ export default function ResetPasswordPage() {
     })
   }, [router])
 
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -34,7 +35,7 @@ export default function ResetPasswordPage() {
       setError('Passwords do not match')
       return
     }
-    
+
 
     if (password.length < 8) {
       setError('Password must be at least 8 characters long')
