@@ -2,15 +2,29 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Heart, Bell, Mail } from "lucide-react";
+import { Heart, Bell, Mail, User, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
+import { useRecoilValue } from 'recoil'
+import { userSelector, userProfileSelector, useAuthActions } from '@/store/auth'
+import { User as SupabaseUser } from '@supabase/supabase-js'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const user = useRecoilValue(userSelector) as SupabaseUser | null;
+  const profile = useRecoilValue(userProfileSelector);
+  const { signOut } = useAuthActions();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +33,14 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <>
@@ -37,10 +59,9 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <header className={`sticky top-0 z-50 bg-white shadow-lg transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""}`}>
+      <header className={`bg-white shadow-sm transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <div className="text-accent text-xl sm:text-3xl font-bold flex items-center gap-2">
@@ -53,24 +74,101 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-8">
               <Nav />
               <div className="flex items-center gap-3">
-                <Link href="/login">
-                <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
-                  Login
-                </Button>
-                </Link>
-                <Link href="/register">
-                <Button variant="destructive" className="bg-accent hover:bg-accent/90">
-                  Register
-                </Button>
-                </Link>
+                {user ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="flex items-center gap-2">
+                        {profile?.avatar_url ? (
+                          <img 
+                            src={profile.avatar_url} 
+                            alt={profile.full_name} 
+                            className="w-6 h-6 rounded-full"
+                          />
+                        ) : (
+                          <User className="h-4 w-4" />
+                        )}
+                        {profile?.full_name || user.email?.split('@')[0]}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/dashboard">Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/public-profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/settings">Settings</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button variant="destructive" className="bg-accent hover:bg-accent/90">
+                        Register
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Mobile Navigation */}
             <div className="md:hidden flex items-center gap-3">
-              <Button variant="outline" className="text-accent hover:text-accent/90 text-sm shadow-md">
-                Login
-              </Button>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      {profile?.avatar_url ? (
+                        <img 
+                          src={profile.avatar_url} 
+                          alt={profile.full_name} 
+                          className="w-6 h-6 rounded-full"
+                        />
+                      ) : (
+                        <User className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/public-profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/login">
+                  <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
+                    Login
+                  </Button>
+                </Link>
+              )}
               <MobileNav />
             </div>
           </div>

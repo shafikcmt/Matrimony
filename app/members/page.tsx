@@ -64,16 +64,14 @@ export default function MembersPage() {
               </div>
               
               <div className="flex items-center gap-4 mt-6">
-                <Link href="/login" className="w-full flex gap-4">
-                <Button className="flex-1 bg-accent hover:bg-accent/90 w-full">
-                  View Profile
-                </Button>
+                <Link href={`/members/${member.id}`} className="flex-1">
+                  <Button className="bg-accent hover:bg-accent/90 w-full">
+                    View Profile
+                  </Button>
                 </Link>
-                <Link href="/login">
                 <Button variant="outline" size="icon">
                   <Mail className="h-4 w-4" />
                 </Button>
-                </Link>
               </div>
             </div>
           </Card>
