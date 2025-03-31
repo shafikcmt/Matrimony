@@ -58,7 +58,6 @@ export default function MembersPage() {
                 </motion.div>
               </div>
               
-<<<<<<< HEAD
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                 <p className="text-gray-600 mb-4">{member.occupation}</p>
@@ -89,17 +88,6 @@ export default function MembersPage() {
                     </motion.div>
                   </Link>
                 </div>
-=======
-              <div className="flex items-center gap-4 mt-6">
-                <Link href={`/members/${member.id}`} className="flex-1">
-                  <Button className="bg-accent hover:bg-accent/90 w-full">
-                    View Profile
-                  </Button>
-                </Link>
-                <Button variant="outline" size="icon">
-                  <Mail className="h-4 w-4" />
-                </Button>
->>>>>>> a482518f4f219d81d9c82a9e70193ce00f82f12c
               </div>
             </Card>
           </motion.div>

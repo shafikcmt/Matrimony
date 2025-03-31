@@ -16,7 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 const allLinks = [
     { icon: BookHeart, label: "Public Profile", link: "/public-profile" },
-    { icon: House, label: "Dashboard", link: "/dashboard" },
+    { icon: House, label: "Dashboard", link: "/user-dashboard" },
     { icon: Images, label: "Gallery", link: "/images" },
     { icon: Handshake, label: "My Happy Story" ,link: "/my-story"},
     { icon: Settings, label: "Manage My Profile", link: "/profile" },
