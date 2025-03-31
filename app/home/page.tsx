@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Search, Users, Shield, Gift, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const HomePage = () => {
   return (
@@ -68,9 +69,11 @@ const HomePage = () => {
                   </SelectContent>
                 </Select>
                 
+                <Link href="/login">
                 <Button className="w-full bg-primary hover:bg-primary/90">
                   <Search className="w-4 h-4 mr-2" /> Search
                 </Button>
+                </Link>
               </div>
             </Card>
           </div>
@@ -146,9 +149,12 @@ const HomePage = () => {
           <p className="text-xl mb-8 text-white/90">
             Join thousands of happy couples who found their perfect match
           </p>
+          <Link href="/register">
           <Button size="lg" variant="secondary" className="text-primary">
             Create Free Profile
           </Button>
+          </Link>
+          
         </div>
       </section>
     </>
