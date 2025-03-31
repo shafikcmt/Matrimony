@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from 'react'
-import { useAuth } from '@/lib/auth-context'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Mail, Phone, User, Calendar } from "lucide-react";
+import { useRecoilValue } from 'recoil';
+import { loadingSelector, errorSelector, useAuthActions } from '@/store/auth';
 import { supabase } from '@/lib/supabase';
 
 export default function RegisterPage() {
@@ -20,9 +21,10 @@ export default function RegisterPage() {
   })
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const { signUp } = useAuth()
   const router = useRouter()
+  const isLoading = useRecoilValue(loadingSelector)
+  const authError = useRecoilValue(errorSelector)
+  const { signUp } = useAuthActions()
 
   const validateForm = () => {
     // Email validation (Gmail only)
@@ -70,80 +72,27 @@ export default function RegisterPage() {
       return
     }
 
-    setIsLoading(true)
     try {
-      // Check for existing email and phone in profiles
-      const { data: existingUser, error: userError } = await supabase
-        .from('profiles')
-        .select('email, phone')
-        .or(`email.eq.${formData.email},phone.eq.${formData.phone}`)
-        .single()
-
-      if (userError && userError.code !== 'PGRST116') {
-        console.error('Error checking existing user:', userError)
-        throw new Error('Failed to check existing user')
-      }
-
-      if (existingUser) {
-        if (existingUser.email === formData.email) {
-          throw new Error('An account with this email already exists. Please login.')
-        }
-        if (existingUser.phone === formData.phone) {
-          throw new Error('An account with this phone number already exists. Please login.')
-        }
-      }
-
-      // Try to sign up
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      await signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            full_name: formData.full_name,
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-
-      if (signUpError) {
-        console.error('Sign up error:', signUpError)
-        throw new Error('Failed to create user account')
-      }
-
-      if (!signUpData.user?.id) {
-        throw new Error('Failed to create user account')
-      }
-
-      // Create the profile using service role client
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([
-          {
-            id: signUpData.user.id,
-            full_name: formData.full_name,
-            email: formData.email,
-            phone: formData.phone,
-            date_of_birth: formData.date_of_birth,
-          },
-        ])
-
-      if (profileError) {
-        console.error('Profile creation error:', profileError)
-        // If profile creation fails, we should clean up the auth user
-        await supabase.auth.signOut()
-        throw new Error(`Failed to create profile: ${profileError.message}`)
-      }
-
-      // Show success message
-      setSuccess('Registration successful! Please check your email to verify your account.')
+        full_name: formData.full_name,
+        phone: formData.phone,
+        date_of_birth: formData.date_of_birth,
+      });
+      setSuccess('Registration successful! Please check your email to verify your account.');
       setTimeout(() => {
         router.push('/login')
       }, 3000)
     } catch (error: any) {
       console.error('Registration error:', error)
-      setError(error.message)
-    } finally {
-      setIsLoading(false)
+      if (error.message.includes('Email already registered')) {
+        setError('An account with this email already exists. Please login.')
+      } else if (error.message.includes('Phone already registered')) {
+        setError('An account with this phone number already exists. Please login.')
+      } else {
+        setError(error.message)
+      }
     }
   }
 
@@ -164,8 +113,8 @@ export default function RegisterPage() {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="text-red-500 text-center">{error}</div>
+          {(error || authError?.message) && (
+            <div className="text-red-500 text-center">{error || authError?.message}</div>
           )}
           {success && (
             <div className="text-green-500 text-center">{success}</div>
