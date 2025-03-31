@@ -1,4 +1,5 @@
 "use client";
+"use client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, MapPin, Mail } from "lucide-react";
@@ -31,65 +32,31 @@ export default function MembersPage() {
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {members.map((member) => (
-          <motion.div 
-            key={member.id}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.1 }}
-          >
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <motion.div 
-                  whileHover={{ scale: 1.2 }} 
-                  transition={{ duration: 0.3 }}
-                  className="absolute top-4 right-4"
-                >
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="bg-white/80 hover:bg-white"
-                  >
-                    <Heart className="h-5 w-5 text-accent" />
-                  </Button>
-                </motion.div>
+          <Card key={member.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <div className="relative">
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-64 object-cover"
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-4 right-4 bg-white/80 hover:bg-white"
+              >
+                <Heart className="h-5 w-5 text-accent" />
+              </Button>
+            </div>
+            
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
+              <p className="text-gray-600 mb-4">{member.occupation}</p>
+              
+              <div className="flex items-center gap-2 text-gray-600 mb-2">
+                <MapPin className="h-4 w-4" />
+                <span>{member.location}</span>
               </div>
               
-<<<<<<< HEAD
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                <p className="text-gray-600 mb-4">{member.occupation}</p>
-                
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>{member.location}</span>
-                </div>
-                
-                <div className="flex items-center gap-4 mt-6">
-                  <Link href="/login" className="w-full flex gap-4">
-                    <motion.div 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full"
-                    >
-                      <Button className="flex-1 bg-accent hover:bg-accent/90 w-full">
-                        View Profile
-                      </Button>
-                    </motion.div>
-                  </Link>
-
-                  <Link href="/login">
-                    <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
-                      <Button variant="outline" size="icon">
-                        <Mail className="h-4 w-4" />
-                      </Button>
-                    </motion.div>
-                  </Link>
-                </div>
-=======
               <div className="flex items-center gap-4 mt-6">
                 <Link href={`/members/${member.id}`} className="flex-1">
                   <Button className="bg-accent hover:bg-accent/90 w-full">
@@ -99,10 +66,9 @@ export default function MembersPage() {
                 <Button variant="outline" size="icon">
                   <Mail className="h-4 w-4" />
                 </Button>
->>>>>>> a482518f4f219d81d9c82a9e70193ce00f82f12c
               </div>
-            </Card>
-          </motion.div>
+            </div>
+          </Card>
         ))}
       </div>
     </motion.div>
