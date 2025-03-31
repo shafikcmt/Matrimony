@@ -2,13 +2,15 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from './auth-context'
+import { useRecoilValue } from 'recoil'
+import { userSelector, loadingSelector } from '@/store/auth'
 
 export function withAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) {
   return function WithAuthComponent(props: P) {
-    const { user, loading } = useAuth()
+    const user = useRecoilValue(userSelector)
+    const loading = useRecoilValue(loadingSelector)
     const router = useRouter()
 
     useEffect(() => {

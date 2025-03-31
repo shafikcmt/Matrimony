@@ -5,9 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useRecoilValue } from 'recoil';
+import { userSelector } from '@/store/auth';
 
-const links = [
+const publicLinks = [
   { path: "/", name: "HOME" },
+  { path: "/members", name: "ACTIVE MEMBERS" },
+  { path: "/plans", name: "PREMIUM PLANS" },
+  { path: "/stories", name: "HAPPY STORIES" },
+  { path: "/contact", name: "CONTACT US" },
+];
+
+const authLinks = [
+  { path: "/dashboard", name: "DASHBOARD" },
   { path: "/members", name: "ACTIVE MEMBERS" },
   { path: "/plans", name: "PREMIUM PLANS" },
   { path: "/stories", name: "HAPPY STORIES" },
@@ -17,6 +27,9 @@ const links = [
 const MobileNav = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const user = useRecoilValue(userSelector);
+
+  const links = user ? authLinks : publicLinks;
 
   return (
     <Sheet>

@@ -2,20 +2,24 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/auth-context'
+import { useRecoilValue } from 'recoil'
+import { userSelector, loadingSelector } from '@/store/auth'
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
+  const user = useRecoilValue(userSelector)
+  const loading = useRecoilValue(loadingSelector)
   const router = useRouter()
 
   useEffect(() => {
     if (!loading && !user) {
       // Store the current URL to redirect back after login
       const currentPath = window.location.pathname
-      router.push(`/login?redirectTo=${encodeURIComponent(currentPath)}`)
+      const redirectUrl = `/login?redirectTo=${encodeURIComponent(currentPath)}`
+      router.push(redirectUrl)
     }
   }, [user, loading, router])
 
+  // Show loading state while checking authentication
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -24,9 +28,11 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     )
   }
 
+  // Don't render anything if user is not authenticated
   if (!user) {
     return null
   }
 
+  // Render children if user is authenticated
   return <>{children}</>
 } 
