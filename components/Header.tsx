@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
+import DropDownSheet from "./DropDownSheet";
 
 export default function Header() {
   const pathname = usePathname();
@@ -63,6 +64,7 @@ export default function Header() {
                   Register
                 </Button>
                 </Link>
+                <DropDownSheet/>
               </div>
             </div>
 
@@ -71,6 +73,7 @@ export default function Header() {
               <Button variant="outline" className="text-accent hover:text-accent/90 text-sm shadow-md">
                 Login
               </Button>
+              <DropDownSheet/>
               <MobileNav />
             </div>
           </div>
