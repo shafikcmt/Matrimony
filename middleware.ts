@@ -48,11 +48,11 @@ export async function middleware(req: NextRequest) {
   )
 
   // If user is not signed in and trying to access a protected route
-  if (!session && !isPublicRoute) {
-    const redirectUrl = new URL('/login', req.url)
-    redirectUrl.searchParams.set('redirectTo', req.nextUrl.pathname)
-    return NextResponse.redirect(redirectUrl)
-  }
+  // if (!session && !isPublicRoute) {
+  //   const redirectUrl = new URL('/login', req.url)
+  //   redirectUrl.searchParams.set('redirectTo', req.nextUrl.pathname)
+  //   return NextResponse.redirect(redirectUrl)
+  // }
 
   // If user is signed in and trying to access auth routes (login/register only)
   if (session && authRoutes.includes(req.nextUrl.pathname)) {

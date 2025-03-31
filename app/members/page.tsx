@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, MapPin, Mail } from "lucide-react";
+import Link from "next/link";
 
 export default function MembersPage() {
   const members = [
@@ -63,12 +64,16 @@ export default function MembersPage() {
               </div>
               
               <div className="flex items-center gap-4 mt-6">
-                <Button className="flex-1 bg-accent hover:bg-accent/90">
+                <Link href="/login" className="w-full flex gap-4">
+                <Button className="flex-1 bg-accent hover:bg-accent/90 w-full">
                   View Profile
                 </Button>
+                </Link>
+                <Link href="/login">
                 <Button variant="outline" size="icon">
                   <Mail className="h-4 w-4" />
                 </Button>
+                </Link>
               </div>
             </div>
           </Card>

@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['localhost', 'your-supabase-project.supabase.co'],
+    domains: ['localhost', 'your-supabase-project.supabase.co', 'images.unsplash.com', 'randomuser.me'],
   },
 };
 
