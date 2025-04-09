@@ -19,7 +19,10 @@ const ProfileSettings = () => {
     >
       <div className="max-w-7xl mx-auto space-y-10">
 
-        {/* Introduction */}
+        <h1 className="text-2xl font-semibold text-center text-accent">
+          Manage Your Profile
+        </h1>
+
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -34,7 +37,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Email Section */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -55,7 +57,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Basic Information */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -79,7 +80,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Photo Upload */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -100,7 +100,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Present Address */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -134,7 +133,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Religious Information */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -151,7 +149,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Lifestyle Preferences */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>
@@ -168,7 +165,6 @@ const ProfileSettings = () => {
           </Card>
         </motion.div>
 
-        {/* Partner Preferences */}
         <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
           <Card>
             <CardHeader>

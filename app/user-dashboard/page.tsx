@@ -22,13 +22,16 @@ const features = [
 
 const Dashboard = () => {
   return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="p-6 bg-gray-50 min-h-screen"
     >
-      {/* Stats Section */}
+      <h1 className="text-2xl font-semibold text-center text-accent">
+        User Dashboard  
+      </h1>
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {[
           { icon: CheckCircle, color: "text-green-500", value: "829", label: "Remaining Interest" },
@@ -36,12 +39,12 @@ const Dashboard = () => {
           { icon: Eye, color: "text-red-500", value: "0", label: "Profile Viewer View" },
           { icon: ImageIcon, color: "text-blue-500", value: "825", label: "Gallery Image Upload" }
         ].map((stat, index) => (
-          <motion.div 
-            key={index} 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.1}}
+            transition={{ duration: 0.1 }}
             className="bg-white shadow-lg p-6 rounded-lg flex flex-col items-center text-center cursor-pointer hover:shadow-xl transition-all"
           >
             <stat.icon className={`${stat.color} w-10 h-10 mb-3`} />
@@ -52,52 +55,52 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
+
         {/* Current Package */}
         <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white shadow-lg p-6 rounded-lg"
-    >
-      <h3 className="text-xl font-bold mb-4">Current Package</h3>
-
-      <div className="flex flex-col items-center">
-        <ShieldCheck className="text-gray-500 w-12 h-12 mb-4" />
-        <h4 className="text-lg font-semibold">Silver Package</h4>
-
-        <ul className="text-gray-600 mt-4 space-y-2">
-          {features.map((item, index) => (
-            <motion.li
-              key={index}
-              whileHover={{ x: 10, color: "#22c55e" }}
-              transition={{ duration: 0.1 }}
-              className="cursor-pointer transition-all"
-            >
-              {item}
-            </motion.li>
-          ))}
-        </ul>
-
-        <p className="text-red-500 mt-4">
-          Package expiry date: <span className="font-bold">Expired</span>
-        </p>
-
-        <Button
-          className="w-50 mt-4 bg-green-500 text-white hover:bg-green-600 transition-all transform hover:scale-105"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+          className="bg-white shadow-lg p-6 rounded-lg"
         >
-          Upgrade Package
-        </Button>
-      </div>
-    </motion.div>
+          <h3 className="text-xl font-bold mb-4">Current Package</h3>
+
+          <div className="flex flex-col items-center">
+            <ShieldCheck className="text-gray-500 w-12 h-12 mb-4" />
+            <h4 className="text-lg font-semibold">Silver Package</h4>
+
+            <ul className="text-gray-600 mt-4 space-y-2">
+              {features.map((item, index) => (
+                <motion.li
+                  key={index}
+                  whileHover={{ x: 10, color: "#22c55e" }}
+                  transition={{ duration: 0.1 }}
+                  className="cursor-pointer transition-all"
+                >
+                  {item}
+                </motion.li>
+              ))}
+            </ul>
+
+            <p className="text-red-500 mt-4">
+              Package expiry date: <span className="font-bold">Expired</span>
+            </p>
+
+            <Button
+              className="w-50 mt-4 bg-green-500 text-white hover:bg-green-600 transition-all transform hover:scale-105"
+            >
+              Upgrade Package
+            </Button>
+          </div>
+        </motion.div>
 
         <div className="flex flex-col gap-4">
 
           {/* Verified Badge */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
             className="bg-white shadow-lg p-6 rounded-lg flex justify-center items-center"
@@ -110,9 +113,9 @@ const Dashboard = () => {
           </motion.div>
 
           {/* Matched Profiles */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.1 }}
             className="bg-white shadow-lg p-6 rounded-lg"
           >
@@ -127,12 +130,12 @@ const Dashboard = () => {
                   transition={{ duration: 0.1 }}
                   className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg shadow hover:bg-gray-100 transition-all cursor-pointer"
                 >
-                  <Image 
-                    src={profile.img} 
-                    alt={profile.name} 
-                    width={60} 
-                    height={60} 
-                    className="rounded-full object-cover" 
+                  <Image
+                    src={profile.img}
+                    alt={profile.name}
+                    width={60}
+                    height={60}
+                    className="rounded-full object-cover"
                   />
                   <div>
                     <h4 className="font-semibold">{profile.name}</h4>

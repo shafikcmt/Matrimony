@@ -28,11 +28,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <RecoilWrapper>
-          <AuthGuard>
+          {/* <AuthGuard> */}
             <MainWrapper>
               {children}
             </MainWrapper>
-          </AuthGuard>
+          {/* </AuthGuard> */}
         </RecoilWrapper>
       </body>
     </html>
