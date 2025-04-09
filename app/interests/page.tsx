@@ -41,7 +41,7 @@ const Interests = () => {
             status: "Approved",
             img: "https://randomuser.me/api/portraits/men/5.jpg",
         },
-        
+
         {
             id: 6,
             name: "Mitchell Johnson",
@@ -59,9 +59,10 @@ const Interests = () => {
             className="bg-gray-100 "
         >
             <div className="mx-auto md:p-8 p-2 bg-white shadow-lg rounded-lg">
-
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold">My Interests</h2>
+                <h1 className="text-2xl font-semibold text-center text-accent">
+                    Your Interests
+                </h1>
+                <div className="flex justify-end items-center mb-6">
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -117,8 +118,8 @@ const Interests = () => {
                                     <td className="py-4 px-4">
                                         <span
                                             className={`px-3 py-1 text-sm rounded-full text-white font-semibold ${item.status === "Pending"
-                                                    ? "bg-blue-500"
-                                                    : "bg-green-500"
+                                                ? "bg-blue-500"
+                                                : "bg-green-500"
                                                 }`}
                                         >
                                             {item.status}

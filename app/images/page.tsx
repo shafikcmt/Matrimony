@@ -23,10 +23,10 @@ const Gallery = () => {
       transition={{ duration: 0.5 }}
       className="p-8"
     >
-      {/* Stat Section */}
+      <h1 className="text-2xl font-semibold text-center text-accent">
+        Your Images Gallery
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        
-        {/* Gallery Image Upload */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -42,12 +42,11 @@ const Gallery = () => {
           </Card>
         </motion.div>
 
-        {/* Add New Image */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          transition={{ duration: 0.3 }}
         >
           <Card className="flex items-center justify-center border border-gray-300 shadow-md">
             <CardContent className="p-8 text-center">
@@ -66,7 +65,6 @@ const Gallery = () => {
         </motion.div>
       </div>
 
-      {/* Gallery Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {images.map((src, index) => (
           <motion.div
