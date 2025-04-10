@@ -12,7 +12,6 @@ export default function MemberProfilePage() {
   const params = useParams()
   const memberId = params.id as string
 
-  // For now, we'll use dummy data
   const profile = dummyProfiles.find(p => p.id === memberId)
 
   if (!profile) {
