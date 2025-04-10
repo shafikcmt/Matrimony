@@ -10,6 +10,14 @@ import MobileNav from "./MobileNav";
 import { useRecoilValue } from 'recoil'
 import { userSelector, userProfileSelector, useAuthActions } from '@/store/auth'
 import { User as SupabaseUser } from '@supabase/supabase-js'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import DropDownSheet from "./DropDownSheet";
 
 export default function Header() {
@@ -26,6 +34,14 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <>
@@ -60,7 +76,40 @@ export default function Header() {
               <Nav />
               <div className="flex items-center gap-3">
                 {user ? (
-                  <DropDownSheet/>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="flex items-center gap-2">
+                        {profile?.avatar_url ? (
+                          <img 
+                            src={profile.avatar_url} 
+                            alt={profile.full_name} 
+                            className="w-6 h-6 rounded-full"
+                          />
+                        ) : (
+                          <User className="h-4 w-4" />
+                        )}
+                        {profile?.full_name || user.email?.split('@')[0]}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/dashboard">Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/public-profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/settings">Settings</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 ) : (
                   <>
                     <Link href="/login">
@@ -81,11 +130,45 @@ export default function Header() {
             {/* Mobile Navigation */}
             <div className="md:hidden flex items-center gap-3">
               {user ? (
-                <DropDownSheet/>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      {profile?.avatar_url ? (
+                        <img 
+                          src={profile.avatar_url} 
+                          alt={profile.full_name} 
+                          className="w-6 h-6 rounded-full"
+                        />
+                      ) : (
+                        <User className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/public-profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                <Button variant="outline" className="text-accent hover:text-accent/90 text-sm shadow-md">
-                  Login
-                </Button>
+                <Link href="/login">
+                  <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
+                    Login
+                  </Button>
+                </Link>
               )}
               <MobileNav />
             </div>
