@@ -9,7 +9,7 @@ const MainWrapper = ({ children }: MainWrapperProps) => {
   return (
     <>
       <Header />
-      <main className="min-h-screen">
+      <main>
         {children}
       </main>
       <Footer />

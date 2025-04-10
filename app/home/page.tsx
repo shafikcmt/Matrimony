@@ -5,12 +5,19 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Search, Users, Shield, Gift, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 const HomePage = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[600px] bg-gradient-to-r from-primary/90 to-primary flex items-center">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative min-h-[600px] bg-gradient-to-r from-primary/90 to-primary flex items-center"
+      >
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3"
@@ -19,7 +26,12 @@ const HomePage = () => {
           />
         </div>
         <div className="container mx-auto z-10 px-4 flex justify-center items-center">
-          <div className="max-w-3xl">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Find Your Perfect Match
             </h1>
@@ -68,77 +80,102 @@ const HomePage = () => {
                   </SelectContent>
                 </Select>
                 
-                <Button className="w-full bg-primary hover:bg-primary/90">
-                  <Search className="w-4 h-4 mr-2" /> Search
-                </Button>
+                <Link href="/login">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button className="w-full bg-primary hover:bg-primary/90">
+                      <Search className="w-4 h-4 mr-2" /> Search
+                    </Button>
+                  </motion.div>
+                </Link>
               </div>
             </Card>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="py-20 bg-gray-50"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-semibold mb-2">Verified Profiles</h3>
-              <p className="text-gray-600">All profiles are manually verified for authenticity</p>
-            </Card>
-            
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-semibold mb-2">Privacy Control</h3>
-              <p className="text-gray-600">Your privacy is our top priority</p>
-            </Card>
-            
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-semibold mb-2">Easy Communication</h3>
-              <p className="text-gray-600">Connect with matches through our secure messaging system</p>
-            </Card>
-            
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <Gift className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-semibold mb-2">Special Features</h3>
-              <p className="text-gray-600">Access exclusive features to find your perfect match</p>
-            </Card>
+            {[Users, Shield, MessageCircle, Gift].map((Icon, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.1 }}
+              >
+                <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+                  <Icon className="w-12 h-12 mx-auto mb-4 text-primary" />
+                  <h3 className="text-xl font-semibold mb-2">
+                    {i === 0 && "Verified Profiles"}
+                    {i === 1 && "Privacy Control"}
+                    {i === 2 && "Easy Communication"}
+                    {i === 3 && "Special Features"}
+                  </h3>
+                  <p className="text-gray-600">
+                    {i === 0 && "All profiles are manually verified for authenticity"}
+                    {i === 1 && "Your privacy is our top priority . . . . .  . . .  ."}
+                    {i === 2 && "Connect with matches through our secure messaging system"}
+                    {i === 3 && "Access exclusive features to find your perfect match"}
+                  </p>
+                </Card>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Success Stories */}
-      <section className="py-20">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="py-20"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <img
-                  src={`https://images.unsplash.com/photo-152764744940${i}-87d4cb3db31b?ixlib=rb-4.0.3`}
-                  alt={`Success story ${i}`}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">Sarah & John</h3>
-                  <p className="text-gray-600 mb-4">
-                    "We found each other here and couldn't be happier. Thank you for helping us find true love!"
-                  </p>
-                  <div className="flex items-center text-primary">
-                    <Heart className="w-4 h-4 mr-2" />
-                    <span>Married on June 2024</span>
+              <motion.div 
+                key={i} 
+                whileHover={{ scale: 1.05 }} 
+                transition={{ duration: 0.3 }}
+              >
+                <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <img
+                    src={`https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3`}
+                    alt={`Success story ${i}`}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">Sarah & John</h3>
+                    <p className="text-gray-600 mb-4">
+                      "We found each other here and couldn't be happier. Thank you for helping us find true love!"
+                    </p>
+                    <div className="flex items-center text-primary">
+                      <Heart className="w-4 h-4 mr-2" />
+                      <span>Married on June 2024</span>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white text-center">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.9 }}
+        className="py-20 bg-primary text-white text-center"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Find Your Soulmate?
@@ -146,13 +183,17 @@ const HomePage = () => {
           <p className="text-xl mb-8 text-white/90">
             Join thousands of happy couples who found their perfect match
           </p>
-          <Button size="lg" variant="secondary" className="text-primary">
-            Create Free Profile
-          </Button>
+          <Link href="/register">
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button size="lg" variant="secondary" className="text-primary">
+                Create Free Profile
+              </Button>
+            </motion.div>
+          </Link>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 };
 
-export default HomePage; 
+export default HomePage;
