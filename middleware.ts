@@ -7,9 +7,12 @@ const protectedRoutes = [
   '/dashboard',
   '/profile',
   '/members[id]',
-  '/settings',
   '/images',
-  '/public-profile'
+  '/public-profile',
+  '/ignored-users',
+  '/my-story',
+  '/delete-account',
+  '/interests',
 ]
 
 const authRoutes = ['/login', '/register']
@@ -34,9 +37,9 @@ export async function middleware(request: NextRequest) {
   }
 
   // If user is authenticated and tries to access auth routes, redirect to dashboard
-  if (isAuthRoute && session) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
+  // if (isAuthRoute && session) {
+  //   return NextResponse.redirect(new URL('/dashboard', request.url))
+  // }
 
   return res
 }

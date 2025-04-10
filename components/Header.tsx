@@ -10,14 +10,6 @@ import MobileNav from "./MobileNav";
 import { useRecoilValue } from 'recoil'
 import { userSelector, userProfileSelector, useAuthActions } from '@/store/auth'
 import { User as SupabaseUser } from '@supabase/supabase-js'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import DropDownSheet from "./DropDownSheet";
 
 export default function Header() {
@@ -34,14 +26,6 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
     <>
@@ -75,26 +59,34 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-8">
               <Nav />
               <div className="flex items-center gap-3">
-                <Link href="/login">
-                <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
-                  Login
-                </Button>
-                </Link>
-                <Link href="/register">
-                <Button variant="destructive" className="bg-accent hover:bg-accent/90">
-                  Register
-                </Button>
-                </Link>
-                <DropDownSheet/>
+                {user ? (
+                  <DropDownSheet/>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button variant="destructive" className="bg-accent hover:bg-accent/90">
+                        Register
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Mobile Navigation */}
             <div className="md:hidden flex items-center gap-3">
-              <Button variant="outline" className="text-accent hover:text-accent/90 text-sm shadow-md">
-                Login
-              </Button>
-              <DropDownSheet/>
+              {user ? (
+                <DropDownSheet/>
+              ) : (
+                <Button variant="outline" className="text-accent hover:text-accent/90 text-sm shadow-md">
+                  Login
+                </Button>
+              )}
               <MobileNav />
             </div>
           </div>
