@@ -14,10 +14,6 @@ export default function MembersPage() {
     { id: 4, name: "Daniel Carter", age: 35, location: "Toronto, Canada", image: "https://images.unsplash.com/photo-1522091066250-665186289043?ixlib=rb-4.0.3", occupation: "Graphic Designer" },
     { id: 5, name: "Olivia Martinez", age: 30, location: "Madrid, Spain", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3", occupation: "Data Analyst" },
     { id: 6, name: "James Lee", age: 29, location: "Seoul, South Korea", image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3", occupation: "UX Designer" },
-    { id: 7, name: "Ava Thompson", age: 26, location: "Paris, France", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3", occupation: "Product Manager" },
-    { id: 8, name: "Liam Wilson", age: 31, location: "Berlin, Germany", image: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3", occupation: "Software Developer" },
-    { id: 10, name: "Ethan Taylor", age: 34, location: "Sydney, Australia", image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?ixlib=rb-4.0.3", occupation: "Financial Analyst" },
-    { id: 12, name: "Mia Lopez", age: 25, location: "Mexico City, Mexico", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-4.0.3", occupation: "Interior Designer" },
 ];
 
 
@@ -28,9 +24,9 @@ export default function MembersPage() {
       transition={{ duration: 0.8 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold text-center mb-8">Active Members</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-accent">Active Members</h1>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {members.map((member) => (
           <Card key={member.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="relative">

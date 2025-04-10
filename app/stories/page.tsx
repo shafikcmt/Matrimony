@@ -40,7 +40,7 @@ export default function StoriesPage() {
       className="container mx-auto px-4 py-16"
     >
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Happy Stories</h1>
+        <h1 className="text-4xl font-bold mb-4 text-accent">Happy Stories</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Real stories from couples who found their perfect match on our platform. Your love story could be next!
         </p>
@@ -58,7 +58,7 @@ export default function StoriesPage() {
                 <motion.img
                   src={story.image}
                   alt={story.names}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-64 object-cover transition-transform duration-500"
                 />
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

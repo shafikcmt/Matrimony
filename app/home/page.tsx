@@ -184,7 +184,7 @@ const HomePage = () => {
             Join thousands of happy couples who found their perfect match
           </p>
           <Link href="/register">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <motion.div whileTap={{ scale: 0.9 }}>
               <Button size="lg" variant="secondary" className="text-primary">
                 Create Free Profile
               </Button>
