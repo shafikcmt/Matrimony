@@ -14,20 +14,28 @@ import {
 import { Settings, Users, Heart, LogOut, Handshake, House, BookHeart, Images, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuthActions } from "@/store/auth";
 const allLinks = [
     { icon: BookHeart, label: "Public Profile", link: "/public-profile" },
-    { icon: House, label: "Dashboard", link: "/user-dashboard" },
+    { icon: House, label: "Dashboard", link: "/dashboard" },
     { icon: Images, label: "Gallery", link: "/images" },
-    { icon: Handshake, label: "My Happy Story" ,link: "/my-story"},
+    { icon: Handshake, label: "My Happy Story", link: "/my-story" },
     { icon: Settings, label: "Manage My Profile", link: "/profile" },
-    { icon: Heart, label: "My Interests", link: "/interests"},
+    { icon: Heart, label: "My Interests", link: "/interests" },
     { icon: Users, label: "Ignored User List", link: "/ignored-users" },
-    { icon: LogOut, label: "Sign Out" ,link: "/logout"},
     { icon: Trash2, label: "Delete Account", link: "/delete-account" },
 ];
 
 export default function DropDownSheet() {
     const route = usePathname();
+    const { signOut } = useAuthActions();
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    };
     return (
         <div className=" flex items-center justify-center">
             <Sheet>
@@ -59,15 +67,18 @@ export default function DropDownSheet() {
                             allLinks.map((item, index) => (
                                 <SheetClose asChild className="flex flex-col">
 
-                                <Link href={item.link} key={index}>
-                                    <Button variant="ghost" className={`w-full justify-start text-sm hover:text-white ${route === item.link ? "text-accent" : ""}`}>
-                                        <item.icon className="mr-2 h-5 w-5" /> {item.label}
-                                    </Button>
-                                    <Separator />
-                                </Link>
+                                    <Link href={item.link} key={index}>
+                                        <Button variant="ghost" className={`w-full justify-start text-sm hover:text-white ${route === item.link ? "text-accent" : ""}`}>
+                                            <item.icon className="mr-2 h-5 w-5" /> {item.label}
+                                        </Button>
+                                        <Separator />
+                                    </Link>
                                 </SheetClose>
                             ))
                         }
+                        <Button variant="ghost" className={`w-full justify-start text-sm hover:text-white`} onClick={handleSignOut}>
+                            <LogOut className="mr-2 h-5 w-5" /> Signout
+                        </Button>
                     </div>
                 </SheetContent>
             </Sheet>
