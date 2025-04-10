@@ -56,7 +56,7 @@ export default function PlansPage() {
       className="container mx-auto px-4 py-16"
     >
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Premium Plans</h1>
+        <h1 className="text-4xl font-bold mb-4 text-accent">Premium Plans</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Choose the perfect plan to find your perfect match. Upgrade now to unlock premium features and increase your chances of finding love.
         </p>

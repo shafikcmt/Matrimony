@@ -20,7 +20,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl font-bold mb-4"
+          className="text-4xl font-bold mb-4 text-accent"
         >
           Contact Us
         </motion.h1>
