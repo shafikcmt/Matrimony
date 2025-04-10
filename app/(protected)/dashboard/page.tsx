@@ -28,7 +28,7 @@ const Dashboard = () => {
       transition={{ duration: 0.3 }}
       className="p-6 bg-gray-50 min-h-screen"
     >
-      <h1 className="text-2xl font-semibold text-center text-accent">
+      <h1 className="text-4xl font-bold text-center text-accent mb-8">
         User Dashboard  
       </h1>
 
