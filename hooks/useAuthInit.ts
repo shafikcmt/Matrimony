@@ -3,23 +3,26 @@
 import { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { authState, userProfileState } from '@/store/auth'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export function useAuthInit() {
   const setAuthState = useSetRecoilState(authState)
   const setUserProfile = useSetRecoilState(userProfileState)
+  const supabase = createClientComponentClient()
 
   useEffect(() => {
     const initAuth = async () => {
       try {
-        setAuthState({ user: null, loading: true, error: null })
-        const { data: { session } } = await supabase.auth.getSession()
+        // Get the current session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
         
+        if (sessionError) {
+          console.error('Error getting session:', sessionError)
+          setAuthState({ user: null, loading: false, error: sessionError })
+          setUserProfile(null)
+          return
+        }
+
         if (session) {
           setAuthState({ user: session.user, loading: false, error: null })
           
@@ -30,18 +33,20 @@ export function useAuthInit() {
             .eq('id', session.user.id)
             .single()
 
-          if (profileError) throw profileError
-          setUserProfile(profile)
+          if (profileError) {
+            console.error('Error fetching profile:', profileError)
+            setUserProfile(null)
+          } else {
+            setUserProfile(profile)
+          }
         } else {
           setAuthState({ user: null, loading: false, error: null })
           setUserProfile(null)
         }
       } catch (error) {
         console.error('Error initializing auth:', error)
-        setAuthState({ user: null, loading: false, error: error as Error })
+        setAuthState({ user: null, loading: false, error: error instanceof Error ? error : new Error('Unknown error') })
         setUserProfile(null)
-      } finally {
-        setAuthState(prev => ({ ...prev, loading: false }))
       }
     }
 
@@ -74,5 +79,5 @@ export function useAuthInit() {
     return () => {
       subscription.unsubscribe()
     }
-  }, [setAuthState, setUserProfile])
+  }, [setAuthState, setUserProfile, supabase])
 } 

@@ -11,9 +11,7 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
 export default function RecoilWrapper({ children }: { children: React.ReactNode }) {
   return (
     <RecoilRoot>
-      <AuthInitializer>
-        {children}
-      </AuthInitializer>
+      <AuthInitializer>{children}</AuthInitializer>
     </RecoilRoot>
   )
 } 

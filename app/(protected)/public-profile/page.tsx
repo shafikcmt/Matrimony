@@ -3,10 +3,89 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
-import { User, MapPin, GraduationCap, Phone, Quote } from "lucide-react";
+import { User, MapPin, GraduationCap, Phone, Quote, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userProfileSelector, loadingSelector } from "@/store/auth";
+
+interface SimilarProfile {
+  id: string;
+  name: string;
+  details: string;
+  image: string;
+}
 
 const ProfileCard = () => {
+  const userProfile = useRecoilValue(userProfileSelector);
+  const loading = useRecoilValue(loadingSelector);
+  const [similarProfiles, setSimilarProfiles] = useState<SimilarProfile[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSimilarProfiles = async () => {
+      if (!userProfile) return;
+      
+      try {
+        const response = await fetch('/api/matches/similar');
+        if (response.ok) {
+          const data = await response.json();
+          setSimilarProfiles(data);
+        }
+      } catch (error) {
+        console.error('Error fetching similar profiles:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSimilarProfiles();
+  }, [userProfile]);
+
+  // Show loading state while checking authentication or loading profile
+  if (loading || !userProfile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const profileDetails = [
+    { 
+      title: "About", 
+      icon: Quote, 
+      content: userProfile.introduction || "No introduction provided." 
+    },
+    { 
+      title: "Basic Information", 
+      icon: User, 
+      content: [
+        `Height: ${userProfile.preferredHeight || 'Not specified'}`,
+        `Marital Status: ${userProfile.maritalStatus || 'Not specified'}`,
+        `Annual Income: ${userProfile.annualSalary || 'Not specified'}`
+      ].join(', ') 
+    },
+    { 
+      title: "Present Address", 
+      icon: MapPin, 
+      content: [
+        `Country: ${userProfile.country || 'Not specified'}`,
+        `State: ${userProfile.state || 'Not specified'}`,
+        `City: ${userProfile.city || 'Not specified'}`
+      ].join(', ') 
+    },
+    { 
+      title: "Education & Career", 
+      icon: GraduationCap, 
+      content: [
+        `Religion: ${userProfile.religion || 'Not specified'}`,
+        `Caste: ${userProfile.caste || 'Not specified'}`,
+        `Community: ${userProfile.community || 'Not specified'}`
+      ].join(', ') 
+    },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -28,15 +107,15 @@ const ProfileCard = () => {
                 className="bg-white p-4 rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb"
+                  src={userProfile.profileImage || "https://via.placeholder.com/300"}
                   alt="Profile"
                   className="w-full aspect-square object-cover rounded-lg mb-4 hover:brightness-110 transition-all duration-300"
                 />
                 <div className="text-center">
                   <p className="text-gray-600 text-sm">
-                    Member ID: <span className="text-accent">E0EE4E4D</span>
+                    Member ID: <span className="text-accent">{userProfile.id}</span>
                   </p>
-                  <h2 className="text-xl font-semibold mt-2">Donna J. Perryman</h2>
+                  <h2 className="text-xl font-semibold mt-2">{`${userProfile.firstName} ${userProfile.lastName}`}</h2>
                 </div>
               </motion.div>
 
@@ -48,27 +127,16 @@ const ProfileCard = () => {
               >
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Similar Profiles</h2>
                 <div className="space-y-4">
-                  {[
-                    {
-                      name: "Mark Henry",
-                      details: "32 yrs, 5 Feet, Never Married, Islam, Shia",
-                      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-                    },
-                    {
-                      name: "Robert L. Gardner",
-                      details: "32 yrs, 5 Feet, Never Married, Judaism",
-                      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
-                    }
-                  ].map((profile, idx) => (
+                  {similarProfiles.map((profile, idx) => (
                     <motion.div
-                      key={idx}
+                      key={profile.id}
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                       className="flex items-center p-3 border rounded-lg hover:bg-gray-50 transition-colors duration-300 cursor-pointer"
                     >
                       <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
                         <img 
-                          src={profile.image} 
+                          src={profile.image || "https://via.placeholder.com/300"} 
                           alt={profile.name} 
                           className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                         />
@@ -93,13 +161,13 @@ const ProfileCard = () => {
                 
                 {/* Profile Header */}
                 <div className="mb-6">
-                  <h1 className="text-3xl font-bold text-gray-800">Donna J. Perryman</h1>
-                  <p className="text-gray-600">Member ID: E0EE4E4D</p>
+                  <h1 className="text-3xl font-bold text-gray-800">{`${userProfile.firstName} ${userProfile.lastName}`}</h1>
+                  <p className="text-gray-600">Member ID: {userProfile.id}</p>
                   <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div className="text-gray-700">32 yrs, 5</div>
-                    <div className="text-gray-700">Never Married</div>
-                    <div className="text-gray-700">Islam, Sunni</div>
-                    <div className="text-gray-700">Lives in Belarus</div>
+                    <div className="text-gray-700">{userProfile.date_of_birth ? `${new Date().getFullYear() - new Date(userProfile.date_of_birth).getFullYear()} yrs` : 'Age not specified'}</div>
+                    <div className="text-gray-700">{userProfile.maritalStatus || 'Not specified'}</div>
+                    <div className="text-gray-700">{`${userProfile.religion}${userProfile.caste ? `, ${userProfile.caste}` : ''}`}</div>
+                    <div className="text-gray-700">Lives in {userProfile.city || userProfile.state || userProfile.country || 'Location not specified'}</div>
                   </div>
                 </div>
 
@@ -112,7 +180,7 @@ const ProfileCard = () => {
                         value={tab}
                         className="flex-1 text-gray-600 hover:text-accent transition-colors duration-300"
                       >
-                        {tab.replace("-", " ")}
+                        {tab.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}
                       </TabsTrigger>
                     ))}
                   </TabsList>
@@ -120,12 +188,7 @@ const ProfileCard = () => {
                   {/* Detailed Profile Content */}
                   <TabsContent value="detailed-profile" className="mt-6">
                     <Accordion type="single" collapsible className="space-y-4">
-                      {[
-                        { title: "About", icon: Quote, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-                        { title: "Basic Information", icon: User, content: `Height: 5'5\", Weight: 54kg, Marital Status: Never Married` },
-                        { title: "Present Address", icon: MapPin, content: "Country: Belarus, State: Minsk, City: Minsk" },
-                        { title: "Education", icon: GraduationCap, content: "Master's Degree in Computer Science" },
-                      ].map((item, idx) => (
+                      {profileDetails.map((item, idx) => (
                         <AccordionItem key={idx} value={`item-${idx}`} className="border rounded-lg">
                           <AccordionTrigger className="px-4 py-2 hover:bg-gray-50 transition-colors duration-300">
                             <div className="flex items-center gap-3">
@@ -144,32 +207,35 @@ const ProfileCard = () => {
                   {/* Partner Preference */}
                   <TabsContent value="partner-preference">
                     <div className="mt-6 grid grid-cols-2 gap-4 text-gray-600">
-                      <div>Age: 28-35 years</div>
-                      <div>Height: 5'8" - 6'2"</div>
-                      <div>Religion: Islam</div>
-                      <div>Education: Bachelor's or higher</div>
-                      <div>Occupation: Any Professional</div>
-                      <div>Location: Any</div>
+                      <div>Age: {userProfile.preferredAge || 'Not specified'}</div>
+                      <div>Height: {userProfile.preferredHeight || 'Not specified'}</div>
+                      <div>Religion: {userProfile.preferredReligion || 'Not specified'}</div>
+                      <div>Caste: {userProfile.preferredCaste || 'Not specified'}</div>
+                      <div>Education: {userProfile.education || 'Not specified'}</div>
+                      <div>Location: {userProfile.city || userProfile.state || userProfile.country || 'Not specified'}</div>
                     </div>
                   </TabsContent>
 
                   {/* Photo Gallery */}
                   <TabsContent value="photo-gallery">
                     <div className="mt-6 grid grid-cols-3 gap-4">
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                      {userProfile.package?.features.find(f => f.name === 'galleryImageUpload')?.enabled ? (
                         <motion.div
-                          key={i}
                           whileHover={{ scale: 1.05 }}
                           transition={{ duration: 0.3 }}
                           className="aspect-square rounded-lg overflow-hidden"
                         >
                           <img
-                            src={`https://images.unsplash.com/photo-1534528741775-53994a69daeb`}
-                            alt={`Gallery photo ${i}`}
+                            src={userProfile.profileImage || "https://via.placeholder.com/300"}
+                            alt="Profile photo"
                             className="w-full h-full object-cover"
                           />
                         </motion.div>
-                      ))}
+                      ) : (
+                        <div className="col-span-3 text-center py-8 text-gray-500">
+                          Upgrade your package to upload gallery images
+                        </div>
+                      )}
                     </div>
                   </TabsContent>
                 </Tabs>

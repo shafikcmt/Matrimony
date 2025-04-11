@@ -14,10 +14,13 @@ import {
 import { Settings, Users, Heart, LogOut, Handshake, House, BookHeart, Images, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuthActions } from "@/store/auth";
+import { useAuthActions, userProfileSelector } from "@/store/auth";
+import { useRecoilValue } from "recoil";
+
 const allLinks = [
     { icon: BookHeart, label: "Public Profile", link: "/public-profile" },
     { icon: House, label: "Dashboard", link: "/dashboard" },
+    { icon: Users, label: "Members", link: "/members" },
     { icon: Images, label: "Gallery", link: "/images" },
     { icon: Handshake, label: "My Happy Story", link: "/my-story" },
     { icon: Settings, label: "Manage My Profile", link: "/profile" },
@@ -29,6 +32,8 @@ const allLinks = [
 export default function DropDownSheet() {
     const route = usePathname();
     const { signOut } = useAuthActions();
+    const userProfile = useRecoilValue(userProfileSelector);
+    
     const handleSignOut = async () => {
         try {
             await signOut();
@@ -36,6 +41,11 @@ export default function DropDownSheet() {
             console.error('Error signing out:', error);
         }
     };
+    
+    const profileImage = userProfile?.profileImage || "https://github.com/shadcn.png";
+    const fullName = userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : "User";
+    const displayName = userProfile?.firstName || "User";
+    
     return (
         <div className=" flex items-center justify-center">
             <Sheet>
@@ -45,7 +55,7 @@ export default function DropDownSheet() {
                         className="flex items-center gap-2 hover:bg-transparent"
                     >
                         <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarImage src={profileImage} />
                         </Avatar>
                     </Button>
                 </SheetTrigger>
@@ -53,11 +63,11 @@ export default function DropDownSheet() {
                     <SheetHeader>
                         <SheetTitle className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarImage src={profileImage} />
                             </Avatar>
                             <div className="flex flex-col items-start">
-                                <span className="text-sm font-medium">MrZorawaR</span>
-                                <span className="text-xs text-muted-foreground">Nitish</span>
+                                <span className="text-sm font-medium">{fullName}</span>
+                                <span className="text-xs text-muted-foreground">{displayName}</span>
                             </div>
                         </SheetTitle>
                     </SheetHeader>
@@ -65,9 +75,9 @@ export default function DropDownSheet() {
                     <div className="mt-6 space-y-3">
                         {
                             allLinks.map((item, index) => (
-                                <SheetClose asChild className="flex flex-col">
+                                <SheetClose asChild className="flex flex-col" key={index}>
 
-                                    <Link href={item.link} key={index}>
+                                    <Link href={item.link}>
                                         <Button variant="ghost" className={`w-full justify-start text-sm hover:text-white ${route === item.link ? "text-accent" : ""}`}>
                                             <item.icon className="mr-2 h-5 w-5" /> {item.label}
                                         </Button>

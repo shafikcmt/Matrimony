@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server'
 const protectedRoutes = [
   '/dashboard',
   '/profile',
-  '/members[id]',
+  '/members',
   '/images',
   '/public-profile',
   '/ignored-users',
@@ -22,28 +22,49 @@ export async function middleware(request: NextRequest) {
   const supabase = createMiddlewareClient({ req: request, res })
   const { pathname } = request.nextUrl
 
-  // Refresh session if expired
-  const { data: { session } } = await supabase.auth.getSession()
+  try {
+    // Refresh session if expired
+    const { data: { session }, error } = await supabase.auth.getSession()
 
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
+    if (error) {
+      console.error('Auth error:', error.message)
+      throw error
+    }
 
-  // If the route is protected and user is not authenticated, redirect to login
-  if (isProtectedRoute && !session) {
+    // Check if the route is protected
+    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
+    const isAuthRoute = authRoutes.includes(pathname) // Exact match only
+
+    // If the route is protected and user is not authenticated, redirect to login
+    if (isProtectedRoute && !session) {
+      const redirectUrl = new URL('/login', request.url)
+      redirectUrl.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(redirectUrl)
+    }
+
+    // If user is authenticated and tries to access auth routes, redirect to dashboard
+    // Only redirect if explicitly on login or register page
+    if (isAuthRoute && session) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+
+    // Add user session info to response headers for client-side access
+    if (session) {
+      res.headers.set('x-user-id', session.user.id)
+      res.headers.set('x-user-email', session.user.email || '')
+    }
+
+    return res
+  } catch (error) {
+    console.error('Middleware error:', error)
+    // If there's an error, redirect to login
     const redirectUrl = new URL('/login', request.url)
     redirectUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(redirectUrl)
   }
-
-  // If user is authenticated and tries to access auth routes, redirect to dashboard
-  // if (isAuthRoute && session) {
-  //   return NextResponse.redirect(new URL('/dashboard', request.url))
-  // }
-
-  return res
 }
 
+// Specify which routes should be processed by this middleware
 export const config = {
   matcher: [
     /*
@@ -53,6 +74,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public).*)',
   ],
 }

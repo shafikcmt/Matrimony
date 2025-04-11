@@ -5,8 +5,93 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Search, Users, Shield, Gift, MessageCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userSelector } from "@/store/auth";
+
+interface SuccessStory {
+  id: string;
+  coupleName: string;
+  story: string;
+  marriageDate: string;
+  image: string;
+}
 
 const HomePage = () => {
+  const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const user = useRecoilValue(userSelector);
+
+  useEffect(() => {
+    const fetchSuccessStories = async () => {
+      setIsLoading(true);
+      try {
+        // In a real app, this would be an API call
+        // For now, we'll simulate an API response
+        const response = await fetch('/api/stories');
+        if (response.ok) {
+          const data = await response.json();
+          setSuccessStories(data);
+        } else {
+          // Fallback data if API fails
+          setSuccessStories([
+            {
+              id: '1',
+              coupleName: 'Sarah & John',
+              story: "We found each other here and couldn't be happier. Thank you for helping us find true love!",
+              marriageDate: 'June 2024',
+              image: 'https://images.unsplash.com/photo-1527647449401-87d4cb3db31b?ixlib=rb-4.0.3'
+            },
+            {
+              id: '2',
+              coupleName: 'Michael & Emily',
+              story: "After years of searching, we finally found each other. The matching algorithm really works!",
+              marriageDate: 'July 2024',
+              image: 'https://images.unsplash.com/photo-1527647449402-87d4cb3db31b?ixlib=rb-4.0.3'
+            },
+            {
+              id: '3',
+              coupleName: 'David & Lisa',
+              story: "We connected instantly and knew we were meant to be. Getting married next month!",
+              marriageDate: 'August 2024',
+              image: 'https://images.unsplash.com/photo-1527647449403-87d4cb3db31b?ixlib=rb-4.0.3'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Error fetching success stories:', error);
+        // Fallback data if API fails
+        setSuccessStories([
+          {
+            id: '1',
+            coupleName: 'Sarah & John',
+            story: "We found each other here and couldn't be happier. Thank you for helping us find true love!",
+            marriageDate: 'June 2024',
+            image: 'https://images.unsplash.com/photo-1527647449401-87d4cb3db31b?ixlib=rb-4.0.3'
+          },
+          {
+            id: '2',
+            coupleName: 'Michael & Emily',
+            story: "After years of searching, we finally found each other. The matching algorithm really works!",
+            marriageDate: 'July 2024',
+            image: 'https://images.unsplash.com/photo-1527647449402-87d4cb3db31b?ixlib=rb-4.0.3'
+          },
+          {
+            id: '3',
+            coupleName: 'David & Lisa',
+            story: "We connected instantly and knew we were meant to be. Getting married next month!",
+            marriageDate: 'August 2024',
+            image: 'https://images.unsplash.com/photo-1527647449403-87d4cb3db31b?ixlib=rb-4.0.3'
+          }
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSuccessStories();
+  }, []);
+
   return (
     <>
       {/* Hero Section */}
@@ -113,27 +198,33 @@ const HomePage = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <img
-                  src={`https://images.unsplash.com/photo-152764744940${i}-87d4cb3db31b?ixlib=rb-4.0.3`}
-                  alt={`Success story ${i}`}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">Sarah & John</h3>
-                  <p className="text-gray-600 mb-4">
-                    "We found each other here and couldn't be happier. Thank you for helping us find true love!"
-                  </p>
-                  <div className="flex items-center text-primary">
-                    <Heart className="w-4 h-4 mr-2" />
-                    <span>Married on June 2024</span>
+          {isLoading ? (
+            <div className="text-center py-8">
+              <p>Loading success stories...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {successStories.map((story) => (
+                <Card key={story.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <img
+                    src={story.image}
+                    alt={story.coupleName}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{story.coupleName}</h3>
+                    <p className="text-gray-600 mb-4">
+                      "{story.story}"
+                    </p>
+                    <div className="flex items-center text-primary">
+                      <Heart className="w-4 h-4 mr-2" />
+                      <span>Married on {story.marriageDate}</span>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

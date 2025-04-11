@@ -3,28 +3,7 @@
 import { atom, selector, useSetRecoilState, useRecoilValue } from 'recoil'
 import { User } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
-
-interface UserProfile {
-  id: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  date_of_birth: string;
-  gender: string;
-  religion: string;
-  caste: string;
-  education: string;
-  occupation: string;
-  income: string;
-  city: string;
-  state: string;
-  country: string;
-  about: string;
-  profile_picture: string;
-  avatar_url?: string;
-  created_at: string;
-  updated_at: string;
-}
+import { UserProfile } from '@/types/user'
 
 interface AuthState {
   user: User | null;
