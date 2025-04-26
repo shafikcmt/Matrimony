@@ -1,31 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Heart, Bell, Mail, User, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { Heart, Bell, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
-import { useRecoilValue } from 'recoil'
-import { userSelector, userProfileSelector, useAuthActions } from '@/store/auth'
-import { User as SupabaseUser } from '@supabase/supabase-js'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import DropDownSheet from "./DropDownSheet";
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const user = useRecoilValue(userSelector) as SupabaseUser | null;
-  const profile = useRecoilValue(userProfileSelector);
-  const { signOut } = useAuthActions();
+  
+  // Replace with actual auth logic if needed
+  const user = null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,17 +24,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
   return (
     <>
-      {/* Top Bar */}
       <div className="bg-[#1C1F2A] text-gray-200 py-2 px-4">
         <div className="container mx-auto flex justify-between items-center">
           <span className="text-sm">Welcome to Heavenly Match</span>
@@ -59,11 +39,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main Header */}
       <header className={`bg-white shadow-sm transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <div className="text-accent text-xl sm:text-3xl font-bold flex items-center gap-2">
                 <Heart className="md:w-8 w-6 md:h-8 h-6 fill-accent cursor-pointer" />
@@ -71,12 +49,11 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               <Nav />
               <div className="flex items-center gap-3">
                 {user ? (
-                  <DropDownSheet/>
+                  <DropDownSheet />
                 ) : (
                   <>
                     <Link href="/login">
@@ -94,10 +71,9 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Mobile Navigation */}
             <div className="md:hidden flex items-center gap-3">
               {user ? (
-                <DropDownSheet/>
+                <DropDownSheet />
               ) : (
                 <Link href="/login">
                   <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">

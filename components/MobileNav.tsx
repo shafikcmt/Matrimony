@@ -4,9 +4,7 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/s
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { useRecoilValue } from 'recoil';
-import { userSelector } from '@/store/auth';
+import { useState, useEffect } from "react";
 
 const publicLinks = [
   { path: "/", name: "HOME" },
@@ -27,7 +25,14 @@ const authLinks = [
 const MobileNav = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const user = useRecoilValue(userSelector);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const links = user ? authLinks : publicLinks;
 

@@ -1,9 +1,8 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRecoilValue } from 'recoil';
-import { userSelector } from '@/store/auth';
 
 const publicLinks = [
   { path: "/", name: "HOME" },
@@ -18,12 +17,14 @@ const authLinks = [
   { path: "/members", name: "ACTIVE MEMBERS" },
   { path: "/plans", name: "PREMIUM PLANS" },
   { path: "/stories", name: "HAPPY STORIES" },
-  { path: "/contact", name: "CONTACT US" },
+  { path: "/contact", name: "CONTACT US" }
 ];
 
 const Nav = () => {
   const pathname = usePathname();
-  const user = useRecoilValue(userSelector);
+
+  // Replace with real auth logic if needed
+  const user = null;
 
   const links = user ? authLinks : publicLinks;
 
@@ -44,4 +45,4 @@ const Nav = () => {
   );
 };
 
-export default Nav; 
+export default Nav;

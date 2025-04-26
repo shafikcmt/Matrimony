@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
+
 import { Inter } from 'next/font/google'
-import './globals.css'
-import { Providers } from './providers'
 import { Toaster } from '@/components/ui/toaster'
-import { AuthInitializer } from '@/components/auth-initializer'
-import { AuthGuard } from '@/components/AuthGuard'
-import RecoilWrapper from '@/components/RecoilWrapper'
+
 import MainWrapper from '@/components/MainWrapper'
+
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,17 +29,10 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Providers>
-          <AuthInitializer />
-          <RecoilWrapper>
-            <AuthGuard>
-              <MainWrapper>
-                {children}
-              </MainWrapper>
-            </AuthGuard>
-          </RecoilWrapper>
-          <Toaster />
-        </Providers>
+        <MainWrapper>
+          {children}
+        </MainWrapper>
+        <Toaster />
       </body>
     </html>
   )

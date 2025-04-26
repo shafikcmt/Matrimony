@@ -7,8 +7,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart, Search, Users, Shield, Gift, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 const HomePage = () => {
+  useEffect(() => {
+    const showSession = async () => {
+      const data = await supabase.auth.getSession();
+      console.log("Session data", data);
+    };
+
+    showSession();
+  }, []);
+
   return (
     <>
       {/* Hero Section */}
