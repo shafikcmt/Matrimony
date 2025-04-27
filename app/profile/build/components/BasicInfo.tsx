@@ -8,37 +8,16 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { ChangeEvent } from "react";
+import { UserProfileType } from "@/types/user";
 
 interface BasicInfoProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  gender: string;
-  dateOfBirth: string;
-  onFirstNameChange: (value: string) => void;
-  onLastNameChange: (value: string) => void;
-  onEmailChange: (value: string) => void;
-  onPhoneNumberChange: (value: string) => void;
-  onGenderChange: (value: string) => void;
-  onDateOfBirthChange: (value: string) => void;
-  isReadOnly?: boolean;
+  basicInfo: UserProfileType;
+  setBasicInfo: (basicInfo: UserProfileType) => void;
 }
 
 export function BasicInfo({
-  firstName,
-  lastName,
-  email,
-  phoneNumber,
-  gender,
-  dateOfBirth,
-  onFirstNameChange,
-  onLastNameChange,
-  onEmailChange,
-  onPhoneNumberChange,
-  onGenderChange,
-  onDateOfBirthChange,
-  isReadOnly = false
+  basicInfo,
+  setBasicInfo
 }: BasicInfoProps) {
   return (
     <div className="space-y-6">
@@ -51,9 +30,8 @@ export function BasicInfo({
           <Input 
             id="firstName" 
             placeholder="Enter your first name"
-            value={firstName}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onFirstNameChange(e.target.value)}
-            readOnly={isReadOnly}
+            value={basicInfo.firstName}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, firstName: e.target.value })}
           />
         </div>
         
@@ -62,9 +40,8 @@ export function BasicInfo({
           <Input 
             id="lastName" 
             placeholder="Enter your last name"
-            value={lastName}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onLastNameChange(e.target.value)}
-            readOnly={isReadOnly}
+            value={basicInfo.lastName}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, lastName: e.target.value })}
           />
         </div>
         
@@ -74,9 +51,8 @@ export function BasicInfo({
             id="email" 
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onEmailChange(e.target.value)}
-            readOnly={isReadOnly}
+            value={basicInfo.email}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, email: e.target.value })}
           />
         </div>
         
@@ -85,18 +61,16 @@ export function BasicInfo({
           <Input 
             id="phoneNumber" 
             placeholder="Enter your phone number"
-            value={phoneNumber}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onPhoneNumberChange(e.target.value)}
-            readOnly={isReadOnly}
+            value={basicInfo.phone}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, phone: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="gender">Gender</Label>
           <Select 
-            value={gender}
-            onValueChange={onGenderChange}
-            disabled={isReadOnly}
+            value={basicInfo.gender}
+            onValueChange={(value) => setBasicInfo({ ...basicInfo, gender: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your gender" />
@@ -114,9 +88,8 @@ export function BasicInfo({
           <Input 
             id="dateOfBirth" 
             type="date"
-            value={dateOfBirth}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onDateOfBirthChange(e.target.value)}
-            readOnly={isReadOnly}
+            value={basicInfo.dateOfBirth}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, dateOfBirth: e.target.value })}
           />
         </div>
       </div>

@@ -5,21 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
 import { User, MapPin, GraduationCap, Phone, Quote } from "lucide-react";
-import { dummyProfiles } from '@/data/profiles'
 
 export default function MemberProfilePage() {
   const params = useParams()
   const memberId = params.id as string
-
-  const profile = dummyProfiles.find(p => p.id === memberId)
-
-  if (!profile) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-red-500">Profile not found</h1>
-      </div>
-    )
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">

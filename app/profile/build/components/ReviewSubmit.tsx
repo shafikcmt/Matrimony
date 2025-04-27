@@ -1,88 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { UserProfileType } from "@/types/user";
 
 interface ReviewSubmitProps {
-  basicInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    dateOfBirth: string;
-    gender: string;
-    height: string;
-    maritalStatus: string;
-    religion: string;
-    caste: string;
-    community: string;
-    motherTongue: string;
-  };
-  educationCareer: {
-    highestQualification: string;
-    fieldOfStudy: string;
-    university: string;
-    yearOfPassing: string;
-    grade: string;
-    occupation: string;
-    industry: string;
-    company: string;
-    experience: string;
-    income: string;
-    workLocation: string;
-    achievements: string;
-    futurePlans: string;
-  };
-  familyDetails: {
-    fatherName: string;
-    fatherOccupation: string;
-    motherName: string;
-    motherOccupation: string;
-    siblings: string;
-    familyType: string;
-    familyValues: string;
-    familyStatus: string;
-    familyLocation: string;
-    familyBackground: string;
-    familyPreferences: string;
-  };
-  lifestyle: {
-    diet: string;
-    smoking: string;
-    drinking: string;
-    exercise: string;
-    sleepSchedule: string;
-    socialLife: string;
-    hobbies: string;
-    languages: string;
-    travel: string;
-    pets: string;
-    otherPreferences: string;
-  };
-  partnerPreferences: {
-    partnerAgeRange: string;
-    partnerHeightRange: string;
-    partnerMaritalStatus: string;
-    partnerReligion: string;
-    partnerCaste: string;
-    partnerCommunity: string;
-    partnerMotherTongue: string;
-    partnerEducation: string;
-    partnerOccupation: string;
-    partnerIncome: string;
-    partnerLocation: string;
-    partnerDiet: string;
-    partnerSmoking: string;
-    partnerDrinking: string;
-    partnerExercise: string;
-    partnerSleepSchedule: string;
-    partnerSocialLife: string;
-    partnerWantChildren: string;
-    partnerOtherPreferences: string;
-  };
-  photosGallery: {
-    profilePicture: string;
-    galleryImages: string[];
-  };
-  onSubmit?: () => void;
+  basicInfo: UserProfileType;
+  educationCareer: UserProfileType;
+  familyDetails: UserProfileType;
+  lifestyle: UserProfileType;
+  partnerPreferences: UserProfileType;
+  photosGallery: UserProfileType;
+  onSubmit: () => void;
 }
 
 export function ReviewSubmit({
@@ -127,7 +55,7 @@ export function ReviewSubmit({
           <CardContent className="space-y-4">
             <div>
               <Label>Name</Label>
-              <p>{basicInfo.name || "Not provided"}</p>
+              <p>{basicInfo.firstName || "Not provided"} {basicInfo.lastName || "Not provided"}</p>
             </div>
             <div>
               <Label>Email</Label>

@@ -8,65 +8,17 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { UserProfileType } from "@/types/user";
 
 interface EducationCareerProps {
-  highestQualification: string;
-  fieldOfStudy: string;
-  university: string;
-  yearOfPassing: string;
-  grade: string;
-  occupation: string;
-  industry: string;
-  company: string;
-  experience: string;
-  income: string;
-  workLocation: string;
-  achievements: string;
-  futurePlans: string;
-  onHighestQualificationChange: (value: string) => void;
-  onFieldOfStudyChange: (value: string) => void;
-  onUniversityChange: (value: string) => void;
-  onYearOfPassingChange: (value: string) => void;
-  onGradeChange: (value: string) => void;
-  onOccupationChange: (value: string) => void;
-  onIndustryChange: (value: string) => void;
-  onCompanyChange: (value: string) => void;
-  onExperienceChange: (value: string) => void;
-  onIncomeChange: (value: string) => void;
-  onWorkLocationChange: (value: string) => void;
-  onAchievementsChange: (value: string) => void;
-  onFuturePlansChange: (value: string) => void;
-  isReadOnly?: boolean;
+  educationCareer: UserProfileType;
+  setEducationCareer: (educationCareer: UserProfileType) => void;
 }
 
+
 export function EducationCareer({
-  highestQualification,
-  fieldOfStudy,
-  university,
-  yearOfPassing,
-  grade,
-  occupation,
-  industry,
-  company,
-  experience,
-  income,
-  workLocation,
-  achievements,
-  futurePlans,
-  onHighestQualificationChange,
-  onFieldOfStudyChange,
-  onUniversityChange,
-  onYearOfPassingChange,
-  onGradeChange,
-  onOccupationChange,
-  onIndustryChange,
-  onCompanyChange,
-  onExperienceChange,
-  onIncomeChange, 
-  onWorkLocationChange,
-  onAchievementsChange,
-  onFuturePlansChange,
-  isReadOnly = false
+  educationCareer,
+  setEducationCareer
 }: EducationCareerProps) {
   return (
     <div className="space-y-6">

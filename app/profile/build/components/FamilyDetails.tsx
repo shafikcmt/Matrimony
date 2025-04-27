@@ -8,60 +8,16 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { UserProfileType } from "@/types/user";
 
 interface FamilyDetailsProps {
-  fatherName: string;
-  fatherOccupation: string;
-  motherName: string;
-  motherOccupation: string;
-  siblings: string;
-  familyType: string;
-  familyValues: string;
-  familyStatus: string;
-  familyLocation: string;
-  familyBackground: string;
-  familyPreferences: string;
-  onFatherNameChange: (value: string) => void;
-  onFatherOccupationChange: (value: string) => void;
-  onMotherNameChange: (value: string) => void;
-  onMotherOccupationChange: (value: string) => void;
-  onSiblingsChange: (value: string) => void;
-  onFamilyTypeChange: (value: string) => void;
-  onFamilyValuesChange: (value: string) => void;
-  onFamilyStatusChange: (value: string) => void;
-  onFamilyLocationChange: (value: string) => void;
-  onFamilyBackgroundChange: (value: string) => void;
-  onFamilyPreferencesChange: (value: string) => void;
-  isReadOnly?: boolean;
+  familyDetails: UserProfileType;
+  setFamilyDetails: (familyDetails: UserProfileType) => void;
 }
 
-
-
-
 export function FamilyDetails({
-  fatherName,
-  fatherOccupation,
-  motherName,
-  motherOccupation,
-  siblings,
-  familyType,
-  familyValues,
-  familyStatus,
-  familyLocation,
-  familyBackground,
-  familyPreferences,
-  onFatherNameChange,
-  onFatherOccupationChange,
-  onMotherNameChange,
-  onMotherOccupationChange,
-  onSiblingsChange,
-  onFamilyTypeChange,
-  onFamilyValuesChange,
-  onFamilyStatusChange,
-  onFamilyLocationChange,
-  onFamilyBackgroundChange,
-  onFamilyPreferencesChange,
-  isReadOnly = false
+  familyDetails,
+  setFamilyDetails
 }: FamilyDetailsProps) {
   return (
     <div className="space-y-6">

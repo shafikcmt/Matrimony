@@ -7,37 +7,16 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { UserProfileType } from "@/types/user";
 
 interface PersonalDetailsProps {
-  height: string;
-  maritalStatus: string;
-  religion: string;
-  caste: string;
-  community: string;
-  motherTongue: string;
-  onHeightChange: (value: string) => void;
-  onMaritalStatusChange: (value: string) => void;
-  onReligionChange: (value: string) => void;
-  onCasteChange: (value: string) => void;
-  onCommunityChange: (value: string) => void;
-  onMotherTongueChange: (value: string) => void;
-  isReadOnly?: boolean;
+  personalDetails: UserProfileType;
+  setPersonalDetails: (personalDetails: UserProfileType) => void;
 }
 
 export function PersonalDetails({
-  height,
-  maritalStatus,
-  religion,
-  caste,
-  community,
-  motherTongue,
-  onHeightChange,
-  onMaritalStatusChange,
-  onReligionChange,
-  onCasteChange,
-  onCommunityChange,
-  onMotherTongueChange,
-  isReadOnly = false
+  personalDetails,
+  setPersonalDetails
 }: PersonalDetailsProps) {
   return (
     <div className="space-y-6">

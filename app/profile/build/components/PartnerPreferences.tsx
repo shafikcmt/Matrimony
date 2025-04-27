@@ -8,97 +8,16 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { UserProfileType } from "@/types/user";
 
 interface PartnerPreferencesProps {
-  ageRangeMin: string;
-  ageRangeMax: string;
-  heightRangeMin: string;
-  heightRangeMax: string;
-  maritalStatus: string;
-  religion: string;
-  caste: string;
-  community: string;
-  motherTongue: string;
-  education: string;
-  occupation: string;
-  income: string;
-  location: string;
-  diet: string;
-  smoking: string;
-  drinking: string;
-  exercise: string;
-  sleepSchedule: string;
-  socialLife: string;
-  wantChildren: string;
-  otherPreferences: string;
-  onAgeRangeMinChange: (value: string) => void;
-  onAgeRangeMaxChange: (value: string) => void;
-  onHeightRangeMinChange: (value: string) => void;
-  onHeightRangeMaxChange: (value: string) => void;
-  onMaritalStatusChange: (value: string) => void;
-  onReligionChange: (value: string) => void;
-  onCasteChange: (value: string) => void;
-  onCommunityChange: (value: string) => void;
-  onMotherTongueChange: (value: string) => void;
-  onEducationChange: (value: string) => void;
-  onOccupationChange: (value: string) => void;
-  onIncomeChange: (value: string) => void;
-  onLocationChange: (value: string) => void;
-  onDietChange: (value: string) => void;  
-  onSmokingChange: (value: string) => void;
-  onDrinkingChange: (value: string) => void;
-  onExerciseChange: (value: string) => void;
-  onSleepScheduleChange: (value: string) => void;
-  onSocialLifeChange: (value: string) => void;
-  onWantChildrenChange: (value: string) => void;
-  onOtherPreferencesChange: (value: string) => void;
-  isReadOnly?: boolean;
+  partnerPreferences: UserProfileType;
+  setPartnerPreferences: (partnerPreferences: UserProfileType) => void;
 }
 
 export function PartnerPreferences({
-  ageRangeMin,
-  ageRangeMax,
-  heightRangeMin,
-  heightRangeMax,
-  maritalStatus,
-  religion,
-  caste,
-  community,
-  motherTongue,
-  education,
-  occupation,
-  income,
-  location,
-  diet,
-  smoking,
-  drinking,
-  exercise,
-  sleepSchedule,
-  socialLife,
-  wantChildren,
-  otherPreferences,
-  onAgeRangeMinChange,
-  onAgeRangeMaxChange,
-  onHeightRangeMinChange,
-  onHeightRangeMaxChange,
-  onMaritalStatusChange,
-  onReligionChange,
-  onCasteChange,
-  onCommunityChange,
-  onMotherTongueChange,
-  onEducationChange,
-  onOccupationChange,
-  onIncomeChange,
-  onLocationChange,
-  onDietChange,
-  onSmokingChange,
-  onDrinkingChange,
-  onExerciseChange,
-  onSleepScheduleChange,
-  onSocialLifeChange,
-  onWantChildrenChange,
-  onOtherPreferencesChange,
-  isReadOnly = false
+  partnerPreferences,
+  setPartnerPreferences
 }: PartnerPreferencesProps) {
   return (
     <div className="space-y-6">

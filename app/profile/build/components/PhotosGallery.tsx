@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Upload } from "lucide-react";
+import { UserProfileType } from "@/types/user";
 
 interface PhotosGalleryProps {
   profilePicture: string;

@@ -8,60 +8,16 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { UserProfileType } from "@/types/user";
 
 interface LifestyleProps {
-  diet: string;
-  smoking: string;
-  drinking: string;
-  exercise: string;
-  sleepSchedule: string;
-  socialLife: string;
-  hobbies: string;
-  languages: string;
-  travel: string;
-  pets: string;
-  otherPreferences: string;
-  onDietChange: (value: string) => void;
-  onSmokingChange: (value: string) => void;
-  onDrinkingChange: (value: string) => void;
-  onExerciseChange: (value: string) => void;
-  onSleepScheduleChange: (value: string) => void;
-  onSocialLifeChange: (value: string) => void;
-  onHobbiesChange: (value: string) => void;
-  onLanguagesChange: (value: string) => void;
-  onTravelChange: (value: string) => void;
-  onPetsChange: (value: string) => void;
-  onOtherPreferencesChange: (value: string) => void;
-  isReadOnly?: boolean;
+  lifestyle: UserProfileType;
+  setLifestyle: (lifestyle: UserProfileType) => void;
 }
 
-
-
-
 export function Lifestyle({
-  diet,
-  smoking,
-  drinking,
-  exercise,
-  sleepSchedule,
-  socialLife,
-  hobbies,
-  languages,
-  travel,
-  pets,
-  otherPreferences,
-  onDietChange,
-  onSmokingChange,
-  onDrinkingChange,
-  onExerciseChange,
-  onSleepScheduleChange,
-  onSocialLifeChange,
-  onHobbiesChange,
-  onLanguagesChange,
-  onTravelChange,
-  onPetsChange,
-  onOtherPreferencesChange,
-  isReadOnly = false
+  lifestyle,
+  setLifestyle
 }: LifestyleProps) {
   return (
     <div className="space-y-6">
