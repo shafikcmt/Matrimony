@@ -96,10 +96,9 @@ export default function ProfileBuildPage() {
       case 6:
         return (
           <PhotosGallery 
-            profilePicture={profileData.profilePicture}
-            galleryImages={profileData.galleryImages}
-            onProfilePictureChange={(value) => updateProfileData({ profilePicture: value })}
-            onGalleryImagesChange={(value) => updateProfileData({ galleryImages: value })}
+            photosGallery={profileData}
+            setPhotosGallery={updateProfileData}
+            onSubmit={handleSubmit}
           />
         );
         
