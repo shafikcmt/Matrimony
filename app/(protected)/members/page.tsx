@@ -1,72 +1,73 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { UserProfile } from '@/types/user';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
+
+// Define the UserProfile type
+interface UserProfile {
+  id: string;
+  full_name: string;
+  avatar_url?: string;
+  phone?: string;
+  date_of_birth?: string;
+  created_at: string;
+}
 
 export default function MembersPage() {
-  const [members, setMembers] = useState<UserProfile[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [members, setMembers] = useState<UserProfile[]>([
+    {
+      id: "1",
+      full_name: "John Doe",
+      avatar_url: "https://randomuser.me/api/portraits/men/1.jpg",
+      phone: "+1 (555) 123-4567",
+      date_of_birth: "1990-05-15",
+      created_at: "2023-01-10"
+    },
+    {
+      id: "2",
+      full_name: "Jane Smith",
+      avatar_url: "https://randomuser.me/api/portraits/women/2.jpg",
+      phone: "+1 (555) 987-6543",
+      date_of_birth: "1988-11-22",
+      created_at: "2023-02-15"
+    },
+    {
+      id: "3",
+      full_name: "Michael Johnson",
+      avatar_url: "https://randomuser.me/api/portraits/men/3.jpg",
+      phone: "+1 (555) 456-7890",
+      date_of_birth: "1992-08-30",
+      created_at: "2023-03-20"
+    },
+    {
+      id: "4",
+      full_name: "Emily Davis",
+      avatar_url: "https://randomuser.me/api/portraits/women/4.jpg",
+      phone: "+1 (555) 234-5678",
+      date_of_birth: "1995-04-12",
+      created_at: "2023-04-05"
+    },
+    {
+      id: "5",
+      full_name: "Robert Wilson",
+      avatar_url: "https://randomuser.me/api/portraits/men/5.jpg",
+      phone: "+1 (555) 876-5432",
+      date_of_birth: "1987-09-25",
+      created_at: "2023-05-18"
+    },
+    {
+      id: "6",
+      full_name: "Sarah Brown",
+      avatar_url: "https://randomuser.me/api/portraits/women/6.jpg",
+      phone: "+1 (555) 345-6789",
+      date_of_birth: "1993-07-08",
+      created_at: "2023-06-22"
+    }
+  ]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await fetch('/api/members');
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to fetch members');
-        }
-        
-        if (!Array.isArray(data)) {
-          throw new Error('Invalid response format');
-        }
-        
-        setMembers(data);
-      } catch (err) {
-        console.error('Error fetching members:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred while fetching members');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMembers();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <p className="text-red-500 mb-4">{error}</p>
-        <button 
-          onClick={() => window.location.reload()} 
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Try Again
-        </button>
-      </div>
-    );
-  }
-
-  if (members.length === 0) {
-    return (
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-8">Our Members</h1>
-        <p className="text-center text-gray-500">No members found.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto p-8">

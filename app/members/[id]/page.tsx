@@ -6,7 +6,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Card } from "@/components/ui/card";
 import { User, MapPin, GraduationCap, Phone, Quote } from "lucide-react";
 import { dummyProfiles } from '@/data/profiles'
-import { UserProfile } from '@/types/auth'
 
 export default function MemberProfilePage() {
   const params = useParams()
