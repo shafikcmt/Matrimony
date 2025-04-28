@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { UserProfileType } from '@/types/user';
+import { BasicInfo, UserProfileType } from '@/types/user';
+
+const basicInfo: BasicInfo = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  gender: '',
+  dateOfBirth: ''
+}
 
 const initialProfileState: UserProfileType = {
   // Basic Info

@@ -1,9 +1,12 @@
-
-export type UserProfileType = BasicInfo & personlaDetails & EducationCareer & FamilyDetails & LifestylePreferences & PartnerPreferences & PhotosGallery & {
-
-  plan: string;
-
-}
+export type UserProfileType = BasicInfo &
+  PersonalDetails &
+  EducationCareer &
+  FamilyDetails &
+  LifestylePreferences &
+  PartnerPreferences &
+  PhotosGallery & {
+    plan: string;
+  };
 
 export interface BasicInfo {
   firstName: string;
@@ -14,7 +17,7 @@ export interface BasicInfo {
   dateOfBirth: string;
 }
 
-export interface personlaDetails {
+export interface PersonalDetails {
   height: string;
   maritalStatus: string;
   religion: string;
@@ -22,7 +25,6 @@ export interface personlaDetails {
   community: string;
   motherTongue: string;
 }
-
 
 export interface EducationCareer {
   highestQualification: string;
