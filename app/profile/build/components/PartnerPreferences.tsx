@@ -8,11 +8,11 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { UserProfileType } from "@/types/user";
+import { PartnerPreferencesTypes } from "@/types/user";
 
 interface PartnerPreferencesProps {
-  partnerPreferences: UserProfileType;
-  setPartnerPreferences: (partnerPreferences: UserProfileType) => void;
+  partnerPreferences: PartnerPreferencesTypes;
+  setPartnerPreferences: (partnerPreferences: PartnerPreferencesTypes) => void;
 }
 
 export function PartnerPreferences({
@@ -32,7 +32,9 @@ export function PartnerPreferences({
             type="number" 
             min="18"
             max="100"
-          />
+            value={partnerPreferences.partnerAgeRangeMin}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerAgeRangeMin: (e.target.value) })}
+            />
         </div>
         
         <div className="space-y-2">
@@ -42,12 +44,16 @@ export function PartnerPreferences({
             type="number" 
             min="18"
             max="100"
+            value={partnerPreferences.partnerAgeRangeMax}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerAgeRangeMax: (e.target.value) })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="heightRangeMin">Minimum Height</Label>
           <Select 
+            value={partnerPreferences.partnerHeightRangeMin}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerHeightRangeMin: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select minimum height" />
@@ -83,6 +89,8 @@ export function PartnerPreferences({
         <div className="space-y-2">
           <Label htmlFor="heightRangeMax">Maximum Height</Label>
           <Select 
+            value={partnerPreferences.partnerHeightRangeMax}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerHeightRangeMax: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select maximum height" />
@@ -120,6 +128,8 @@ export function PartnerPreferences({
           <Input 
             id="maritalStatus" 
             placeholder="Enter marital status (comma separated)"
+            value={partnerPreferences.partnerMaritalStatus}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerMaritalStatus: e.target.value })}
           />
         </div>
         
@@ -128,6 +138,8 @@ export function PartnerPreferences({
           <Input 
             id="religion" 
             placeholder="Enter religion (comma separated)"
+            value={partnerPreferences.partnerReligion}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerReligion: e.target.value })}
           />
         </div>
         
@@ -136,6 +148,8 @@ export function PartnerPreferences({
           <Input 
             id="caste" 
             placeholder="Enter caste (comma separated)"
+            value={partnerPreferences.partnerCaste}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerCaste: e.target.value })}
           />
         </div>
         
@@ -144,6 +158,8 @@ export function PartnerPreferences({
           <Input 
             id="community" 
             placeholder="Enter community (comma separated)"
+            value={partnerPreferences.partnerCommunity}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerCommunity: e.target.value })}
           />
         </div>
         
@@ -152,6 +168,8 @@ export function PartnerPreferences({
           <Input 
             id="motherTongue" 
             placeholder="Enter mother tongue (comma separated)"
+            value={partnerPreferences.partnerMotherTongue}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerMotherTongue: e.target.value })}
           />
         </div>
         
@@ -160,6 +178,8 @@ export function PartnerPreferences({
           <Input 
             id="education" 
             placeholder="Enter education (comma separated)"
+            value={partnerPreferences.partnerEducation}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerEducation: e.target.value })}
           />
         </div>
         
@@ -168,6 +188,8 @@ export function PartnerPreferences({
           <Input 
             id="occupation" 
             placeholder="Enter occupation (comma separated)"
+            value={partnerPreferences.partnerOccupation}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerOccupation: e.target.value })}
           />
         </div>
         
@@ -176,6 +198,8 @@ export function PartnerPreferences({
           <Input 
             id="income" 
             placeholder="Enter income (comma separated)"
+            value={partnerPreferences.partnerIncome}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerIncome: e.target.value })}
           />
         </div>
         
@@ -184,6 +208,8 @@ export function PartnerPreferences({
           <Input 
             id="location" 
             placeholder="Enter location (comma separated)"
+            value={partnerPreferences.partnerLocation}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerLocation: e.target.value })}
           />
         </div>
         
@@ -192,6 +218,8 @@ export function PartnerPreferences({
           <Input 
             id="diet" 
             placeholder="Enter diet (comma separated)"
+            value={partnerPreferences.partnerDiet}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDiet: e.target.value })}
           />
         </div>
         
@@ -200,6 +228,8 @@ export function PartnerPreferences({
           <Input 
             id="smoking" 
             placeholder="Enter smoking (comma separated)"
+            value={partnerPreferences.partnerSmoking}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerSmoking: e.target.value })}
           />
         </div>
         
@@ -208,12 +238,16 @@ export function PartnerPreferences({
           <Input 
             id="drinking" 
             placeholder="Enter drinking (comma separated)"
+            value={partnerPreferences.partnerDrinking}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDrinking: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="exercise">Exercise</Label>
           <Select 
+            value={partnerPreferences.partnerExercise}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerExercise: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select exercise" />
@@ -230,6 +264,8 @@ export function PartnerPreferences({
         <div className="space-y-2">
           <Label htmlFor="sleepSchedule">Sleep Schedule</Label>
           <Select 
+            value={partnerPreferences.partnerSleepSchedule}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSleepSchedule: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select sleep schedule" />
@@ -246,6 +282,8 @@ export function PartnerPreferences({
         <div className="space-y-2">
           <Label htmlFor="socialLife">Social Life</Label>
           <Select 
+            value={partnerPreferences.partnerSocialLife}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSocialLife: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select social life" />
@@ -262,6 +300,8 @@ export function PartnerPreferences({
         <div className="space-y-2">
           <Label htmlFor="wantChildren">Want Children ?</Label>
           <Select 
+            value={partnerPreferences.partnerWantChildren}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerWantChildren: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select want children" />
@@ -279,6 +319,8 @@ export function PartnerPreferences({
             id="otherPreferences" 
             placeholder="Tell us about any other partner preferences"
             className="min-h-[100px]"
+            value={partnerPreferences.partnerOtherPreferences}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerOtherPreferences: e.target.value })}
           />
         </div>
       </div>

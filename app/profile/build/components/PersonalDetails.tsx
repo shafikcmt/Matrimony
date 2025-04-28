@@ -7,11 +7,11 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { UserProfileType } from "@/types/user";
+import { PersonalDetailsTypes } from "@/types/user";
 
 interface PersonalDetailsProps {
-  personalDetails: UserProfileType;
-  setPersonalDetails: (personalDetails: UserProfileType) => void;
+  personalDetails: PersonalDetailsTypes;
+  setPersonalDetails: (personalDetails: PersonalDetailsTypes) => void;
 }
 
 export function PersonalDetails({
@@ -27,6 +27,8 @@ export function PersonalDetails({
         <div className="space-y-2">
           <Label htmlFor="height">Height</Label>
           <Select 
+            value={personalDetails.height}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, height: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your height" />
@@ -58,6 +60,8 @@ export function PersonalDetails({
         <div className="space-y-2">
           <Label htmlFor="maritalStatus">Marital Status</Label>
           <Select 
+            value={personalDetails.maritalStatus}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, maritalStatus: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your marital status" />
@@ -74,6 +78,8 @@ export function PersonalDetails({
         <div className="space-y-2">
           <Label htmlFor="religion">Religion</Label>
           <Select 
+            value={personalDetails.religion}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, religion: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your religion" />
@@ -97,6 +103,8 @@ export function PersonalDetails({
           <Input 
             id="caste" 
             placeholder="Enter your caste"
+            value={personalDetails.caste}
+            onChange={(e) => setPersonalDetails({ ...personalDetails, caste: e.target.value })}
           />
         </div>
         
@@ -105,12 +113,16 @@ export function PersonalDetails({
           <Input 
             id="community" 
             placeholder="Enter your community"
+            value={personalDetails.community}
+            onChange={(e) => setPersonalDetails({ ...personalDetails, community: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="motherTongue">Mother Tongue</Label>
           <Select 
+            value={personalDetails.motherTongue}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, motherTongue: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your mother tongue" />
@@ -130,6 +142,22 @@ export function PersonalDetails({
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="wantChildren">Want Children ?</Label>
+          <Select 
+            value={personalDetails.wantChildren}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, wantChildren: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select your want children" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="yes">Yes</SelectItem>
+              <SelectItem value="no">No</SelectItem>
+            </SelectContent>
+          </Select> 
         </div>
       </div>
     </div>

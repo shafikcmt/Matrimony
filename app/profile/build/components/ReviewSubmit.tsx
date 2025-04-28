@@ -1,26 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { UserProfileType } from "@/types/user";
+import { BasicInfoTypes, EducationCareerTypes, FamilyDetailsTypes, LifestylePreferencesTypes, PartnerPreferencesTypes, PersonalDetailsTypes, PhotosGalleryTypes } from "@/types/user";
 
 interface ReviewSubmitProps {
-  basicInfo: UserProfileType;
-  educationCareer: UserProfileType;
-  familyDetails: UserProfileType;
-  lifestyle: UserProfileType;
-  partnerPreferences: UserProfileType;
-  photosGallery: UserProfileType;
-  onSubmit: () => void;
+  basicInfo: BasicInfoTypes;
+  personalDetails: PersonalDetailsTypes;
+  educationCareer: EducationCareerTypes;
+  familyDetails: FamilyDetailsTypes;
+  lifestyle: LifestylePreferencesTypes;
+  partnerPreferences: PartnerPreferencesTypes;
+  photosGallery: PhotosGalleryTypes;
 }
 
 export function ReviewSubmit({
   basicInfo,
+  personalDetails,
   educationCareer,
   familyDetails,
   lifestyle,
   partnerPreferences,
   photosGallery,
-  onSubmit
 }: ReviewSubmitProps) {
   const handleSubmit = () => {
     // Collect all data for submission
@@ -36,9 +36,6 @@ export function ReviewSubmit({
     console.log("Submitting profile data:", allData);
     
     // Call the onSubmit handler if provided
-    if (onSubmit) {
-      onSubmit();
-    }
   };
 
   return (
@@ -75,27 +72,27 @@ export function ReviewSubmit({
             </div>
             <div>
               <Label>Height</Label>
-              <p>{basicInfo.height || "Not provided"}</p>
+              <p>{personalDetails.height || "Not provided"}</p>
             </div>
             <div>
               <Label>Marital Status</Label>
-              <p>{basicInfo.maritalStatus || "Not provided"}</p>
+              <p>{personalDetails.maritalStatus || "Not provided"}</p>
             </div>
             <div>
               <Label>Religion</Label>
-              <p>{basicInfo.religion || "Not provided"}</p>
+              <p>{personalDetails.religion || "Not provided"}</p>
             </div>
             <div>
               <Label>Caste</Label>
-              <p>{basicInfo.caste || "Not provided"}</p>
+              <p>{personalDetails.caste || "Not provided"}</p>
             </div>
             <div>
               <Label>Community</Label>
-              <p>{basicInfo.community || "Not provided"}</p>
+              <p>{personalDetails.community || "Not provided"}</p>
             </div>
             <div>
               <Label>Mother Tongue</Label>
-              <p>{basicInfo.motherTongue || "Not provided"}</p>
+              <p>{personalDetails.motherTongue || "Not provided"}</p>
             </div>
           </CardContent>
         </Card>
@@ -185,7 +182,7 @@ export function ReviewSubmit({
             </div>
             <div>
               <Label>Siblings</Label>
-              <p>{familyDetails.siblings || "Not provided"}</p>
+              <p>{familyDetails.brothers + familyDetails.sisters || "Not provided"}</p>
             </div>
             <div>
               <Label>Family Type</Label>
@@ -275,11 +272,11 @@ export function ReviewSubmit({
           <CardContent className="space-y-4">
             <div>
               <Label>Age Range</Label>
-              <p>{partnerPreferences.partnerAgeRange || "Not provided"}</p>
+              <p>{partnerPreferences.partnerAgeRangeMin} - {partnerPreferences.partnerAgeRangeMax} years</p>
             </div>
             <div>
               <Label>Height Range</Label>
-              <p>{partnerPreferences.partnerHeightRange || "Not provided"}</p>
+              <p>{partnerPreferences.partnerHeightRangeMin} - {partnerPreferences.partnerHeightRangeMax} cm</p>
             </div>
             <div>
               <Label>Marital Status</Label>
@@ -381,7 +378,7 @@ export function ReviewSubmit({
                       key={index}
                       src={image} 
                       alt={`Gallery ${index + 1}`} 
-                      className="w-full h-24 object-cover rounded"
+                      className="w-full h-60 object-cover rounded"
                     />
                   ))}
                 </div>
@@ -391,12 +388,6 @@ export function ReviewSubmit({
             </div>
           </CardContent>
         </Card>
-      </div>
-      
-      <div className="flex justify-end mt-6">
-        <Button onClick={handleSubmit} className="px-6">
-          Submit Profile
-        </Button>
       </div>
     </div>
   );

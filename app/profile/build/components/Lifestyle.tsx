@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { UserProfileType } from "@/types/user";
+import { LifestylePreferencesTypes } from "@/types/user";
 
 interface LifestyleProps {
-  lifestyle: UserProfileType;
-  setLifestyle: (lifestyle: UserProfileType) => void;
+  lifestyle: LifestylePreferencesTypes;
+  setLifestyle: (lifestyle: LifestylePreferencesTypes) => void;
 }
 
 export function Lifestyle({
@@ -28,6 +28,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="diet">Diet Preference</Label>
           <Select 
+            value={lifestyle.diet}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, diet: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select diet preference" />
@@ -45,6 +47,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="smoking">Smoking</Label>
           <Select 
+            value={lifestyle.smoking}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, smoking: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select smoking habit" />
@@ -61,6 +65,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="drinking">Drinking</Label>
           <Select 
+            value={lifestyle.drinking}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, drinking: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select drinking habit" />
@@ -77,6 +83,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="exercise">Exercise</Label>
           <Select 
+            value={lifestyle.exercise}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, exercise: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select exercise habit" />
@@ -93,6 +101,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="sleepSchedule">Sleep Schedule</Label>
           <Select 
+            value={lifestyle.sleepSchedule}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, sleepSchedule: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select sleep schedule" />
@@ -109,6 +119,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="socialLife">Social Life</Label>
           <Select 
+            value={lifestyle.socialLife}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, socialLife: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select social life" />
@@ -127,6 +139,8 @@ export function Lifestyle({
           <Input 
             id="hobbies" 
             placeholder="Enter hobbies (comma separated)"
+            value={lifestyle.hobbies}
+            onChange={(e) => setLifestyle({ ...lifestyle, hobbies: e.target.value })}
           />
         </div>
         
@@ -135,12 +149,16 @@ export function Lifestyle({
           <Input 
             id="languages" 
             placeholder="Enter languages (comma separated)"
+            value={lifestyle.languages}
+            onChange={(e) => setLifestyle({ ...lifestyle, languages: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="travel">Travel</Label>
           <Select 
+            value={lifestyle.travel}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, travel: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select travel preference" />
@@ -158,6 +176,8 @@ export function Lifestyle({
         <div className="space-y-2">
           <Label htmlFor="pets">Pets</Label>
           <Select 
+            value={lifestyle.pets}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, pets: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select pets preference" />
@@ -178,6 +198,8 @@ export function Lifestyle({
             id="otherPreferences" 
             placeholder="Tell us about any other lifestyle preferences"
             className="min-h-[100px]"
+            value={lifestyle.otherPreferences}
+            onChange={(e) => setLifestyle({ ...lifestyle, otherPreferences: e.target.value })}
           />
         </div>
       </div>

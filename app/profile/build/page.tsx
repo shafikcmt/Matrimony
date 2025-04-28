@@ -36,10 +36,22 @@ export default function ProfileBuildPage() {
   const {
     currentStep,
     isLoading,
-    profileData,
     handleNext,
     handlePrevious,
-    updateProfileData,
+    basicInfo,
+    setBasicInfo,
+    personalDetails,
+    setPersonalDetails,
+    educationCareer,
+    setEducationCareer,
+    familyDetails,
+    setFamilyDetails,
+    lifestyle,
+    setLifestyle,
+    partnerPreferences,
+    setPartnerPreferences,
+    photosGallery,
+    setPhotosGallery,
     handleSubmit
   } = useProfileBuilder();
 
@@ -48,70 +60,69 @@ export default function ProfileBuildPage() {
       case 0:
         return (
           <BasicInfo 
-            basicInfo={profileData}
-            setBasicInfo={updateProfileData}
+            basicInfo={basicInfo}
+            setBasicInfo={setBasicInfo}
           />
         );
         
       case 1:
         return (
           <PersonalDetails 
-            personalDetails={profileData}
-            setPersonalDetails={updateProfileData}
+            personalDetails={personalDetails}
+            setPersonalDetails={setPersonalDetails}
           />
         );
         
       case 2:
         return (
           <EducationCareer 
-            educationCareer={profileData}
-            setEducationCareer={updateProfileData}
+            educationCareer={educationCareer}
+            setEducationCareer={setEducationCareer}
           />
         );
         
       case 3:
         return (
           <FamilyDetails 
-            familyDetails={profileData}
-            setFamilyDetails={updateProfileData}
+            familyDetails={familyDetails}
+            setFamilyDetails={setFamilyDetails}
           />
         );
         
       case 4:
         return (
           <Lifestyle 
-            lifestyle={profileData}
-            setLifestyle={updateProfileData}
+            lifestyle={lifestyle}
+            setLifestyle={setLifestyle}
           />
         );
         
       case 5:
         return (
           <PartnerPreferences 
-            partnerPreferences={profileData}
-            setPartnerPreferences={updateProfileData}
+            partnerPreferences={partnerPreferences}
+            setPartnerPreferences={setPartnerPreferences}
           />
         );
             
       case 6:
         return (
           <PhotosGallery 
-            photosGallery={profileData}
-            setPhotosGallery={updateProfileData}
-            onSubmit={handleSubmit}
+            photosGallery={photosGallery}
+            setPhotosGallery={setPhotosGallery}
           />
         );
         
       case 7:
         return (
           <ReviewSubmit 
-            basicInfo={profileData}
-            educationCareer={profileData}
-            familyDetails={profileData}
-            lifestyle={profileData}
-            partnerPreferences={profileData}
-            photosGallery={profileData}
-            onSubmit={handleSubmit}
+            basicInfo={basicInfo}
+            personalDetails={personalDetails}
+            educationCareer={educationCareer}
+            familyDetails={familyDetails}
+            lifestyle={lifestyle}
+            partnerPreferences={partnerPreferences}
+            photosGallery={photosGallery} 
           />
         );
         

@@ -8,11 +8,11 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { ChangeEvent } from "react";
-import { UserProfileType } from "@/types/user";
+import { BasicInfoTypes } from "@/types/user";
 
 interface BasicInfoProps {
-  basicInfo: UserProfileType;
-  setBasicInfo: (basicInfo: UserProfileType) => void;
+  basicInfo: BasicInfoTypes;
+  setBasicInfo: (basicInfo: BasicInfoTypes) => void;
 }
 
 export function BasicInfo({

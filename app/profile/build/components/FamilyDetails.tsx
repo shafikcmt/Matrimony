@@ -8,11 +8,11 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { UserProfileType } from "@/types/user";
+import { FamilyDetailsTypes } from "@/types/user";
 
 interface FamilyDetailsProps {
-  familyDetails: UserProfileType;
-  setFamilyDetails: (familyDetails: UserProfileType) => void;
+  familyDetails: FamilyDetailsTypes;
+  setFamilyDetails: (familyDetails: FamilyDetailsTypes) => void;
 }
 
 export function FamilyDetails({
@@ -30,6 +30,8 @@ export function FamilyDetails({
           <Input 
             id="fatherName" 
             placeholder="Enter father's name"
+            value={familyDetails.fatherName}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, fatherName: e.target.value })}
           />
         </div>
         
@@ -38,6 +40,8 @@ export function FamilyDetails({
           <Input 
             id="fatherOccupation" 
             placeholder="Enter father's occupation"
+            value={familyDetails.fatherOccupation}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, fatherOccupation: e.target.value })}
           />
         </div>
         
@@ -46,6 +50,8 @@ export function FamilyDetails({
           <Input 
             id="motherName" 
             placeholder="Enter mother's name"
+            value={familyDetails.motherName}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, motherName: e.target.value })}
           />
         </div>
         
@@ -54,6 +60,8 @@ export function FamilyDetails({
           <Input 
             id="motherOccupation" 
             placeholder="Enter mother's occupation"
+            value={familyDetails.motherOccupation}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, motherOccupation: e.target.value })}
           />
         </div>
         
@@ -67,6 +75,8 @@ export function FamilyDetails({
                 id="brothers" 
                 placeholder="Number of brothers"
                 min={0}
+                value={familyDetails.brothers}
+                onChange={(e) => setFamilyDetails({ ...familyDetails, brothers: e.target.value })}
               />
             </div>
             <div className="flex-1">
@@ -76,6 +86,8 @@ export function FamilyDetails({
                 id="sisters" 
                 placeholder="Number of sisters"
                 min={0}
+                value={familyDetails.sisters}
+                onChange={(e) => setFamilyDetails({ ...familyDetails, sisters: e.target.value })}
               />
             </div>
           </div>
@@ -84,6 +96,8 @@ export function FamilyDetails({
         <div className="space-y-2">
           <Label htmlFor="familyType">Family Type</Label>
           <Select 
+            value={familyDetails.familyType}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyType: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family type" />
@@ -99,6 +113,8 @@ export function FamilyDetails({
         <div className="space-y-2">
           <Label htmlFor="familyValues">Family Values</Label>
           <Select 
+            value={familyDetails.familyValues}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyValues: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family values" />
@@ -115,6 +131,8 @@ export function FamilyDetails({
         <div className="space-y-2">
           <Label htmlFor="familyStatus">Family Status</Label>
           <Select 
+            value={familyDetails.familyStatus}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyStatus: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family status" />
@@ -133,6 +151,8 @@ export function FamilyDetails({
           <Input 
             id="familyLocation" 
             placeholder="Enter family location"
+            value={familyDetails.familyLocation}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, familyLocation: e.target.value })}
           />
         </div>
         
@@ -142,6 +162,8 @@ export function FamilyDetails({
             id="familyBackground" 
             placeholder="Tell us about your family background"
             className="min-h-[100px]"
+            value={familyDetails.familyBackground}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, familyBackground: e.target.value })}
           />
         </div>
         
@@ -151,7 +173,9 @@ export function FamilyDetails({
             id="familyPreferences" 
             placeholder="Tell us about your family preferences"
             className="min-h-[100px]"
-          />
+            value={familyDetails.familyPreferences}
+            onChange={(e) => setFamilyDetails({ ...familyDetails, familyPreferences: e.target.value })}
+            />
         </div>
       </div>
     </div>

@@ -1,32 +1,33 @@
-export type UserProfileType = BasicInfo &
-  PersonalDetails &
-  EducationCareer &
-  FamilyDetails &
-  LifestylePreferences &
-  PartnerPreferences &
-  PhotosGallery & {
-    plan: string;
+export type UserProfileType = BasicInfoTypes &
+  PersonalDetailsTypes &
+  EducationCareerTypes &
+  FamilyDetailsTypes &
+  LifestylePreferencesTypes &
+  PartnerPreferencesTypes &
+  PhotosGalleryTypes & {
   };
 
-export interface BasicInfo {
+export interface BasicInfoTypes {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   gender: string;
   dateOfBirth: string;
+  plan: string;
 }
 
-export interface PersonalDetails {
+export interface PersonalDetailsTypes {
   height: string;
   maritalStatus: string;
   religion: string;
   caste: string;
   community: string;
   motherTongue: string;
+  wantChildren: string;
 }
 
-export interface EducationCareer {
+export interface EducationCareerTypes {
   highestQualification: string;
   fieldOfStudy: string;
   university: string;
@@ -42,12 +43,13 @@ export interface EducationCareer {
   futurePlans: string;
 }
 
-export interface FamilyDetails {
+export interface FamilyDetailsTypes {
   fatherName: string;
   fatherOccupation: string;
   motherName: string;
   motherOccupation: string;
-  siblings: string;
+  brothers: string;
+  sisters: string;
   familyType: string;
   familyValues: string;
   familyStatus: string;
@@ -56,7 +58,7 @@ export interface FamilyDetails {
   familyPreferences: string;
 }
 
-export interface LifestylePreferences {
+export interface LifestylePreferencesTypes {
   diet: string;
   smoking: string;
   drinking: string;
@@ -70,9 +72,11 @@ export interface LifestylePreferences {
   otherPreferences: string;
 }
 
-export interface PartnerPreferences {
-  partnerAgeRange: string;
-  partnerHeightRange: string;
+export interface PartnerPreferencesTypes {
+  partnerAgeRangeMin: string;
+  partnerAgeRangeMax: string;
+  partnerHeightRangeMin: string;
+  partnerHeightRangeMax: string;
   partnerMaritalStatus: string;
   partnerReligion: string;
   partnerCaste: string;
@@ -92,7 +96,7 @@ export interface PartnerPreferences {
   partnerOtherPreferences: string;
 }
 
-export interface PhotosGallery {
+export interface PhotosGalleryTypes {
   profilePicture: string;
   galleryImages: string[];
 }

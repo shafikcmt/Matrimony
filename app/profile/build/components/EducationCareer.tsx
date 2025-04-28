@@ -8,11 +8,11 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { UserProfileType } from "@/types/user";
+import { EducationCareerTypes } from "@/types/user";
 
 interface EducationCareerProps {
-  educationCareer: UserProfileType;
-  setEducationCareer: (educationCareer: UserProfileType) => void;
+  educationCareer: EducationCareerTypes;
+  setEducationCareer: (educationCareer: EducationCareerTypes) => void;
 }
 
 
@@ -29,7 +29,9 @@ export function EducationCareer({
         <div className="space-y-2">
           <Label htmlFor="highestQualification">Highest Qualification</Label>
           <Select 
-          >
+            value={educationCareer.highestQualification}
+            onValueChange={(value) => setEducationCareer({ ...educationCareer, highestQualification: value })}
+            >
             <SelectTrigger>
               <SelectValue placeholder="Select highest qualification" />
             </SelectTrigger>
@@ -48,6 +50,8 @@ export function EducationCareer({
           <Input 
             id="fieldOfStudy" 
             placeholder="Enter field of study"
+            value={educationCareer.fieldOfStudy}
+            onChange={(e) => setEducationCareer({ ...educationCareer, fieldOfStudy: e.target.value })}
           />
         </div>
         
@@ -56,6 +60,8 @@ export function EducationCareer({
           <Input 
             id="university" 
             placeholder="Enter university/institution name"
+            value={educationCareer.university}
+            onChange={(e) => setEducationCareer({ ...educationCareer, university: e.target.value })}
           />
         </div>
         
@@ -67,6 +73,8 @@ export function EducationCareer({
             placeholder="Enter year of passing"
             min={1950}
             max={new Date().getFullYear()}
+            value={educationCareer.yearOfPassing}
+            onChange={(e) => setEducationCareer({ ...educationCareer, yearOfPassing: e.target.value })}
           />
         </div>
         
@@ -75,6 +83,8 @@ export function EducationCareer({
           <Input 
             id="grade" 
             placeholder="Enter grade/percentage"
+            value={educationCareer.grade}
+            onChange={(e) => setEducationCareer({ ...educationCareer, grade: e.target.value })}
           />
         </div>
         
@@ -83,12 +93,16 @@ export function EducationCareer({
           <Input 
             id="occupation" 
             placeholder="Enter your occupation"
+            value={educationCareer.occupation}
+            onChange={(e) => setEducationCareer({ ...educationCareer, occupation: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="industry">Industry</Label>
           <Select 
+            value={educationCareer.industry}
+            onValueChange={(value) => setEducationCareer({ ...educationCareer, industry: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select industry" />
@@ -110,6 +124,8 @@ export function EducationCareer({
           <Input 
             id="company" 
             placeholder="Enter company name"
+            value={educationCareer.company}
+            onChange={(e) => setEducationCareer({ ...educationCareer, company: e.target.value })}
           />
         </div>
         
@@ -120,12 +136,16 @@ export function EducationCareer({
             id="experience" 
             placeholder="Enter years of experience"
             min={0}
+            value={educationCareer.experience}
+            onChange={(e) => setEducationCareer({ ...educationCareer, experience: e.target.value })}
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="income">Annual Income</Label>
           <Select 
+            value={educationCareer.income}
+            onValueChange={(value) => setEducationCareer({ ...educationCareer, income: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select income range" />
@@ -146,6 +166,8 @@ export function EducationCareer({
           <Input 
             id="workLocation" 
             placeholder="Enter work location"
+            value={educationCareer.workLocation}
+            onChange={(e) => setEducationCareer({ ...educationCareer, workLocation: e.target.value })}
           />
         </div>
         
@@ -155,6 +177,8 @@ export function EducationCareer({
             id="achievements" 
             placeholder="Tell us about your achievements"
             className="min-h-[100px]"
+            value={educationCareer.achievements}
+            onChange={(e) => setEducationCareer({ ...educationCareer, achievements: e.target.value })}
           />
         </div>
         
@@ -164,7 +188,9 @@ export function EducationCareer({
             id="futurePlans" 
             placeholder="Tell us about your future plans"
             className="min-h-[100px]"
-          />
+            value={educationCareer.futurePlans}
+            onChange={(e) => setEducationCareer({ ...educationCareer, futurePlans: e.target.value })}
+            />
         </div>
       </div>
     </div>
