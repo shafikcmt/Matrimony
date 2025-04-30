@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HeartIcon, Loader2, MessageCircleIcon, XIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 // Define the UserProfile type
@@ -118,7 +119,8 @@ export default function MembersPage() {
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Find Your Perfect Match</h1> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {members.map((member) => (
-          <Card key={member.id} className="bg-white/30 rounded-2xl backdrop-blur-md shadow-xl border border-white/20 p-4">
+          <Link href={`/members/${member.id}`} key={member.id}>
+          <Card key={member.id} className="bg-white/30 rounded-2xl backdrop-blur-md shadow-xl border border-white/20 p-4 transition-all duration-300 hover:shadow-2xl flex flex-col justify-between h-full">
             <CardHeader className="relative">
               <div className="relative">
                 <Avatar className="h-32 w-32 mx-auto mb-4">
@@ -188,6 +190,7 @@ export default function MembersPage() {
               </div>
             </CardContent>
           </Card>
+          </Link>
         ))}
       </div>
     </div>
