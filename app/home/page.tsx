@@ -79,7 +79,7 @@ const HomePage = () => {
                   </SelectContent>
                 </Select>
                 
-                <Link href="/login">
+                <Link href="/auth/login">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Button className="w-full bg-primary hover:bg-primary/90">
                       <Search className="w-4 h-4 mr-2" /> Search
@@ -182,7 +182,7 @@ const HomePage = () => {
           <p className="text-xl mb-8 text-white/90">
             Join thousands of happy couples who found their perfect match
           </p>
-          <Link href="/register">
+          <Link href="/auth/register">
             <motion.div whileTap={{ scale: 0.9 }}>
               <Button size="lg" variant="secondary" className="text-primary">
                 Create Free Profile

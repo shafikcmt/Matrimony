@@ -98,7 +98,13 @@ const MyStory = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">My Success Stories</h1>
-        <Dialog open={isCreateDialogOpen} onOpenChange={closeCreateDialog}>
+        <Dialog open={isCreateDialogOpen} onOpenChange={(open) => {
+          if (open) {
+            openCreateDialog();
+          } else {
+            closeCreateDialog();
+          }
+        }}>
           <DialogTrigger asChild>
             <Button className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
@@ -196,24 +202,41 @@ const MyStory = () => {
             <p className="text-gray-600 mb-2">
               Married on: {format(new Date(story.marriageDate), "PPP")}
             </p>
-            <p className="text-gray-700 mb-4 line-clamp-3">{story.story}</p>
-            <div className="flex justify-end space-x-2">
+            <div className="relative">
+              <p className="text-gray-700 mb-4 line-clamp-3">{story.story}</p>
+              {story.story.length > 150 && (
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent" />
+              )}
+            </div>
+            <div className="flex justify-between items-center mt-4">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
+                className="text-primary hover:text-primary/80"
                 onClick={() => handleEdit(story)}
               >
                 <Edit2 className="h-4 w-4 mr-1" />
                 Edit
               </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDelete(story.id)}
-              >
-                <Trash2 className="h-4 w-4 mr-1" />
-                Delete
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Show full story in a dialog
+                    openEditDialog(story);
+                  }}
+                >
+                  Read More
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleDelete(story.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </Card>
         ))}

@@ -56,12 +56,12 @@ export default function Header() {
                   <DropDownSheet />
                 ) : (
                   <>
-                    <Link href="/login">
+                    <Link href="/auth/login">
                       <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
                         Login
                       </Button>
                     </Link>
-                    <Link href="/register">
+                    <Link href="/auth/register">
                       <Button variant="destructive" className="bg-accent hover:bg-accent/90">
                         Register
                       </Button>
@@ -75,7 +75,7 @@ export default function Header() {
               {user ? (
                 <DropDownSheet />
               ) : (
-                <Link href="/login">
+                <Link href="/auth/login">
                   <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
                     Login
                   </Button>
