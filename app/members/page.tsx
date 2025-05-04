@@ -2,9 +2,11 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HeartIcon, Loader2, MessageCircleIcon, XIcon } from "lucide-react";
+import { HeartIcon, Loader2, MessageCircleIcon, StarIcon, XIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Define the UserProfile type
 interface UserProfile {
@@ -24,6 +26,9 @@ interface UserProfile {
   caste?: string;
   about?: string;
   interests?: string[];
+  isOnline?: boolean;
+  isPremium?: boolean;
+  matchPercentage?: number;
 }
 
 export default function MembersPage() {
@@ -44,7 +49,10 @@ export default function MembersPage() {
       religion: "Hindu",
       caste: "Brahmin",
       about: "Looking for a life partner who shares similar values and interests. I enjoy traveling, reading, and spending time outdoors.",
-      interests: ["Travel", "Reading", "Hiking", "Photography"]
+      interests: ["Travel", "Reading", "Hiking", "Photography"],
+      isOnline: true,
+      isPremium: false,
+      matchPercentage: 85
     },
     {
       id: "2",
@@ -52,6 +60,7 @@ export default function MembersPage() {
       avatar_url: "https://randomuser.me/api/portraits/women/2.jpg",
       phone: "+1 (555) 987-6543",
       date_of_birth: "1988-11-22",
+      age: 34,
       created_at: "2023-02-15",
       gender: "Female",
       location: "London, UK",
@@ -61,7 +70,10 @@ export default function MembersPage() {
       religion: "Hindu",
       caste: "Vaishya",
       about: "A compassionate doctor seeking a partner who values family and personal growth. I love cooking and classical music.",
-      interests: ["Cooking", "Classical Music", "Yoga", "Charity Work"]
+      interests: ["Cooking", "Classical Music", "Yoga", "Charity Work"],
+      isOnline: false,
+      isPremium: true,
+      matchPercentage: 83
     },
     {
       id: "3",
@@ -96,8 +108,6 @@ export default function MembersPage() {
       created_at: "2023-06-22"
     }
   ]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleLike = (memberId: string) => {
     // Implement like functionality
@@ -115,82 +125,87 @@ export default function MembersPage() {
   };
 
   return (
-    <div className="mx-auto p-8 bg-gradient-to-br from-[#fcd5ce] via-[#d0bfff] to-[#f0c8ff]">
+    <div className="mx-auto p-8">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Find Your Perfect Match</h1> */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {members.map((member) => (
-          <Link href={`/members/${member.id}`} key={member.id}>
-          <Card key={member.id} className="bg-white/30 rounded-2xl backdrop-blur-md shadow-xl border border-white/20 p-4 transition-all duration-300 hover:shadow-2xl flex flex-col justify-between h-full">
-            <CardHeader className="relative">
-              <div className="relative">
-                <Avatar className="h-32 w-32 mx-auto mb-4">
-                  <AvatarImage src={member.avatar_url || undefined} className="object-cover" />
-                  <AvatarFallback className="text-2xl">{member.full_name?.charAt(0) || '?'}</AvatarFallback>
-                </Avatar>
-                {/* <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs">
+          <Card key={member.id} className="relative rounded-xl shadow-lg overflow-hidden bg-white flex flex-col justify-between">
+            {/* Profile Image with Badges */}
+            <div className="relative">
+              <Image src={member.avatar_url || ""} alt={member.full_name} className="w-full h-56 object-cover" height={224} width={224}/>
+              {/* Online Badge */}
+              {member.isOnline && (
+                <span className="absolute top-3 left-3 bg-green-600/80 text-white text-xs px-3 py-1 rounded-full shadow">
                   Online
-                </div> */}
+                </span>
+              )}
+              {/* Premium Badge */}
+              {member.isPremium && (
+                <span className="absolute top-3 right-3 bg-yellow-500/90 text-white text-xs px-3 py-1 rounded-full shadow">
+                  Premium
+                </span>
+              )}
+            </div>
+            {/* Name, Age, Location, Match */}
+            <div className="flex items-center justify-between px-4 pt-4">
+              <div>
+                <h2 className="font-bold text-lg">{member.full_name}{member.age ? `, ${member.age}` : ''}</h2>
+                <p className="text-gray-500 text-sm">{member.location}</p>
               </div>
-              <div className="text-center">
-                <CardTitle className="text-xl">{member.full_name || 'Anonymous'}</CardTitle>
-                <p className="text-sm text-gray-500">
-                  {member.age} years • {member.location}
-                </p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="border-t border-white/40"></div>
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium">Occupation:</span>
-                  <span>{member.occupation}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium">Education:</span>
-                  <span>{member.education}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium">Religion:</span>
-                  <span>{member.religion}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium">Caste:</span>
-                  <span>{member.caste}</span>
-                </div>
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 line-clamp-3">{member.about}</p>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {member.interests?.map((interest, index) => (
-                    <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-                      {interest}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex justify-evenly mt-4 pt-4 border-t border-white/40">
-                  <button
-                    onClick={() => handleMessage(member.id)}
-                    className="p-4 rounded-full bg-blue-400 text-white"
-                  >
-                    <MessageCircleIcon className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={() => handleLike(member.id)}
-                    className="p-4 rounded-full bg-pink-400 text-white"
-                  >
-                    <HeartIcon className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={() => handleIgnore(member.id)}
-                    className="p-4 rounded-full bg-gray-400 text-white"
-                  >
-                    <XIcon className="w-6 h-6" />
-                  </button>
-                </div>
-              </div>
-            </CardContent>
+              {member.matchPercentage && (
+                <span className="bg-white/80 text-pink-600 font-semibold px-3 py-1 rounded-full shadow text-sm">
+                  {member.matchPercentage}% <span className="text-gray-500 font-normal">match</span>
+                </span>
+              )}
+            </div>
+            {/* Profession & Education */}
+            <div className="px-4 py-2">
+              <div className="text-sm"><span className="font-semibold">Profession:</span> {member.occupation}</div>
+              <div className="text-sm"><span className="font-semibold">Education:</span> {member.education}</div>
+            </div>
+            {/* Action Buttons */}
+            <div className="flex justify-between px-4 pb-4 pt-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => handleLike(member.id)}
+                      className="bg-pink-100 text-pink-600 font-semibold p-4 rounded-full flex items-center justify-center gap-2 border border-pink-200"
+                    >
+                      <HeartIcon className="w-5 h-5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Like</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => handleMessage(member.id)}
+                      className="bg-blue-100 text-blue-600 font-semibold p-4 rounded-full flex items-center justify-center gap-2 border border-blue-200"
+                    >
+                      <MessageCircleIcon className="w-5 h-5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Message</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => handleIgnore(member.id)}
+                      className="bg-gray-100 text-gray-600 font-semibold p-4 rounded-full flex items-center justify-center gap-2 border border-gray-200"
+                    >
+                      <StarIcon className="w-5 h-5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Shortlist</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </Card>
-          </Link>
         ))}
       </div>
     </div>

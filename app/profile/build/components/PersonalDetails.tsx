@@ -159,6 +159,16 @@ export function PersonalDetails({
             </SelectContent>
           </Select> 
         </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="address">Address</Label>
+          <Input 
+            id="address" 
+            placeholder="Enter your address"
+            value={personalDetails.address}
+            onChange={(e) => setPersonalDetails({ ...personalDetails, address: e.target.value })}
+          />
+        </div>
       </div>
     </div>
   );

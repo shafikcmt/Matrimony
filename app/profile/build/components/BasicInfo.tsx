@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { ChangeEvent } from "react";
 import { BasicInfoTypes } from "@/types/user";
+import { Textarea } from "@/components/ui/textarea";
 
 interface BasicInfoProps {
   basicInfo: BasicInfoTypes;
@@ -92,7 +93,17 @@ export function BasicInfo({
             onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, dateOfBirth: e.target.value })}
           />
         </div>
+
       </div>
+        <div className="space-y-2">
+          <Label htmlFor="aboutme">About Me</Label>
+          <Textarea 
+            id="aboutme" 
+            placeholder="Enter your about me"
+            value={basicInfo.aboutme}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setBasicInfo({ ...basicInfo, aboutme: e.target.value })}
+          />
+        </div>
     </div>
   );
 } 
