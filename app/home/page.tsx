@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <>
       {/* Hero Section */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -25,7 +25,7 @@ const HomePage = () => {
           />
         </div>
         <div className="container mx-auto z-10 px-4 flex justify-center items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
@@ -37,7 +37,7 @@ const HomePage = () => {
             <p className="text-xl text-white/90 mb-8">
               Join millions of people finding their life partner through our platform
             </p>
-            
+
             <Card className="p-6 bg-white/95 backdrop-blur">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Select defaultValue="looking">
@@ -50,7 +50,7 @@ const HomePage = () => {
                     <SelectItem value="groom">Groom</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <Select defaultValue="age">
                   <SelectTrigger>
                     <SelectValue placeholder="Age" />
@@ -64,7 +64,7 @@ const HomePage = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                
+
                 <Select defaultValue="religion">
                   <SelectTrigger>
                     <SelectValue placeholder="Religion" />
@@ -78,7 +78,7 @@ const HomePage = () => {
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <Link href="/auth/login">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Button className="w-full bg-primary hover:bg-primary/90">
@@ -93,7 +93,7 @@ const HomePage = () => {
       </motion.section>
 
       {/* Features Section */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
@@ -130,7 +130,7 @@ const HomePage = () => {
       </motion.section>
 
       {/* Success Stories */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
@@ -140,9 +140,9 @@ const HomePage = () => {
           <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <motion.div 
-                key={i} 
-                whileHover={{ scale: 1.05 }} 
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
                 <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -169,7 +169,7 @@ const HomePage = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.9 }}
