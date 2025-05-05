@@ -13,7 +13,7 @@ export interface BasicInfoTypes {
   email: string;
   phone: string;
   gender: string;
-  dateOfBirth: string;
+  dob: string;
   plan: string;
 }
 

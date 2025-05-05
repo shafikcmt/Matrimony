@@ -4,8 +4,10 @@ import { useSignUp } from '@/hooks/auth/useSignUp';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import Link from 'next/link';
+import GenderEnum from '@/constants/genderEnum';
 
 export default function RegisterPage() {
   const {
@@ -24,6 +26,12 @@ export default function RegisterPage() {
     e.preventDefault();
     handleSubmit();
   };
+
+  const genderOptions: { label: string; value: GenderEnum }[] = [
+    { label: "Male", value: GenderEnum.MALE },
+    { label: "Female", value: GenderEnum.FEMALE },
+    { label: "Prefer not to say", value: GenderEnum.OTHER }
+  ];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
@@ -90,6 +98,25 @@ export default function RegisterPage() {
                 pattern="[0-9]{10}"
                 maxLength={10}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="gender">Gender</Label>
+              <Select
+                value={gender}
+                onValueChange={(value) => setGender(value as GenderEnum)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  {genderOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">

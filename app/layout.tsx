@@ -1,23 +1,24 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
-import { Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/toaster'
+import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 
-import MainWrapper from '@/components/layout/MainWrapper'
+import MainWrapper from "@/components/layout/MainWrapper";
 
-import './globals.css'
+import "./globals.css";
+import ClientAuthWrapper from "@/components/layout/ClientAuthWrapper";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Matrimony App',
-  description: 'Find your perfect match',
-}
+  title: "Matrimony App",
+  description: "Find your perfect match",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -30,10 +31,10 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <MainWrapper>
-          {children}
+          <ClientAuthWrapper>{children}</ClientAuthWrapper>
         </MainWrapper>
         <Toaster />
       </body>
     </html>
-  )
+  );
 }

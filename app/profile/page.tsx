@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Loader2 } from "lucide-react";
+import { useProfileStore } from "@/state/profile";
 
 // Mock data for UI demonstration
 const mockProfile = {
@@ -25,6 +26,8 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState(mockProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const profileData = useProfileStore(store => store.basicInfo); // data yu ayega
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
