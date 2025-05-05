@@ -1,6 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Loader2 } from "lucide-react";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { dummyProfileData } from "./data/dummyProfileData";
 import {
@@ -21,8 +28,25 @@ import ProfileLifestyleCard from "./components/ProfileLifestyle";
 import ProfilePartnerPreferencesCard from "./components/ProfilePrefrences";
 import ProfilePhotosCard from "./components/ProfilePhotos";
 import SimilarProfilesCard from "./components/SimilarProfilesCard";
+import { useProfileStore } from "@/state/profile";
+// Mock data for UI demonstration
+const mockProfile = {
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe@example.com",
+  phoneNumber: "+1 234 567 8900",
+  dateOfBirth: "1990-01-01",
+  gender: "Male",
+  location: "New York, USA",
+  bio: "Software developer with a passion for technology and travel.",
+  profileImage: "https://randomuser.me/api/portraits/men/1.jpg"
+};
 
 export default function ProfilePage() {
+  const [profile, setProfile] = useState(mockProfile);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const [basicInfo, setBasicInfo] = useState<BasicInfoTypes>(dummyProfileData);
   const [personalDetails, setPersonalDetails] = useState<PersonalDetailsTypes>(dummyProfileData);
   const [educationCareer, setEducationCareer] = useState<EducationCareerTypes>(dummyProfileData);
@@ -30,6 +54,18 @@ export default function ProfilePage() {
   const [lifestyle, setLifestyle] = useState<LifestylePreferencesTypes>(dummyProfileData);
   const [partnerPreferences, setPartnerPreferences] = useState<PartnerPreferencesTypes>(dummyProfileData);
   const [photosGallery, setPhotosGallery] = useState<PhotosGalleryTypes>(dummyProfileData);
+
+  const profileData = useProfileStore(store => store.basicInfo); // data yu ayega
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      setError(null);
+    }, 1000);
+  };
 
   return (
     <div className="w-[80vw] mx-auto py-6 px-6 lg:px-8">

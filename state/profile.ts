@@ -59,7 +59,7 @@ const initialBasicInfo: BasicInfoTypes = {
   email: "",
   phone: "",
   gender: "",
-  dateOfBirth: "",
+  dob: "",
   plan: "",
 };
 

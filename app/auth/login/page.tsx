@@ -1,28 +1,24 @@
 "use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useLogIn } from '@/hooks/auth/useLogIn';
+import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
+  const {
+    email, setEmail,
+    password, setPassword,
+    error, isLoading, success,
+    handleSubmit,
+  } = useLogIn();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmit();
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -32,7 +28,11 @@ export default function LoginPage() {
             Sign in to your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+
+        <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+          {error && <div className="text-red-500 text-center">{error}</div>}
+          {success && <div className="text-green-500 text-center">Login successful!</div>}
+
           <div className="rounded-md shadow-sm space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email address</Label>
@@ -41,8 +41,8 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
               />
             </div>
@@ -53,17 +53,25 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
               />
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
-            Sign in
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              'Sign in'
+            )}
           </Button>
         </form>
+
         <div className="text-center">
           <Link href="/auth/register" className="text-indigo-600 hover:text-indigo-500">
             Don't have an account? Sign up
@@ -71,5 +79,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
