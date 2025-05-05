@@ -35,7 +35,7 @@ const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
       const session = data?.session;
       
       if (!session) {
-        router.push("/auth/login");
+        router.push("/");
         setIsLoading(false);
         return;
       }
@@ -65,7 +65,7 @@ const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
           description: profileError,
           variant: "destructive",
         });
-        router.push("/auth/login");
+        router.push("/profile/build");
       } else {
         router.push("/profile");
       }
