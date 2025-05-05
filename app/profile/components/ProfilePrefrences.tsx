@@ -5,56 +5,100 @@ import { useState } from "react";
 import { PartnerPreferences } from "../build/components/PartnerPreferences";
 import { PartnerPreferencesTypes } from "@/types/user";
 import { Button } from "@/components/ui/button";
+import { useProfileStore } from "@/state/profile";
+import { useToast } from "@/hooks/use-toast";
 
-export default function ProfilePartnerPreferencesCard({ partnerPreferences, setPartnerPreferences }: { partnerPreferences: PartnerPreferencesTypes, setPartnerPreferences: (info: PartnerPreferencesTypes) => void }) {
-  const [open, setOpen] = useState(false);
-  const [draft, setDraft] = useState(partnerPreferences);
+export default function ProfilePartnerPreferencesCard() {
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast();
+    
+    // Get data from store
+    const partnerPreferences = useProfileStore((state) => state.partnerPreferences);
+    const setPartnerPreferences = useProfileStore((state) => state.setPartnerPreferences);
+    const saveProfile = useProfileStore((state) => state.saveProfile);
+    const isLoading = useProfileStore((state) => state.isLoading);
 
-  return (
-    <Card>
-      <CardContent>
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="font-semibold">Partner Preferences</h2>
-          <button onClick={() => { setDraft(partnerPreferences); setOpen(true); }}>
-            <Edit2 className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="text-sm text-gray-700">
-          <div>Age Range: {partnerPreferences.partnerAgeRangeMin} - {partnerPreferences.partnerAgeRangeMax}</div>
-          <div>Height Range: {partnerPreferences.partnerHeightRangeMin} - {partnerPreferences.partnerHeightRangeMax}</div>
-          <div>Marital Status: {partnerPreferences.partnerMaritalStatus}</div>
-          <div>Religion: {partnerPreferences.partnerReligion}</div>
-          <div>Caste: {partnerPreferences.partnerCaste}</div>
-          <div>Community: {partnerPreferences.partnerCommunity}</div>
-          <div>Mother Tongue: {partnerPreferences.partnerMotherTongue}</div>
-          <div>Education: {partnerPreferences.partnerEducation}</div>
-          <div>Occupation: {partnerPreferences.partnerOccupation}</div>
-          <div>Income: {partnerPreferences.partnerIncome}</div>
-          <div>Location: {partnerPreferences.partnerLocation}</div>
-          <div>Diet: {partnerPreferences.partnerDiet}</div>
-          <div>Smoking: {partnerPreferences.partnerSmoking}</div>
-          <div>Drinking: {partnerPreferences.partnerDrinking}</div>
-          <div>Exercise: {partnerPreferences.partnerExercise}</div>
-          <div>Sleep Schedule: {partnerPreferences.partnerSleepSchedule}</div>
-          <div>Social Life: {partnerPreferences.partnerSocialLife}</div>
-          <div>Want Children: {partnerPreferences.partnerWantChildren}</div>
-          <div>Other Preferences: {partnerPreferences.partnerOtherPreferences}</div>
-        </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit Partner Preferences</DialogTitle>
-            </DialogHeader>
-            <PartnerPreferences partnerPreferences={draft} setPartnerPreferences={setDraft} />
-            <DialogFooter>
-              <Button onClick={() => { setPartnerPreferences(draft); setOpen(false); }}>Save</Button>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </CardContent>
-    </Card>
-  );
+    const [formData, setFormData] = useState<PartnerPreferencesTypes>(partnerPreferences);
+
+    const handleSave = async () => {
+        try {
+            // Update store
+            setPartnerPreferences(formData);
+            
+            // Save to backend
+            await saveProfile();
+            
+            setOpen(false);
+            toast({
+                title: "Success",
+                description: "Profile updated successfully",
+            });
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: "Failed to update profile",
+                variant: "destructive",
+            });
+        }
+    };
+
+    return (
+        <Card>
+            <CardContent className="relative">
+                <div className="absolute top-1 right-3">
+                    <button onClick={() => { setOpen(true); }}>
+                        <Edit2 className="w-4 h-4" />
+                    </button>
+                </div>
+                <div className="flex justify-between items-center mb-2 mt-2">
+                    <h2 className="font-semibold">Partner Preferences</h2>
+                </div>
+
+                <div className="text-sm flex flex-col gap-2">
+                    <div><span className="font-medium">Age Range:</span> {partnerPreferences.partnerAgeRangeMin} - {partnerPreferences.partnerAgeRangeMax}</div>
+                    <div><span className="font-medium">Height Range:</span> {partnerPreferences.partnerHeightRangeMin} - {partnerPreferences.partnerHeightRangeMax}</div>
+                    <div><span className="font-medium">Marital Status:</span> {partnerPreferences.partnerMaritalStatus}</div>
+                    <div><span className="font-medium">Religion:</span> {partnerPreferences.partnerReligion}</div>
+                    <div><span className="font-medium">Caste:</span> {partnerPreferences.partnerCaste}</div>
+                    <div><span className="font-medium">Community:</span> {partnerPreferences.partnerCommunity}</div>
+                    <div><span className="font-medium">Mother Tongue:</span> {partnerPreferences.partnerMotherTongue}</div>
+                    <div><span className="font-medium">Education:</span> {partnerPreferences.partnerEducation}</div>
+                    <div><span className="font-medium">Occupation:</span> {partnerPreferences.partnerOccupation}</div>
+                    <div><span className="font-medium">Income:</span> {partnerPreferences.partnerIncome}</div>
+                    <div><span className="font-medium">Location:</span> {partnerPreferences.partnerLocation}</div>
+                    <div><span className="font-medium">Diet:</span> {partnerPreferences.partnerDiet}</div>
+                    <div><span className="font-medium">Smoking:</span> {partnerPreferences.partnerSmoking}</div>
+                    <div><span className="font-medium">Drinking:</span> {partnerPreferences.partnerDrinking}</div>
+                    <div><span className="font-medium">Exercise:</span> {partnerPreferences.partnerExercise}</div>
+                    <div><span className="font-medium">Sleep Schedule:</span> {partnerPreferences.partnerSleepSchedule}</div>
+                    <div><span className="font-medium">Social Life:</span> {partnerPreferences.partnerSocialLife}</div>
+                    <div><span className="font-medium">Want Children:</span> {partnerPreferences.partnerWantChildren}</div>
+                    <div><span className="font-medium">Other Preferences:</span> {partnerPreferences.partnerOtherPreferences}</div>
+                </div>
+
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Edit Partner Preferences</DialogTitle>
+                        </DialogHeader>
+                        <PartnerPreferences
+                            partnerPreferences={formData}
+                            setPartnerPreferences={setFormData}
+                        />
+                        <DialogFooter>
+                            <Button
+                                onClick={handleSave}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Saving..." : "Save"}
+                            </Button>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </CardContent>
+        </Card>
+    );
 }

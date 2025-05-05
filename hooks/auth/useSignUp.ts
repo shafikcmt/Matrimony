@@ -10,7 +10,7 @@ const useSignUp = () => {
     const [lastName, setLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState<GenderEnum>(GenderEnum.MALE);
-    const [dob, setDob] = useState<Date | null>(null);
+    const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
 
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +24,11 @@ const useSignUp = () => {
         lastName,
         firstName,
         phoneNumber,
-        dob
+        dateOfBirth
     ])
 
     const validateInputs = () => {
-        if (!email || !password || !firstName || !lastName || !phoneNumber || !dob) {
+        if (!email || !password || !firstName || !lastName || !phoneNumber || !dateOfBirth) {
             setError("All fields are required.");
             return false;
         }
@@ -40,7 +40,7 @@ const useSignUp = () => {
             setError("Invalid email address.");
             return false;
         }
-        if (((new Date()).getFullYear() - dob.getFullYear()) < 18) {
+        if (((new Date()).getFullYear() - dateOfBirth.getFullYear()) < 18) {
             setError("Platform only allows users over 18!");
             return false;
         }
@@ -63,7 +63,7 @@ const useSignUp = () => {
                 lastName,
                 phoneNumber,
                 gender,
-                dob: dob!,
+                dateOfBirth: dateOfBirth!,
             };
             await userSignUp(payload);
             setSuccess(true);
@@ -88,8 +88,8 @@ const useSignUp = () => {
         setPhoneNumber,
         gender,
         setGender,
-        dob,
-        setDob,
+        dateOfBirth,
+        setDateOfBirth,
         error,
         isLoading,
         success,

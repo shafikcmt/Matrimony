@@ -5,50 +5,94 @@ import { useState } from "react";
 import { EducationCareer } from "../build/components/EducationCareer";
 import { EducationCareerTypes } from "@/types/user";
 import { Button } from "@/components/ui/button";
+import { useProfileStore } from "@/state/profile";
+import { useToast } from "@/hooks/use-toast";
 
-export default function ProfileEducationCard({ educationCareer, setEducationCareer }: { educationCareer: EducationCareerTypes, setEducationCareer: (info: EducationCareerTypes) => void }) {
-  const [open, setOpen] = useState(false);
-  const [draft, setDraft] = useState(educationCareer);
+export default function ProfileEducationCard() {
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast();
+    
+    // Get data from store
+    const educationCareer = useProfileStore((state) => state.educationCareer);
+    const setEducationCareer = useProfileStore((state) => state.setEducationCareer);
+    const saveProfile = useProfileStore((state) => state.saveProfile);
+    const isLoading = useProfileStore((state) => state.isLoading);
 
-  return (
-    <Card>
-      <CardContent>
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="font-semibold">Education & Career</h2>
-          <button onClick={() => { setDraft(educationCareer); setOpen(true); }}>
-            <Edit2 className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="text-sm text-gray-700">
-          <div>Highest Qualification: {educationCareer.highestQualification}</div>
-          <div>Field of Study: {educationCareer.fieldOfStudy}</div>
-          <div>University: {educationCareer.university}</div>
-          <div>Year of Passing: {educationCareer.yearOfPassing}</div>
-          <div>Grade: {educationCareer.grade}</div>
-          <div>Occupation: {educationCareer.occupation}</div>
-          <div>Industry: {educationCareer.industry}</div>
-          <div>Company: {educationCareer.company}</div>
-          <div>Experience: {educationCareer.experience}</div>
-          <div>Income: {educationCareer.income}</div>
-          <div>Work Location: {educationCareer.workLocation}</div>
-          <div>Achievements: {educationCareer.achievements}</div>
-          <div>Future Plans: {educationCareer.futurePlans}</div>
-        </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit Education & Career</DialogTitle>
-            </DialogHeader>
-            <EducationCareer educationCareer={draft} setEducationCareer={setDraft} />
-            <DialogFooter>
-              <Button onClick={() => { setEducationCareer(draft); setOpen(false); }}>Save</Button>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </CardContent>
-    </Card>
-  );
+    const [formData, setFormData] = useState<EducationCareerTypes>(educationCareer);
+
+    const handleSave = async () => {
+        try {
+            // Update store
+            setEducationCareer(formData);
+            
+            // Save to backend
+            await saveProfile();
+            
+            setOpen(false);
+            toast({
+                title: "Success",
+                description: "Profile updated successfully",
+            });
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: "Failed to update profile",
+                variant: "destructive",
+            });
+        }
+    };
+
+    return (
+        <Card>
+            <CardContent className="relative">
+                <div className="absolute top-1 right-3">
+                    <button onClick={() => { setOpen(true); }}>
+                        <Edit2 className="w-4 h-4" />
+                    </button>
+                </div>
+                <div className="flex justify-between items-center mb-2 mt-2">
+                    <h2 className="font-semibold">Education & Career</h2>
+                </div>
+
+                <div className="text-sm flex flex-col gap-2">
+                    <div><span className="font-medium">Highest Qualification:</span> {educationCareer.highestQualification}</div>
+                    <div><span className="font-medium">Field of Study:</span> {educationCareer.fieldOfStudy}</div>
+                    <div><span className="font-medium">University:</span> {educationCareer.university}</div>
+                    <div><span className="font-medium">Year of Passing:</span> {educationCareer.yearOfPassing}</div>
+                    <div><span className="font-medium">Grade:</span> {educationCareer.grade}</div>
+                    <div><span className="font-medium">Occupation:</span> {educationCareer.occupation}</div>
+                    <div><span className="font-medium">Industry:</span> {educationCareer.industry}</div>
+                    <div><span className="font-medium">Company:</span> {educationCareer.company}</div>
+                    <div><span className="font-medium">Experience:</span> {educationCareer.experience}</div>
+                    <div><span className="font-medium">Income:</span> {educationCareer.income}</div>
+                    <div><span className="font-medium">Work Location:</span> {educationCareer.workLocation}</div>
+                    <div><span className="font-medium">Achievements:</span> {educationCareer.achievements}</div>
+                    <div><span className="font-medium">Future Plans:</span> {educationCareer.futurePlans}</div>
+                </div>
+
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Edit Education & Career</DialogTitle>
+                        </DialogHeader>
+                        <EducationCareer
+                            educationCareer={formData}
+                            setEducationCareer={setFormData}
+                        />
+                        <DialogFooter>
+                            <Button
+                                onClick={handleSave}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Saving..." : "Save"}
+                            </Button>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </CardContent>
+        </Card>
+    );
 }

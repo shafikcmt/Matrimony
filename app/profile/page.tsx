@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,16 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Loader2 } from "lucide-react";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { dummyProfileData } from "./data/dummyProfileData";
-import {
-  BasicInfoTypes,
-  PersonalDetailsTypes,
-  EducationCareerTypes,
-  FamilyDetailsTypes,
-  LifestylePreferencesTypes,
-  PartnerPreferencesTypes,
-  PhotosGalleryTypes
-} from "@/types/user";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileBasicInfoCard from "./components/ProfileBasicInfo";
 import ProfilePersonalDetailsCard from "./components/ProfilePersonalInfo";
@@ -29,43 +19,41 @@ import ProfilePartnerPreferencesCard from "./components/ProfilePrefrences";
 import ProfilePhotosCard from "./components/ProfilePhotos";
 import SimilarProfilesCard from "./components/SimilarProfilesCard";
 import { useProfileStore } from "@/state/profile";
-// Mock data for UI demonstration
-const mockProfile = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
-  phoneNumber: "+1 234 567 8900",
-  dateOfBirth: "1990-01-01",
-  gender: "Male",
-  location: "New York, USA",
-  bio: "Software developer with a passion for technology and travel.",
-  profileImage: "https://randomuser.me/api/portraits/men/1.jpg"
-};
+import useAuthStore from "@/state/authState";
+import useGetProfileData from "@/hooks/profile/useGetProfileData";
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState(mockProfile);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const authId = useAuthStore((state) => state.authId);
+  const { fetchProfile, error, success } = useGetProfileData();
 
-  const [basicInfo, setBasicInfo] = useState<BasicInfoTypes>(dummyProfileData);
-  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsTypes>(dummyProfileData);
-  const [educationCareer, setEducationCareer] = useState<EducationCareerTypes>(dummyProfileData);
-  const [familyDetails, setFamilyDetails] = useState<FamilyDetailsTypes>(dummyProfileData);
-  const [lifestyle, setLifestyle] = useState<LifestylePreferencesTypes>(dummyProfileData);
-  const [partnerPreferences, setPartnerPreferences] = useState<PartnerPreferencesTypes>(dummyProfileData);
-  const [photosGallery, setPhotosGallery] = useState<PhotosGalleryTypes>(dummyProfileData);
+  // Get profile data from store
+  const basicInfo = useProfileStore((s) => s.basicInfo);
+  const personalDetails = useProfileStore((s) => s.personalDetails);
+  const photosGallery = useProfileStore((s) => s.photosGallery);
 
-  const profileData = useProfileStore(store => store.basicInfo); // data yu ayega
+  useEffect(() => {
+    if (authId) {
+      fetchProfile(authId);
+    }
+  }, [authId]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      setError(null);
-    }, 1000);
-  };
+  // Show loading indicator if data is not loaded
+  if (!success && !error) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <Loader2 className="animate-spin w-8 h-8 mr-2 text-accent" />
+        <span>Loading profile...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-[60vh] text-accent">
+        Error loading profile: {error}
+      </div>
+    );
+  }
 
   return (
     <div className="w-[80vw] mx-auto py-6 px-6 lg:px-8">
@@ -87,17 +75,16 @@ export default function ProfilePage() {
         </TabsList>
 
         <TabsContent value="profile" className="mt-6">
-
           <div className="flex gap-6 justify-between">
             <div className="w-[70%] flex flex-col gap-6">
-              <ProfileBasicInfoCard basicInfo={basicInfo} setBasicInfo={setBasicInfo} familyInfo={familyDetails} setFamilyInfo={setFamilyDetails} />
-              <ProfileEducationCard educationCareer={educationCareer} setEducationCareer={setEducationCareer} />
-              <ProfilePartnerPreferencesCard partnerPreferences={partnerPreferences} setPartnerPreferences={setPartnerPreferences} />
+              <ProfileBasicInfoCard />
+              <ProfileEducationCard />
+              <ProfilePartnerPreferencesCard />
             </div>
             <div className="w-[30%] flex flex-col gap-6">
-              <ProfilePersonalDetailsCard personalDetails={personalDetails} setPersonalDetails={setPersonalDetails} />
-              <ProfileLifestyleCard lifestyle={lifestyle} setLifestyle={setLifestyle} />
-              <ProfileFamilyCard familyDetails={familyDetails} setFamilyDetails={setFamilyDetails} />
+              <ProfilePersonalDetailsCard />
+              <ProfileLifestyleCard />
+              <ProfileFamilyCard />
               <SimilarProfilesCard />
             </div>
           </div>
@@ -105,8 +92,7 @@ export default function ProfilePage() {
 
         <TabsContent value="images">
           <div className="mt-6">
-            {/* Image gallery content will go here */}
-            <ProfilePhotosCard photosGallery={photosGallery} setPhotosGallery={setPhotosGallery} />
+            <ProfilePhotosCard />
           </div>
         </TabsContent>
 
@@ -118,7 +104,7 @@ export default function ProfilePage() {
 
         <TabsContent value="timeline">
           <div className="mt-6">
-            {/* Timeline content will go here */}
+            {/* Timeline contentbasicInfo={basicInfo} setBasicInfo={setBasicInfo} familyInfo={familyDetails} setFamilyInfo={setFamilyDetails}  will go here */}
           </div>
         </TabsContent>
       </Tabs>
@@ -126,11 +112,11 @@ export default function ProfilePage() {
   );
 }
 
-function getAge(dateOfBirth: string): number {
-  if (!dateOfBirth) return 0;
-  const dob = new Date(dateOfBirth);
-  if (isNaN(dob.getTime())) return 0;
-  const diffMs = Date.now() - dob.getTime();
+function getAge(dob: string): number {
+  if (!dob) return 0;
+  const date = new Date(dob);
+  if (isNaN(date.getTime())) return 0;
+  const diffMs = Date.now() - date.getTime();
   const ageDt = new Date(diffMs);
   return Math.abs(ageDt.getUTCFullYear() - 1970);
 }

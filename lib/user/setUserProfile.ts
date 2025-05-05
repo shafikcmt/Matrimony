@@ -8,7 +8,7 @@ const setUserProfile = async (
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     const {
-      firstName, lastName, email, phone, gender, dob,
+      firstName, lastName, email, phoneNumber, gender, dateOfBirth,
       height, maritalStatus, religion, caste, community, motherTongue, wantChildren,
       highestQualification, fieldOfStudy, university, yearOfPassing, grade,
       occupation, industry, company, experience, income, workLocation, achievements, futurePlans,
@@ -29,7 +29,7 @@ const setUserProfile = async (
     // 1. Update or Insert into user_profiles
     const { error: profileError } = await supabase.from('user_profiles').upsert([{
       authId,
-      firstName, lastName, email, phoneNumber: phone, gender, dob, plan: null
+      firstName, lastName, email, phoneNumber: phoneNumber, gender, dateOfBirth, plan: null
     }], { onConflict: 'authId' });
     if (profileError) throw profileError;
 

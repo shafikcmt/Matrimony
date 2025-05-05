@@ -56,10 +56,12 @@ const useGetProfileData = () => {
         firstName: profile.firstName || "",
         lastName: profile.lastName || "",
         email: profile.email || "",
-        phone: profile.phoneNumber || "",
+        phoneNumber: profile.phoneNumber || "",
         gender: profile.gender || "",
-        dob: profile.dob || "",
+        dateOfBirth: profile.dateOfBirth || null,
         plan: profile.plan || "",
+        aboutme: profile.aboutme || "",
+        isVerified: profile.isVerified ?? false,
 
         height: personal.height || "",
         maritalStatus: personal.maritalStatus || "",
@@ -68,6 +70,7 @@ const useGetProfileData = () => {
         community: personal.community || "",
         motherTongue: personal.motherTongue || "",
         wantChildren: personal.wantChildren || "",
+        address: personal.address || "",
 
         highestQualification: career.highestQualification || "",
         fieldOfStudy: career.fieldOfStudy || "",
@@ -95,6 +98,7 @@ const useGetProfileData = () => {
         familyLocation: family.familyLocation || "",
         familyBackground: family.familyBackground || "",
         familyPreferences: family.familyPreferences || "",
+        aboutfamily: family.aboutfamily || "",
 
         diet: lifestyle.diet || "",
         smoking: lifestyle.smoking || "",

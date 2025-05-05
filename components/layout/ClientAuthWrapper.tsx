@@ -45,7 +45,7 @@ const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
       setAuthStore({
         authId: user.id || "",
         role: user.aud || "anon",
-        dob: user.user_metadata?.dob || "",
+        dateOfBirth: user.user_metadata?.dateOfBirth || "",
         email: user.user_metadata?.email || "",
         firstName: user.user_metadata?.firstName || "",
         lastName: user.user_metadata?.lastName || "",

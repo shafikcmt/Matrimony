@@ -8,13 +8,14 @@ import { Button } from "@/components/ui/button";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 import DropDownSheet from "./DropDownSheet";
+import useAuthStore from "@/state/authState";
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   
-  // Replace with actual auth logic if needed
-  const user = null;
+  const authState = useAuthStore((state) => state);
+  const user = authState.authId ? authState : null;
 
   useEffect(() => {
     const handleScroll = () => {

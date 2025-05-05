@@ -17,7 +17,7 @@ export default function RegisterPage() {
     lastName, setLastName,
     phoneNumber, setPhoneNumber,
     gender, setGender,
-    dob, setDob,
+    dateOfBirth, setDateOfBirth,
     error, isLoading, success,
     handleSubmit,
   } = useSignUp();
@@ -120,14 +120,14 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dob">Date of Birth</Label>
+              <Label htmlFor="dateOfBirth">Date of Birth</Label>
               <Input
-                id="dob"
-                name="dob"
+                id="dateOfBirth"
+                name="dateOfBirth"
                 type="date"
                 required
-                value={dob ? dob.toISOString().split('T')[0] : ''}
-                onChange={(e) => setDob(new Date(e.target.value))}
+                value={dateOfBirth ? dateOfBirth.toISOString().split('T')[0] : ''}
+                onChange={(e) => setDateOfBirth(new Date(e.target.value))}
                 max={new Date().toISOString().split('T')[0]}
               />
             </div>

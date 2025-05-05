@@ -26,11 +26,10 @@ export type UserProfileType = BasicInfoTypes &
   PhotosGalleryTypes;
 
 export interface BasicInfoTypes {
-  id: string;
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   gender: Gender;
   dateOfBirth: string;
   plan: Plan;

@@ -45,14 +45,17 @@ export const useProfileBuilder = () => {
 
       if (success) {
         toast.success('Profile saved successfully!');
+        console.log('success')
+        window.location.href = '/';
       } else {
         toast.error(`Error saving profile: ${error}`);
-        console.log("Error -> ", error);
+        console.log("error :", error);
       }
     } catch (error) {
       toast.error(`Unexpected error: ${String(error)}`);
     } finally {
       setIsLoading(false);
+      console.log('not done')
     }
   };
 

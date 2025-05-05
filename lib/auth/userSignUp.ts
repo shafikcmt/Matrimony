@@ -8,12 +8,12 @@ export type UserSignUpPayload = {
     lastName: string;
     phoneNumber: string;
     gender: GenderEnum;
-    dob: Date
+    dateOfBirth: Date
 }
 
 const userSignUp = async (payload: UserSignUpPayload) => {
     try {
-        const { firstName, lastName, gender, dob, email, password, phoneNumber } = payload;
+        const { firstName, lastName, gender, dateOfBirth, email, password, phoneNumber } = payload;
         console.log("Ran server function!");
         await supabase.auth.signUp({
             email,
@@ -26,7 +26,7 @@ const userSignUp = async (payload: UserSignUpPayload) => {
                     firstName,
                     lastName,
                     phoneNumber,
-                    dob,
+                    dateOfBirth,
                     email
                 }
             }

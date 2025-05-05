@@ -8,6 +8,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { FamilyStatus, FamilyType, FamilyValues } from "@/types/enums";
 import { FamilyDetailsTypes } from "@/types/user";
 
 interface FamilyDetailsProps {
@@ -97,7 +98,7 @@ export function FamilyDetails({
           <Label htmlFor="familyType">Family Type</Label>
           <Select 
             value={familyDetails.familyType}
-            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyType: value })}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyType: value as FamilyType })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family type" />
@@ -114,7 +115,7 @@ export function FamilyDetails({
           <Label htmlFor="familyValues">Family Values</Label>
           <Select 
             value={familyDetails.familyValues}
-            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyValues: value })}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyValues: value as FamilyValues })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family values" />
@@ -132,7 +133,7 @@ export function FamilyDetails({
           <Label htmlFor="familyStatus">Family Status</Label>
           <Select 
             value={familyDetails.familyStatus}
-            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyStatus: value })}
+            onValueChange={(value) => setFamilyDetails({ ...familyDetails, familyStatus: value as FamilyStatus })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select family status" />

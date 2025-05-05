@@ -9,6 +9,9 @@ import {
   PartnerPreferencesTypes, 
   PhotosGalleryTypes 
 } from "@/types/user";
+import { Gender, Plan, MaritalStatus, Religion, FamilyType, FamilyValues, FamilyStatus, Diet, Habits, Exercise, SleepSchedule, SocialLife, Travel, Pets, Education, Industry } from "@/types/enums";
+import useAuthStore from "@/state/authState";
+import { supabase } from "@/lib/supabase";
 
 interface ProfileState {
   // Profile data
@@ -54,33 +57,37 @@ interface ProfileState {
 
 // Initial form data
 const initialBasicInfo: BasicInfoTypes = {
+  id: "",
   firstName: "",
   lastName: "",
   email: "",
-  phone: "",
-  gender: "",
-  dob: "",
-  plan: "",
+  phoneNumber: "",
+  gender: Gender.MALE,
+  dateOfBirth: "",
+  plan: Plan.FREE,
+  aboutme: "",
+  isVerified: false,
 };
 
 const initialPersonalDetails: PersonalDetailsTypes = {
   height: "",
-  maritalStatus: "",
-  religion: "",
+  maritalStatus: MaritalStatus.NEVER_MARRIED,
+  religion: Religion.HINDUISM,
   caste: "",
   community: "",
   motherTongue: "",
   wantChildren: "",
+  address: "",
 };
 
 const initialEducationCareer: EducationCareerTypes = {
-  highestQualification: "",
+  highestQualification: Education.BACHELORS,
   fieldOfStudy: "",
   university: "",
   yearOfPassing: "",
   grade: "",
   occupation: "",
-  industry: "",
+  industry: Industry.IT,
   company: "",
   experience: "",
   income: "",
@@ -96,25 +103,26 @@ const initialFamilyDetails: FamilyDetailsTypes = {
   motherOccupation: "",
   brothers: "",
   sisters: "",
-  familyType: "",
-  familyValues: "",
-  familyStatus: "",
+  familyType: FamilyType.NUCLEAR,
+  familyValues: FamilyValues.MODERATE,
+  familyStatus: FamilyStatus.MIDDLE_CLASS,
   familyLocation: "",
   familyBackground: "",
   familyPreferences: "",
+  aboutfamily: "",
 };
 
 const initialLifestylePreferences: LifestylePreferencesTypes = {
-  diet: "",
-  smoking: "",
-  drinking: "",
-  exercise: "",
-  sleepSchedule: "",
-  socialLife: "",
+  diet: Diet.VEG,
+  smoking: Habits.NEVER,
+  drinking: Habits.NEVER,
+  exercise: Exercise.REGULARLY,
+  sleepSchedule: SleepSchedule.REGULAR,
+  socialLife: SocialLife.AMBIVERT,
   hobbies: "",
   languages: "",
-  travel: "",
-  pets: "",
+  travel: Travel.LIKE,
+  pets: Pets.LIKE,
   otherPreferences: "",
 };
 
@@ -123,21 +131,21 @@ const initialPartnerPreferences: PartnerPreferencesTypes = {
   partnerAgeRangeMax: "",
   partnerHeightRangeMin: "",
   partnerHeightRangeMax: "",
-  partnerMaritalStatus: "",
-  partnerReligion: "",
+  partnerMaritalStatus: MaritalStatus.NEVER_MARRIED,
+  partnerReligion: Religion.HINDUISM,
   partnerCaste: "",
   partnerCommunity: "",
   partnerMotherTongue: "",
-  partnerEducation: "",
+  partnerEducation: Education.BACHELORS,
   partnerOccupation: "",
   partnerIncome: "",
   partnerLocation: "",
-  partnerDiet: "",
-  partnerSmoking: "",
-  partnerDrinking: "",
-  partnerExercise: "",
-  partnerSleepSchedule: "",
-  partnerSocialLife: "",
+  partnerDiet: Diet.VEG,
+  partnerSmoking: Habits.NEVER,
+  partnerDrinking: Habits.NEVER,
+  partnerExercise: Exercise.REGULARLY,
+  partnerSleepSchedule: SleepSchedule.REGULAR,
+  partnerSocialLife: SocialLife.AMBIVERT,
   partnerWantChildren: "",
   partnerOtherPreferences: "",
 };
@@ -222,11 +230,8 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
         ...state.photosGallery,
       };
       
-      // Here you would typically make an API call to save the profile
-      // For now, we'll just update the local state
       set({ profile: completeProfile, isLoading: false });
       
-      // Return success
       return Promise.resolve();
     } catch (error) {
       set({ 

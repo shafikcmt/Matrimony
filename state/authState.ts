@@ -4,7 +4,7 @@ import GenderEnum from "@/constants/genderEnum";
 type AuthDataType = {
   authId: string;
   role: string;
-  dob: string;
+  dateOfBirth: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -25,7 +25,7 @@ type AuthStateType = AuthDataType & {
 const initialAuthState: AuthDataType = {
   authId: '',
   role: '',
-  dob: '',
+  dateOfBirth: '',
   email: '',
   firstName: '',
   lastName: '',

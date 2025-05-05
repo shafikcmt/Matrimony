@@ -31,7 +31,7 @@ const useLogIn = () => {
       setAuthStore({
         authId: res?.session?.user?.id || "",
         role: res?.session?.user?.aud || "",
-        dob: res?.session?.user?.user_metadata?.dob || "",
+        dateOfBirth: res?.session?.user?.user_metadata?.dateOfBirth || "",
         email: res?.session?.user?.user_metadata?.email || "",
         firstName: res?.session?.user?.user_metadata?.firstName || "",
         lastName: res?.session?.user?.user_metadata?.lastName || "",
