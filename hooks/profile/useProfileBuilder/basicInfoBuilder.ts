@@ -2,6 +2,7 @@ import { BasicInfoTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialBasicInfoState: BasicInfoTypes = {
+  id: "",
     firstName: '',
     lastName: '',
     email: '',
@@ -9,6 +10,8 @@ const initialBasicInfoState: BasicInfoTypes = {
     gender: '',
     dateOfBirth: '',
     plan: '',
+    aboutme: '',
+    isVerified: false,
   }
 
   export const useBasicInfoBuilder = () => {

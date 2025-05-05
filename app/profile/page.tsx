@@ -1,136 +1,100 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2 } from "lucide-react";
-
-// Mock data for UI demonstration
-const mockProfile = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
-  phoneNumber: "+1 234 567 8900",
-  dateOfBirth: "1990-01-01",
-  gender: "Male",
-  location: "New York, USA",
-  bio: "Software developer with a passion for technology and travel.",
-  profileImage: "https://randomuser.me/api/portraits/men/1.jpg"
-};
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { dummyProfileData } from "./data/dummyProfileData";
+import {
+  BasicInfoTypes,
+  PersonalDetailsTypes,
+  EducationCareerTypes,
+  FamilyDetailsTypes,
+  LifestylePreferencesTypes,
+  PartnerPreferencesTypes,
+  PhotosGalleryTypes
+} from "@/types/user";
+import ProfileHeader from "./components/ProfileHeader";
+import ProfileBasicInfoCard from "./components/ProfileBasicInfo";
+import ProfilePersonalDetailsCard from "./components/ProfilePersonalInfo";
+import ProfileEducationCard from "./components/ProfileEducation";
+import ProfileFamilyCard from "./components/ProfileFamily";
+import ProfileLifestyleCard from "./components/ProfileLifestyle";
+import ProfilePartnerPreferencesCard from "./components/ProfilePrefrences";
+import ProfilePhotosCard from "./components/ProfilePhotos";
+import SimilarProfilesCard from "./components/SimilarProfilesCard";
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState(mockProfile);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      setError(null);
-    }, 1000);
-  };
+  const [basicInfo, setBasicInfo] = useState<BasicInfoTypes>(dummyProfileData);
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsTypes>(dummyProfileData);
+  const [educationCareer, setEducationCareer] = useState<EducationCareerTypes>(dummyProfileData);
+  const [familyDetails, setFamilyDetails] = useState<FamilyDetailsTypes>(dummyProfileData);
+  const [lifestyle, setLifestyle] = useState<LifestylePreferencesTypes>(dummyProfileData);
+  const [partnerPreferences, setPartnerPreferences] = useState<PartnerPreferencesTypes>(dummyProfileData);
+  const [photosGallery, setPhotosGallery] = useState<PhotosGalleryTypes>(dummyProfileData);
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Profile Settings</h1>
+    <div className="w-[80vw] mx-auto py-6 px-6 lg:px-8">
+      <ProfileHeader
+        name={`${basicInfo.firstName} ${basicInfo.lastName}`}
+        age={getAge(basicInfo.dateOfBirth)}
+        location={personalDetails.address}
+        isVerified={basicInfo.isVerified}
+        profileViews={0}
+        imageUrl={photosGallery.profilePicture}
+      />
 
-      {error && (
-        <div className="text-red-500 mb-4">{error}</div>
-      )}
+      <Tabs defaultValue="profile" className="mt-8">
+        <TabsList className="">
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="images">Images</TabsTrigger>
+          <TabsTrigger value="interests">Interests</TabsTrigger>
+          <TabsTrigger value="timeline">Timeline</TabsTrigger>
+        </TabsList>
 
-      <Card className="p-6">
-        <div className="flex flex-col items-center mb-8">
-          <Avatar className="w-32 h-32 mb-4">
-            <AvatarImage src={profile.profileImage} alt={`${profile.firstName} ${profile.lastName}`} />
-            <AvatarFallback>{profile.firstName[0]}{profile.lastName[0]}</AvatarFallback>
-          </Avatar>
-          <Button variant="outline">Change Photo</Button>
-        </div>
+        <TabsContent value="profile" className="mt-6">
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                value={profile.firstName}
-                onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-              />
+          <div className="flex gap-6 justify-between">
+            <div className="w-[70%] flex flex-col gap-6">
+              <ProfileBasicInfoCard basicInfo={basicInfo} setBasicInfo={setBasicInfo} familyInfo={familyDetails} setFamilyInfo={setFamilyDetails} />
+              <ProfileEducationCard educationCareer={educationCareer} setEducationCareer={setEducationCareer} />
+              <ProfilePartnerPreferencesCard partnerPreferences={partnerPreferences} setPartnerPreferences={setPartnerPreferences} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                value={profile.lastName}
-                onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={profile.email}
-                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                value={profile.phoneNumber}
-                onChange={(e) => setProfile({ ...profile, phoneNumber: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="dob">Date of Birth</Label>
-              <Input
-                id="dob"
-                type="date"
-                value={profile.dateOfBirth}
-                onChange={(e) => setProfile({ ...profile, dateOfBirth: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                value={profile.location}
-                onChange={(e) => setProfile({ ...profile, location: e.target.value })}
-              />
+            <div className="w-[30%] flex flex-col gap-6">
+              <ProfilePersonalDetailsCard personalDetails={personalDetails} setPersonalDetails={setPersonalDetails} />
+              <ProfileLifestyleCard lifestyle={lifestyle} setLifestyle={setLifestyle} />
+              <ProfileFamilyCard familyDetails={familyDetails} setFamilyDetails={setFamilyDetails} />
+              <SimilarProfilesCard />
             </div>
           </div>
+        </TabsContent>
 
-          <div className="space-y-2">
-            <Label htmlFor="bio">Bio</Label>
-            <textarea
-              id="bio"
-              className="w-full min-h-[100px] p-2 border rounded-md"
-              value={profile.bio}
-              onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-            />
+        <TabsContent value="images">
+          <div className="mt-6">
+            {/* Image gallery content will go here */}
+            <ProfilePhotosCard photosGallery={photosGallery} setPhotosGallery={setPhotosGallery} />
           </div>
+        </TabsContent>
 
-          <div className="flex justify-end">
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                'Save Changes'
-              )}
-            </Button>
+        <TabsContent value="interests">
+          <div className="mt-6">
+            {/* Interests content will go here */}
           </div>
-        </form>
-      </Card>
+        </TabsContent>
+
+        <TabsContent value="timeline">
+          <div className="mt-6">
+            {/* Timeline content will go here */}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
+}
+
+function getAge(dateOfBirth: string): number {
+  if (!dateOfBirth) return 0;
+  const dob = new Date(dateOfBirth);
+  if (isNaN(dob.getTime())) return 0;
+  const diffMs = Date.now() - dob.getTime();
+  const ageDt = new Date(diffMs);
+  return Math.abs(ageDt.getUTCFullYear() - 1970);
 }

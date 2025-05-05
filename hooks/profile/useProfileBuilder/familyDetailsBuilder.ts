@@ -13,7 +13,8 @@ const initialFamilyDetailsState: FamilyDetailsTypes = {
   familyStatus: '',
   familyLocation: '',
   familyBackground: '',
-  familyPreferences: ''
+  familyPreferences: '',
+  aboutfamily: '',
 }
 
 export const useFamilyDetailsBuilder = () => {

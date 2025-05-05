@@ -2,35 +2,31 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Search, Calendar, ArrowUpDown } from "lucide-react";
+import { Heart, MessageCircle, Share2, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUserStoryBuilder } from "@/hooks/stories/userStoryBuilder/userStoryBuilder";
 import { format } from "date-fns";
-import { UserStory } from "@/types/stories";
+import Link from "next/link";
+import { StoryType } from "@/types/stories";
 
 export default function StoriesPage() {
-  const [state, actions] = useUserStoryBuilder();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [state] = useUserStoryBuilder();
   const [sortBy, setSortBy] = useState<"marriageDate" | "createdAt">("marriageDate");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [page, setPage] = useState(1);
+  const storiesPerPage = 2;
 
+  // Sort and paginate stories
   const filteredStories = state.stories
-    .filter((story) =>
-      story.coupleName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      story.story.toLowerCase().includes(searchQuery.toLowerCase())
-    )
     .sort((a, b) => {
-      const dateA = new Date(a[sortBy] || a.createdAt || new Date()).getTime();
-      const dateB = new Date(b[sortBy] || b.createdAt || new Date()).getTime();
+      const dateA = new Date(a[sortBy === "marriageDate" ? "marriage_date" : "created_at"] || new Date()).getTime();
+      const dateB = new Date(b[sortBy === "marriageDate" ? "marriage_date" : "created_at"] || new Date()).getTime();
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
 
-  const handleReadMore = (story: UserStory) => {
-    // TODO: Implement story detail view
-    console.log("Reading story:", story.id);
-  };
+  const totalPages = Math.ceil(filteredStories.length / storiesPerPage);
+  const paginatedStories = filteredStories.slice((page - 1) * storiesPerPage, page * storiesPerPage);
 
   return (
     <motion.div
@@ -39,100 +35,89 @@ export default function StoriesPage() {
       transition={{ duration: 0.8 }}
       className="container mx-auto px-4 py-16"
     >
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 text-accent">Happy Stories</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Real stories from couples who found their perfect match on our platform. Your love story could be next!
+      {/* Heading and Description */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">Success Stories</h1>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-6">
+          Real stories from real couples who found their perfect match on our platform. Let their journeys inspire your own love story.
         </p>
-      </div>
-
-      {/* Search and Filter Section */}
-      <div className="mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            placeholder="Search stories..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-
-        <div className="flex gap-4">
-          <Select value={sortBy} onValueChange={(value: "marriageDate" | "createdAt") => setSortBy(value)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="marriageDate">Marriage Date</SelectItem>
-              <SelectItem value="createdAt">Created Date</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Button
-            variant="outline"
-            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-            className="flex items-center gap-2"
-          >
-            <ArrowUpDown className="h-4 w-4" />
-            {sortOrder === "asc" ? "Oldest First" : "Newest First"}
+        <Link href="/profile/create-story">
+          <Button className="bg-accent hover:bg-accent/90 text-white font-semibold px-8 py-3 rounded-full text-lg flex items-center gap-2 mx-auto">
+            <Heart className="w-5 h-5" /> Share Your Story
           </Button>
-        </div>
+        </Link>
       </div>
 
       {/* Stories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredStories.map((story) => (
-          <motion.div
-            key={story.id}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative group">
-                <motion.img
-                  src={story.image}
-                  alt={story.coupleName}
-                  className="w-full h-64 object-cover transition-transform duration-500"
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
-                />
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-semibold">{story.coupleName}</h3>
-                  <p className="text-sm opacity-90">
-                    Married on {format(new Date(story.marriageDate), "MMMM yyyy")}
-                  </p>
-                </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {paginatedStories.map((story) => (
+          <Card key={story.story_id} className="overflow-hidden flex flex-col">
+            <div className="relative group">
+              <img
+                src={story.images?.[0] || "/placeholder.jpg"}
+                alt={story.partner_name}
+                className="w-full h-64 object-cover transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white">
+                <h3 className="text-2xl font-bold">{story.partner_name}</h3>
+                <p className="text-sm opacity-90">
+                  Married in {format(new Date(story.marriage_date), "MMMM yyyy")}
+                </p>
               </div>
-
-              <div className="p-6">
-                <p className="text-gray-600 mb-4 line-clamp-3">{story.story}</p>
-
-                <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                  <div className="flex items-center text-accent">
-                    <Heart className="w-4 h-4 mr-2 fill-current" />
-                    <span>Success Story</span>
-                  </div>
-                  
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                      variant="outline"
-                      className="text-accent border-accent hover:bg-accent hover:text-white"
-                      onClick={() => handleReadMore(story)}
-                    >
-                      Read More
-                    </Button>
-                  </motion.div>
-                </div>
+            </div>
+            <div className="p-6 flex-1 flex flex-col">
+              <p className="text-gray-700 mb-4 line-clamp-4">{story.content}</p>
+              <div className="flex items-center gap-8 text-gray-500 text-sm mb-2">
+                <span className="flex items-center gap-1"><Heart className="w-4 h-4" /> {story.likes ?? 245}</span>
+                <span className="flex items-center gap-1"><MessageCircle className="w-4 h-4" /> {story.comments ?? 28}</span>
+                <span className="flex items-center gap-1"><Share2 className="w-4 h-4" /> {story.shares ?? 15}</span>
               </div>
-            </Card>
-          </motion.div>
+              <div className="flex justify-end">
+                <Link href={`/stories/${story.story_id}`}>
+                  <Button variant="ghost" className="text-pink-500 hover:bg-pink-50 font-semibold">
+                    Read More
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-10">
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="rounded-full"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+          {[...Array(totalPages)].map((_, idx) => (
+            <Button
+              key={idx}
+              variant={page === idx + 1 ? "default" : "ghost"}
+              className={`rounded-full w-10 h-10 ${page === idx + 1 ? "bg-pink-500 text-white" : ""}`}
+              onClick={() => setPage(idx + 1)}
+            >
+              {idx + 1}
+            </Button>
+          ))}
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+            className="rounded-full"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+        </div>
+      )}
 
       {/* Empty State */}
       {filteredStories.length === 0 && (

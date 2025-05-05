@@ -1,27 +1,18 @@
+import { StoryType } from '@/types/stories';
 import { useState, useCallback } from 'react';
 
-interface UserStory {
-  id: string;
-  coupleName: string;
-  story: string;
-  marriageDate: string;
-  image: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 interface UserStoryBuilderState {
-  stories: UserStory[];
-  currentStory: UserStory | null;
+  stories: StoryType[];
+  currentStory: StoryType | null;
   isLoading: boolean;
   error: string | null;
 }
 
 interface UserStoryBuilderActions {
-  createStory: (story: Omit<UserStory, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
-  updateStory: (id: string, story: Partial<UserStory>) => Promise<void>;
+  createStory: (story: Omit<StoryType, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateStory: (id: string, story: Partial<StoryType>) => Promise<void>;
   deleteStory: (id: string) => Promise<void>;
-  setCurrentStory: (story: UserStory | null) => void;
+  setCurrentStory: (story: StoryType | null) => void;
   clearError: () => void;
 }
 
@@ -33,16 +24,16 @@ export const useUserStoryBuilder = (): [UserStoryBuilderState, UserStoryBuilderA
     error: null,
   });
 
-  const createStory = useCallback(async (storyData: Omit<UserStory, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const createStory = useCallback(async (storyData: Omit<StoryType, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       setState(prev => ({ ...prev, isLoading: true, error: null }));
       
       // TODO: Replace with actual API call
-      const newStory: UserStory = {
+      const newStory: StoryType = {
         ...storyData,
-        id: crypto.randomUUID(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        story_id: crypto.randomUUID(),
+        created_at: new Date(),
+        updated_at: new Date(),
       };
 
       setState(prev => ({
@@ -60,23 +51,23 @@ export const useUserStoryBuilder = (): [UserStoryBuilderState, UserStoryBuilderA
     }
   }, []);
 
-  const updateStory = useCallback(async (id: string, storyData: Partial<UserStory>) => {
+  const updateStory = useCallback(async (id: string, storyData: Partial<StoryType>) => {
     try {
       setState(prev => ({ ...prev, isLoading: true, error: null }));
       
       // TODO: Replace with actual API call
-      const updatedStory: UserStory = {
-        ...state.stories.find(story => story.id === id)!,
+      const updatedStory: StoryType = {
+        ...state.stories.find(story => story.story_id === id)!,
         ...storyData,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       };
 
       setState(prev => ({
         ...prev,
         stories: prev.stories.map(story => 
-          story.id === id ? updatedStory : story
+          story.story_id === id ? updatedStory : story
         ),
-        currentStory: prev.currentStory?.id === id ? updatedStory : prev.currentStory,
+        currentStory: prev.currentStory?.story_id === id ? updatedStory : prev.currentStory,
         isLoading: false,
       }));
     } catch (error) {
@@ -95,8 +86,8 @@ export const useUserStoryBuilder = (): [UserStoryBuilderState, UserStoryBuilderA
       // TODO: Replace with actual API call
       setState(prev => ({
         ...prev,
-        stories: prev.stories.filter(story => story.id !== id),
-        currentStory: prev.currentStory?.id === id ? null : prev.currentStory,
+        stories: prev.stories.filter(story => story?.story_id !== id),
+        currentStory: prev.currentStory?.story_id === id ? null : prev.currentStory,
         isLoading: false,
       }));
     } catch (error) {
@@ -108,7 +99,7 @@ export const useUserStoryBuilder = (): [UserStoryBuilderState, UserStoryBuilderA
     }
   }, []);
 
-  const setCurrentStory = useCallback((story: UserStory | null) => {
+  const setCurrentStory = useCallback((story: StoryType | null) => {
     setState(prev => ({ ...prev, currentStory: story }));
   }, []);
 
