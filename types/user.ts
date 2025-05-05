@@ -8,6 +8,7 @@ export type UserProfileType = BasicInfoTypes &
   };
 
 export interface BasicInfoTypes {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -15,6 +16,7 @@ export interface BasicInfoTypes {
   gender: string;
   dob: string;
   plan: string;
+  aboutme: string;
 }
 
 export interface PersonalDetailsTypes {
@@ -25,6 +27,7 @@ export interface PersonalDetailsTypes {
   community: string;
   motherTongue: string;
   wantChildren: string;
+  address: string;
 }
 
 export interface EducationCareerTypes {
