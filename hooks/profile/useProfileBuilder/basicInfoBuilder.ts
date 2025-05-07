@@ -1,16 +1,16 @@
+import { Gender, Plan } from "@/types/enums";
 import { BasicInfoTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialBasicInfoState: BasicInfoTypes = {
-  id: "",
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
-    gender: '',
+    phoneNumber: '',
+    gender: Gender.MALE,
     dateOfBirth: '',
-    plan: '',
-    aboutme: '',
+    plan: Plan.FREE,
+    aboutMe: '',
     isVerified: false,
   }
 

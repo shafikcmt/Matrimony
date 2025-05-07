@@ -88,6 +88,7 @@ const CreateSuccessStory = () => {
         ...form,
         user_id: currentUserId,
         images: form.images,
+        marriage_date: new Date(form.marriage_date)
       });
     } else {
       addStory({

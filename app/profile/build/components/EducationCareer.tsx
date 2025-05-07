@@ -8,6 +8,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Education, Industry } from "@/types/enums";
 import { EducationCareerTypes } from "@/types/user";
 
 interface EducationCareerProps {
@@ -30,7 +31,7 @@ export function EducationCareer({
           <Label htmlFor="highestQualification">Highest Qualification</Label>
           <Select 
             value={educationCareer.highestQualification}
-            onValueChange={(value) => setEducationCareer({ ...educationCareer, highestQualification: value })}
+            onValueChange={(value) => setEducationCareer({ ...educationCareer, highestQualification: value as Education })}
             >
             <SelectTrigger>
               <SelectValue placeholder="Select highest qualification" />
@@ -102,7 +103,7 @@ export function EducationCareer({
           <Label htmlFor="industry">Industry</Label>
           <Select 
             value={educationCareer.industry}
-            onValueChange={(value) => setEducationCareer({ ...educationCareer, industry: value })}
+            onValueChange={(value) => setEducationCareer({ ...educationCareer, industry: value as Industry })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select industry" />

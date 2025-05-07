@@ -8,6 +8,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { MaritalStatus, Religion, Education, Diet, Habits, Exercise, SleepSchedule, SocialLife, Travel, Pets } from "@/types/enums";
 import { PartnerPreferencesTypes } from "@/types/user";
 
 interface PartnerPreferencesProps {
@@ -129,7 +130,7 @@ export function PartnerPreferences({
             id="maritalStatus" 
             placeholder="Enter marital status (comma separated)"
             value={partnerPreferences.partnerMaritalStatus}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerMaritalStatus: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerMaritalStatus: e.target.value as MaritalStatus })}
           />
         </div>
         
@@ -139,7 +140,7 @@ export function PartnerPreferences({
             id="religion" 
             placeholder="Enter religion (comma separated)"
             value={partnerPreferences.partnerReligion}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerReligion: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerReligion: e.target.value as Religion })}
           />
         </div>
         
@@ -179,7 +180,7 @@ export function PartnerPreferences({
             id="education" 
             placeholder="Enter education (comma separated)"
             value={partnerPreferences.partnerEducation}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerEducation: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerEducation: e.target.value as Education })}
           />
         </div>
         
@@ -219,7 +220,7 @@ export function PartnerPreferences({
             id="diet" 
             placeholder="Enter diet (comma separated)"
             value={partnerPreferences.partnerDiet}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDiet: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDiet: e.target.value as Diet })}
           />
         </div>
         
@@ -229,7 +230,7 @@ export function PartnerPreferences({
             id="smoking" 
             placeholder="Enter smoking (comma separated)"
             value={partnerPreferences.partnerSmoking}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerSmoking: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerSmoking: e.target.value as Habits })}
           />
         </div>
         
@@ -239,7 +240,7 @@ export function PartnerPreferences({
             id="drinking" 
             placeholder="Enter drinking (comma separated)"
             value={partnerPreferences.partnerDrinking}
-            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDrinking: e.target.value })}
+            onChange={(e) => setPartnerPreferences({ ...partnerPreferences, partnerDrinking: e.target.value as Habits })}
           />
         </div>
         
@@ -247,7 +248,7 @@ export function PartnerPreferences({
           <Label htmlFor="exercise">Exercise</Label>
           <Select 
             value={partnerPreferences.partnerExercise}
-            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerExercise: value })}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerExercise: value as Exercise })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select exercise" />
@@ -265,7 +266,7 @@ export function PartnerPreferences({
           <Label htmlFor="sleepSchedule">Sleep Schedule</Label>
           <Select 
             value={partnerPreferences.partnerSleepSchedule}
-            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSleepSchedule: value })}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSleepSchedule: value as SleepSchedule })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select sleep schedule" />
@@ -283,7 +284,7 @@ export function PartnerPreferences({
           <Label htmlFor="socialLife">Social Life</Label>
           <Select 
             value={partnerPreferences.partnerSocialLife}
-            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSocialLife: value })}
+            onValueChange={(value) => setPartnerPreferences({ ...partnerPreferences, partnerSocialLife: value as SocialLife })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select social life" />

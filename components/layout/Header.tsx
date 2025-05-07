@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   
-  const authState = useAuthStore((state) => state);
+  const authState = useAuthStore((store) => store);
   const user = authState.authId ? authState : null;
 
   useEffect(() => {
@@ -70,19 +70,6 @@ export default function Header() {
                   </>
                 )}
               </div>
-            </div>
-
-            <div className="md:hidden flex items-center gap-3">
-              {user ? (
-                <DropDownSheet />
-              ) : (
-                <Link href="/auth/login">
-                  <Button variant="outline" className="text-accent hover:text-accent/90 text-sm">
-                    Login
-                  </Button>
-                </Link>
-              )}
-              <MobileNav />
             </div>
           </div>
         </div>

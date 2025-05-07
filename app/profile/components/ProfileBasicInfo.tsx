@@ -1,13 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
-import { useState } from "react";
-import { BasicInfo } from "../build/components/BasicInfo";
-import { BasicInfoTypes, FamilyDetailsTypes } from "@/types/user";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { FamilyDetails } from "../build/components/FamilyDetails";
 import { useProfileStore } from "@/state/profile";
 import { useToast } from "@/hooks/use-toast";
+import setUserProfile from "@/lib/user/setUserProfile";
+import useAuthStore from "@/state/authState";
+import { UserProfileType } from "@/types/user";
 
 export default function ProfileBasicInfoCard() {
     const [open, setOpen] = useState(false);
@@ -20,24 +20,41 @@ export default function ProfileBasicInfoCard() {
     const setFamilyDetails = useProfileStore((state) => state.setFamilyDetails);
     const saveProfile = useProfileStore((state) => state.saveProfile);
     const isLoading = useProfileStore((state) => state.isLoading);
+    const authId = useAuthStore((state) => state.authId);
 
-    const [aboutMe, setAboutMe] = useState(basicInfo.aboutme);
-    const [aboutFamily, setAboutFamily] = useState(familyInfo.aboutfamily);
+    const [aboutMe, setAboutMe] = useState(basicInfo.aboutMe);
+    const [aboutFamily, setAboutFamily] = useState(familyInfo.aboutFamily);
 
     const handleSave = async () => {
         try {
-            // Update store
-            setBasicInfo({ ...basicInfo, aboutme: aboutMe });
-            setFamilyDetails({ ...familyInfo, aboutfamily: aboutFamily });
-            
-            // Save to backend
+            setBasicInfo({ ...basicInfo, aboutMe: aboutMe });
+            setFamilyDetails({ ...familyInfo, aboutFamily: aboutFamily });
+
+            const profileData = {
+                ...basicInfo,
+                ...familyInfo,
+                aboutMe,
+                aboutFamily,
+            };
+
+            const result = await setUserProfile(profileData as UserProfileType, authId);
+
+            if (result.success) {
+                toast({
+                    title: "Success",
+                    description: "Profile updated successfully",
+                });
+            } else {
+                toast({
+                    title: "Error",
+                    description: "Failed to update data at database",
+                    variant: "destructive",
+                });
+            }
+
             await saveProfile();
-            
+
             setOpen(false);
-            toast({
-                title: "Success",
-                description: "Profile updated successfully",
-            });
         } catch (error) {
             toast({
                 title: "Error",
@@ -60,8 +77,8 @@ export default function ProfileBasicInfoCard() {
                 </div>
 
                 <div className="text-sm flex flex-col gap-2">
-                    <div>{basicInfo.aboutme}</div>
-                    <div>{familyInfo.aboutfamily}</div>
+                    <div>{basicInfo.aboutMe}</div>
+                    <div>{familyInfo.aboutFamily}</div>
                 </div>
 
                 <Dialog open={open} onOpenChange={setOpen}>

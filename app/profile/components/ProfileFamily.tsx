@@ -3,44 +3,20 @@ import { Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useState } from "react";
 import { FamilyDetails } from "../build/components/FamilyDetails";
-import { FamilyDetailsTypes } from "@/types/user";
+import { FamilyDetailsTypes, UserProfileType } from "@/types/user";
 import { Button } from "@/components/ui/button";
 import { useProfileStore } from "@/state/profile";
-import { useToast } from "@/hooks/use-toast";
-
+import setUserProfile from "@/lib/user/setUserProfile";
+import useAuthStore from "@/state/authState";
 export default function ProfileFamilyCard() {
     const [open, setOpen] = useState(false);
-    const { toast } = useToast();
     
     // Get data from store
     const familyDetails = useProfileStore((state) => state.familyDetails);
-    const setFamilyDetails = useProfileStore((state) => state.setFamilyDetails);
-    const saveProfile = useProfileStore((state) => state.saveProfile);
     const isLoading = useProfileStore((state) => state.isLoading);
+    const authId = useAuthStore((state) => state.authId);
 
     const [formData, setFormData] = useState<FamilyDetailsTypes>(familyDetails);
-
-    const handleSave = async () => {
-        try {
-            // Update store
-            setFamilyDetails(formData);
-            
-            // Save to backend
-            await saveProfile();
-            
-            setOpen(false);
-            toast({
-                title: "Success",
-                description: "Profile updated successfully",
-            });
-        } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to update profile",
-                variant: "destructive",
-            });
-        }
-    };
 
     return (
         <Card>
@@ -67,7 +43,7 @@ export default function ProfileFamilyCard() {
                     <div><span className="font-medium">Family Location:</span> {familyDetails.familyLocation}</div>
                     <div><span className="font-medium">Family Background:</span> {familyDetails.familyBackground}</div>
                     <div><span className="font-medium">Family Preferences:</span> {familyDetails.familyPreferences}</div>
-                    <div><span className="font-medium">About Family:</span> {familyDetails.aboutfamily}</div>
+                    <div><span className="font-medium">About Family:</span> {familyDetails.aboutFamily}</div>
                 </div>
 
                 <Dialog open={open} onOpenChange={setOpen}>
@@ -81,7 +57,7 @@ export default function ProfileFamilyCard() {
                         />
                         <DialogFooter>
                             <Button
-                                onClick={handleSave}
+                                onClick={() => setUserProfile(formData as UserProfileType, authId)}
                                 disabled={isLoading}
                             >
                                 {isLoading ? "Saving..." : "Save"}

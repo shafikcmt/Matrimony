@@ -1,5 +1,5 @@
+import { Gender } from '@/types/enums';
 import { create } from 'zustand';
-import GenderEnum from "@/constants/genderEnum";
 
 type AuthDataType = {
   authId: string;
@@ -8,7 +8,7 @@ type AuthDataType = {
   email: string;
   firstName: string;
   lastName: string;
-  gender: GenderEnum;
+  gender: Gender;
   phoneNumber: string;
   autoAuthRefresh: {
     token: string;
@@ -29,7 +29,7 @@ const initialAuthState: AuthDataType = {
   email: '',
   firstName: '',
   lastName: '',
-  gender: GenderEnum.MALE,
+  gender: Gender.MALE,
   phoneNumber: '',
   autoAuthRefresh: {
     token: '',
@@ -41,7 +41,7 @@ const useAuthStore = create<AuthStateType>((set) => ({
   ...initialAuthState,
   isValid: (data) => Boolean(data?.authId?.trim()?.length),
   setAuthState: (data) => set({ ...data }),
-  resetAuthState: () => set({ ...initialAuthState, gender: GenderEnum.OTHER }),
+  resetAuthState: () => set({ ...initialAuthState, gender: Gender.OTHER }),
 }));
 
 export default useAuthStore;

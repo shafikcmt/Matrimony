@@ -60,7 +60,7 @@ const useGetProfileData = () => {
         gender: profile.gender || "",
         dateOfBirth: profile.dateOfBirth || null,
         plan: profile.plan || "",
-        aboutme: profile.aboutme || "",
+        aboutMe: profile.aboutMe || "",
         isVerified: profile.isVerified ?? false,
 
         height: personal.height || "",
@@ -98,7 +98,7 @@ const useGetProfileData = () => {
         familyLocation: family.familyLocation || "",
         familyBackground: family.familyBackground || "",
         familyPreferences: family.familyPreferences || "",
-        aboutfamily: family.aboutfamily || "",
+        aboutFamily: family.aboutFamily || "",
 
         diet: lifestyle.diet || "",
         smoking: lifestyle.smoking || "",
@@ -137,6 +137,7 @@ const useGetProfileData = () => {
         profilePicture: gallery.profilePicture || "",
         galleryImages: gallery.galleryImages || [],
       };
+
 
       setProfile(fullProfile);
       setBasicInfo(fullProfile);

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import Link from 'next/link';
-import GenderEnum from '@/constants/genderEnum';
+import { Gender } from '@/types/enums';
 
 export default function RegisterPage() {
   const {
@@ -27,10 +27,10 @@ export default function RegisterPage() {
     handleSubmit();
   };
 
-  const genderOptions: { label: string; value: GenderEnum }[] = [
-    { label: "Male", value: GenderEnum.MALE },
-    { label: "Female", value: GenderEnum.FEMALE },
-    { label: "Prefer not to say", value: GenderEnum.OTHER }
+  const genderOptions: { label: string; value: Gender }[] = [
+    { label: "Male", value: Gender.MALE },
+    { label: "Female", value: Gender.FEMALE },
+    { label: "Prefer not to say", value: Gender.OTHER }
   ];
 
   return (
@@ -43,7 +43,7 @@ export default function RegisterPage() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={onSubmit}>
           {error && <div className="text-red-500 text-center">{error}</div>}
-          {success && <div className="text-green-500 text-center">Account created successfully!</div>}
+          {success && <div className="text-green-500 text-center">Account created successfully! <br /> Please verify your email to continue</div>}
 
           <div className="rounded-md shadow-sm space-y-4">
             <div className="space-y-2">
@@ -104,7 +104,7 @@ export default function RegisterPage() {
               <Label htmlFor="gender">Gender</Label>
               <Select
                 value={gender}
-                onValueChange={(value) => setGender(value as GenderEnum)}
+                onValueChange={(value) => setGender(value as Gender)}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select gender" />

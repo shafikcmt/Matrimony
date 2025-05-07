@@ -33,7 +33,7 @@ export interface BasicInfoTypes {
   gender: Gender;
   dateOfBirth: string;
   plan: Plan;
-  aboutme: string;
+  aboutMe: string;
   isVerified: boolean;
 }
 
@@ -77,7 +77,7 @@ export interface FamilyDetailsTypes {
   familyLocation: string;
   familyBackground: string;
   familyPreferences: string;
-  aboutfamily: string;
+  aboutFamily: string;
 }
 
 export interface LifestylePreferencesTypes {

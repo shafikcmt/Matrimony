@@ -7,6 +7,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { MaritalStatus, Religion } from "@/types/enums";
 import { PersonalDetailsTypes } from "@/types/user";
 
 interface PersonalDetailsProps {
@@ -61,7 +62,7 @@ export function PersonalDetails({
           <Label htmlFor="maritalStatus">Marital Status</Label>
           <Select 
             value={personalDetails.maritalStatus}
-            onValueChange={(value) => setPersonalDetails({ ...personalDetails, maritalStatus: value })}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, maritalStatus: value as MaritalStatus })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your marital status" />
@@ -79,7 +80,7 @@ export function PersonalDetails({
           <Label htmlFor="religion">Religion</Label>
           <Select 
             value={personalDetails.religion}
-            onValueChange={(value) => setPersonalDetails({ ...personalDetails, religion: value })}
+            onValueChange={(value) => setPersonalDetails({ ...personalDetails, religion: value as Religion })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your religion" />

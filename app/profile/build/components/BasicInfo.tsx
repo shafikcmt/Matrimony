@@ -10,6 +10,7 @@ import {
 import { ChangeEvent } from "react";
 import { BasicInfoTypes } from "@/types/user";
 import { Textarea } from "@/components/ui/textarea";
+import { Gender } from "@/types/enums";
 
 interface BasicInfoProps {
   basicInfo: BasicInfoTypes;
@@ -45,7 +46,7 @@ export function BasicInfo({
             onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, lastName: e.target.value })}
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input 
@@ -62,8 +63,8 @@ export function BasicInfo({
           <Input 
             id="phoneNumber" 
             placeholder="Enter your phone number"
-            value={basicInfo.phone}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, phone: e.target.value })}
+            value={basicInfo.phoneNumber}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBasicInfo({ ...basicInfo, phoneNumber: e.target.value })}
           />
         </div>
         
@@ -71,7 +72,7 @@ export function BasicInfo({
           <Label htmlFor="gender">Gender</Label>
           <Select 
             value={basicInfo.gender}
-            onValueChange={(value) => setBasicInfo({ ...basicInfo, gender: value })}
+            onValueChange={(value) => setBasicInfo({ ...basicInfo, gender: value as Gender })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select your gender" />
@@ -96,12 +97,12 @@ export function BasicInfo({
 
       </div>
         <div className="space-y-2">
-          <Label htmlFor="aboutme">About Me</Label>
+          <Label htmlFor="aboutMe">About Me</Label>
           <Textarea 
-            id="aboutme" 
+            id="aboutMe" 
             placeholder="Enter your about me"
-            value={basicInfo.aboutme}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setBasicInfo({ ...basicInfo, aboutme: e.target.value })}
+            value={basicInfo.aboutMe}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setBasicInfo({ ...basicInfo, aboutMe: e.target.value })}
           />
         </div>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { userSignUp } from "@/lib/auth/userSignUp";
 import { UserSignUpPayload } from "@/lib/auth/userSignUp";
-import GenderEnum from "@/constants/genderEnum";
+import { Gender } from "@/types/enums";
 
 const useSignUp = () => {
     const [email, setEmail] = useState("");
@@ -9,7 +9,7 @@ const useSignUp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [gender, setGender] = useState<GenderEnum>(GenderEnum.MALE);
+    const [gender, setGender] = useState<Gender>(Gender.MALE);
     const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
 
     const [error, setError] = useState<string | null>(null);

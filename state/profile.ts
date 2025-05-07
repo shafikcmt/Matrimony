@@ -57,7 +57,6 @@ interface ProfileState {
 
 // Initial form data
 const initialBasicInfo: BasicInfoTypes = {
-  id: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -65,7 +64,7 @@ const initialBasicInfo: BasicInfoTypes = {
   gender: Gender.MALE,
   dateOfBirth: "",
   plan: Plan.FREE,
-  aboutme: "",
+  aboutMe: "",
   isVerified: false,
 };
 
@@ -109,7 +108,7 @@ const initialFamilyDetails: FamilyDetailsTypes = {
   familyLocation: "",
   familyBackground: "",
   familyPreferences: "",
-  aboutfamily: "",
+  aboutFamily: "",
 };
 
 const initialLifestylePreferences: LifestylePreferencesTypes = {

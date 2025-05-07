@@ -1,37 +1,39 @@
+import { Story } from "@/types/stories";
 import { create } from "zustand";
-import { UserStory, CreateUserStoryDTO } from "@/types/stories";
+
+type StoryFormData = Pick<Story, 'partner_name' | 'content' | 'marriage_date' | 'images'>;
 
 interface StoryState {
-  stories: UserStory[];
-  currentStory: UserStory | null;
+  stories: Story[];
+  currentStory: Story | null;
   isLoading: boolean;
   error: string | null;
   // Actions
-  setStories: (stories: UserStory[]) => void;
-  addStory: (story: UserStory) => void;
-  updateStory: (id: string, story: Partial<UserStory>) => void;
+  setStories: (stories: Story[]) => void;
+  addStory: (story: Story) => void;
+  updateStory: (id: string, story: Partial<Story>) => void;
   deleteStory: (id: string) => void;
-  setCurrentStory: (story: UserStory | null) => void;
+  setCurrentStory: (story: Story | null) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
   // Form state
-  formData: CreateUserStoryDTO;
-  setFormData: (data: Partial<CreateUserStoryDTO>) => void;
+  formData: StoryFormData;
+  setFormData: (data: Partial<StoryFormData>) => void;
   resetForm: () => void;
   // Dialog state
   isCreateDialogOpen: boolean;
   isEditDialogOpen: boolean;
   openCreateDialog: () => void;
   closeCreateDialog: () => void;
-  openEditDialog: (story: UserStory) => void;
+  openEditDialog: (story: Story) => void;
   closeEditDialog: () => void;
 }
 
-const initialFormData: CreateUserStoryDTO = {
-  coupleName: "",
-  story: "",
-  marriageDate: "",
-  image: "",
+const initialFormData: StoryFormData = {
+  partner_name: "",
+  content: "",
+  marriage_date: new Date(),
+  images: [""],
 };
 
 export const useStoryStore = create<StoryState>((set) => ({
@@ -50,12 +52,12 @@ export const useStoryStore = create<StoryState>((set) => ({
   updateStory: (id, updatedStory) =>
     set((state) => ({
       stories: state.stories.map((story) =>
-        story.id === id ? { ...story, ...updatedStory } : story
+        story.story_id === id ? { ...story, ...updatedStory } : story
       ),
     })),
   deleteStory: (id) =>
     set((state) => ({
-      stories: state.stories.filter((story) => story.id !== id),
+      stories: state.stories.filter((story) => story.story_id !== id),
     })),
   setCurrentStory: (story) => set({ currentStory: story }),
   setLoading: (isLoading) => set({ isLoading }),
@@ -76,10 +78,10 @@ export const useStoryStore = create<StoryState>((set) => ({
       isEditDialogOpen: true,
       currentStory: story,
       formData: {
-        coupleName: story.coupleName,
-        story: story.story,
-        marriageDate: story.marriageDate,
-        image: story.image,
+        partner_name: story.partner_name,
+        content: story.content,
+        marriage_date: story.marriage_date,
+        images: story.images,
       },
     }),
   closeEditDialog: () =>

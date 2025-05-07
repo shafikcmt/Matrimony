@@ -1,14 +1,15 @@
+import { Education, Industry } from "@/types/enums";
 import { EducationCareerTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialEducationCareerState: EducationCareerTypes = {
-  highestQualification: '',
+  highestQualification: Education.BACHELORS,
   fieldOfStudy: '',
   university: '',
   yearOfPassing: '',
   grade: '',
   occupation: '',
-  industry: '',
+  industry: Industry.IT,
   company: '',
   experience: '',
   income: '',

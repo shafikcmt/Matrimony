@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 import useAuthStore from "@/state/authState";
 import useGetProfileData from "@/hooks/profile/useGetProfileData";
 import { useToast } from "@/hooks/use-toast";
-import GenderEnum from "@/constants/genderEnum";
+import { Gender } from "@/types/enums";
 import { useProfileStore } from "@/state/profile";
 
 const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -49,7 +49,7 @@ const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
         email: user.user_metadata?.email || "",
         firstName: user.user_metadata?.firstName || "",
         lastName: user.user_metadata?.lastName || "",
-        gender: user.user_metadata?.gender as GenderEnum || GenderEnum.MALE,
+        gender: user.user_metadata?.gender as Gender || Gender.MALE,
         phoneNumber: user.user_metadata?.phoneNumber || "",
         autoAuthRefresh: {
           token: session.access_token || "",

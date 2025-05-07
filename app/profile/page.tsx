@@ -27,9 +27,9 @@ export default function ProfilePage() {
   const { fetchProfile, error, success } = useGetProfileData();
 
   // Get profile data from store
-  const basicInfo = useProfileStore((s) => s.basicInfo);
-  const personalDetails = useProfileStore((s) => s.personalDetails);
-  const photosGallery = useProfileStore((s) => s.photosGallery);
+  const basicInfo = useProfileStore((state) => state.basicInfo);
+  const personalDetails = useProfileStore((state) => state.personalDetails);
+  const photosGallery = useProfileStore((state) => state.photosGallery);
 
   useEffect(() => {
     if (authId) {
@@ -112,9 +112,9 @@ export default function ProfilePage() {
   );
 }
 
-function getAge(dob: string): number {
-  if (!dob) return 0;
-  const date = new Date(dob);
+function getAge(dateOfBirth: string): number {
+  if (!dateOfBirth) return 0;
+  const date = new Date(dateOfBirth);
   if (isNaN(date.getTime())) return 0;
   const diffMs = Date.now() - date.getTime();
   const ageDt = new Date(diffMs);

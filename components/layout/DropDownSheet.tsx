@@ -11,13 +11,13 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
-import { Settings, Users, Heart, LogOut, Handshake, House, BookHeart, Images, Trash2 } from "lucide-react";
+import { Settings, Users, Heart, LogOut, Handshake, BookHeart, Images, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const allLinks = [
     { icon: BookHeart, label: "Public Profile", link: "/public-profile" },
-    { icon: House, label: "Dashboard", link: "/dashboard" },
+    { icon: Users, label: "Dashboard", link: "/dashboard" },
     { icon: Users, label: "Members", link: "/members" },
     { icon: Images, label: "Gallery", link: "/images" },
     { icon: Handshake, label: "My Happy Story", link: "/my-story" },

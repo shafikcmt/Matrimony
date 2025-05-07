@@ -2,7 +2,7 @@ import { useState } from "react";
 import { userLogIn, UserLogInPayload } from "@/lib/auth/userLogIn";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/state/authState";
-import GenderEnum from "@/constants/genderEnum";
+import { Gender } from "@/types/enums";
 
 const useLogIn = () => {
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ const useLogIn = () => {
         email: res?.session?.user?.user_metadata?.email || "",
         firstName: res?.session?.user?.user_metadata?.firstName || "",
         lastName: res?.session?.user?.user_metadata?.lastName || "",
-        gender: res?.session?.user?.user_metadata?.gender || "male" as GenderEnum,
+        gender: res?.session?.user?.user_metadata?.gender || "male" as Gender,
         phoneNumber: res?.session?.user?.user_metadata?.phoneNumber || "",
         autoAuthRefresh: {
           token: res?.session?.access_token || "",

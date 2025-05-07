@@ -1,3 +1,4 @@
+import { FamilyStatus, FamilyType, FamilyValues } from "@/types/enums";
 import { FamilyDetailsTypes } from "@/types/user";
 import { useState } from "react";
 
@@ -8,13 +9,13 @@ const initialFamilyDetailsState: FamilyDetailsTypes = {
   motherOccupation: '',
   brothers: '',
   sisters: '',
-  familyType: '',
-  familyValues: '',
-  familyStatus: '',
+  familyType: FamilyType.NUCLEAR,
+  familyValues: FamilyValues.MODERN,
+  familyStatus: FamilyStatus.UPPER_MIDDLE_CLASS,
   familyLocation: '',
   familyBackground: '',
   familyPreferences: '',
-  aboutfamily: '',
+  aboutFamily: '',
 }
 
 export const useFamilyDetailsBuilder = () => {

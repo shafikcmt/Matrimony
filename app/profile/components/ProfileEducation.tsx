@@ -3,42 +3,44 @@ import { Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useState } from "react";
 import { EducationCareer } from "../build/components/EducationCareer";
-import { EducationCareerTypes } from "@/types/user";
+import { EducationCareerTypes, UserProfileType } from "@/types/user";
 import { Button } from "@/components/ui/button";
 import { useProfileStore } from "@/state/profile";
-import { useToast } from "@/hooks/use-toast";
+import setUserProfile from "@/lib/user/setUserProfile";
+import useAuthStore from "@/state/authState";
+import { toast } from "sonner";
 
 export default function ProfileEducationCard() {
     const [open, setOpen] = useState(false);
-    const { toast } = useToast();
     
     // Get data from store
     const educationCareer = useProfileStore((state) => state.educationCareer);
-    const setEducationCareer = useProfileStore((state) => state.setEducationCareer);
-    const saveProfile = useProfileStore((state) => state.saveProfile);
     const isLoading = useProfileStore((state) => state.isLoading);
+    const authId = useAuthStore((state) => state.authId);
+    const saveProfile = useProfileStore((state) => state.saveProfile);
+
 
     const [formData, setFormData] = useState<EducationCareerTypes>(educationCareer);
-
+    
     const handleSave = async () => {
         try {
-            // Update store
-            setEducationCareer(formData);
-            
-            // Save to backend
+
+            const eduicationData = {
+                ...educationCareer,
+            };
+            const result = await setUserProfile(eduicationData as UserProfileType, authId);
+
+            if (result.success) {
+                toast.success("Profile updated successfully");
+            } else {
+                toast.error("Failed to update data at database");
+            }
+
             await saveProfile();
-            
+
             setOpen(false);
-            toast({
-                title: "Success",
-                description: "Profile updated successfully",
-            });
         } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to update profile",
-                variant: "destructive",
-            });
+            toast.error("Failed to update profile");
         }
     };
 

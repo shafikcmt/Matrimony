@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import useAuthStore from "@/state/authState";
 
 const publicLinks = [
   { path: "/", name: "HOME" },
@@ -24,7 +25,7 @@ const Nav = () => {
   const pathname = usePathname();
 
   // Replace with real auth logic if needed
-  const user = null;
+  const user = useAuthStore((state) => state.authId);
 
   const links = user ? authLinks : publicLinks;
 

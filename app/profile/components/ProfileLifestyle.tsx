@@ -3,44 +3,21 @@ import { Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Lifestyle } from "../build/components/Lifestyle";
-import { LifestylePreferencesTypes } from "@/types/user";
+import { LifestylePreferencesTypes, UserProfileType } from "@/types/user";
 import { Button } from "@/components/ui/button";
 import { useProfileStore } from "@/state/profile";
-import { useToast } from "@/hooks/use-toast";
+import setUserProfile from "@/lib/user/setUserProfile";
+import useAuthStore from "@/state/authState";
 
 export default function ProfileLifestyleCard() {
     const [open, setOpen] = useState(false);
-    const { toast } = useToast();
     
     // Get data from store
     const lifestyle = useProfileStore((state) => state.lifestylePreferences);
-    const setLifestyle = useProfileStore((state) => state.setLifestylePreferences);
-    const saveProfile = useProfileStore((state) => state.saveProfile);
     const isLoading = useProfileStore((state) => state.isLoading);
+    const authId = useAuthStore((state) => state.authId);
 
     const [formData, setFormData] = useState<LifestylePreferencesTypes>(lifestyle);
-
-    const handleSave = async () => {
-        try {
-            // Update store
-            setLifestyle(formData);
-            
-            // Save to backend
-            await saveProfile();
-            
-            setOpen(false);
-            toast({
-                title: "Success",
-                description: "Profile updated successfully",
-            });
-        } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to update profile",
-                variant: "destructive",
-            });
-        }
-    };
 
     return (
         <Card>
@@ -79,7 +56,7 @@ export default function ProfileLifestyleCard() {
                         />
                         <DialogFooter>
                             <Button
-                                onClick={handleSave}
+                                onClick={() => setUserProfile(formData as UserProfileType, authId)}
                                 disabled={isLoading}
                             >
                                 {isLoading ? "Saving..." : "Save"}

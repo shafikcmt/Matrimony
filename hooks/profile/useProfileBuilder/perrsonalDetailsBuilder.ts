@@ -1,14 +1,16 @@
+import { MaritalStatus, Religion } from "@/types/enums";
 import { BasicInfoTypes, PersonalDetailsTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialPersonalDetailsState: PersonalDetailsTypes = {
   height: "",
-  maritalStatus: "",
-  religion: "",
+  maritalStatus: MaritalStatus.NEVER_MARRIED,
+  religion: Religion.HINDUISM,
   caste: "",
   community: "",
   motherTongue: "",
-  wantChildren: ""
+  wantChildren: "",
+  address: ""
 }
 
   export const usePersonalDetailsBuilder = () => {

@@ -9,7 +9,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { LifestylePreferencesTypes } from "@/types/user";
-
+import { Diet, Habits, Exercise, SleepSchedule, SocialLife, Travel, Pets } from "@/types/enums";
 interface LifestyleProps {
   lifestyle: LifestylePreferencesTypes;
   setLifestyle: (lifestyle: LifestylePreferencesTypes) => void;
@@ -29,7 +29,7 @@ export function Lifestyle({
           <Label htmlFor="diet">Diet Preference</Label>
           <Select 
             value={lifestyle.diet}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, diet: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, diet: value as Diet })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select diet preference" />
@@ -48,7 +48,7 @@ export function Lifestyle({
           <Label htmlFor="smoking">Smoking</Label>
           <Select 
             value={lifestyle.smoking}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, smoking: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, smoking: value as Habits })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select smoking habit" />
@@ -66,7 +66,7 @@ export function Lifestyle({
           <Label htmlFor="drinking">Drinking</Label>
           <Select 
             value={lifestyle.drinking}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, drinking: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, drinking: value as Habits })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select drinking habit" />
@@ -84,7 +84,7 @@ export function Lifestyle({
           <Label htmlFor="exercise">Exercise</Label>
           <Select 
             value={lifestyle.exercise}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, exercise: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, exercise: value as Exercise })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select exercise habit" />
@@ -102,7 +102,7 @@ export function Lifestyle({
           <Label htmlFor="sleepSchedule">Sleep Schedule</Label>
           <Select 
             value={lifestyle.sleepSchedule}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, sleepSchedule: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, sleepSchedule: value as SleepSchedule })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select sleep schedule" />
@@ -120,7 +120,7 @@ export function Lifestyle({
           <Label htmlFor="socialLife">Social Life</Label>
           <Select 
             value={lifestyle.socialLife}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, socialLife: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, socialLife: value as SocialLife })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select social life" />
@@ -158,7 +158,7 @@ export function Lifestyle({
           <Label htmlFor="travel">Travel</Label>
           <Select 
             value={lifestyle.travel}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, travel: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, travel: value as Travel })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select travel preference" />
@@ -177,7 +177,7 @@ export function Lifestyle({
           <Label htmlFor="pets">Pets</Label>
           <Select 
             value={lifestyle.pets}
-            onValueChange={(value) => setLifestyle({ ...lifestyle, pets: value })}
+            onValueChange={(value) => setLifestyle({ ...lifestyle, pets: value as Pets })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select pets preference" />

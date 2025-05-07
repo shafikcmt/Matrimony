@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { format } from "date-fns";
-import { CreateUserStoryDTO, UserStory } from "@/types/stories";
+import { Story } from "@/types/stories";
+
+type StoryFormData = Pick<Story, 'partner_name' | 'content' | 'marriage_date' | 'images'>;
 
 export const useStoryForm = () => {
-  const [formData, setFormData] = useState<CreateUserStoryDTO>({
-    coupleName: "",
-    story: "",
-    marriageDate: "",
-    image: "",
+  const [formData, setFormData] = useState<StoryFormData>({
+    partner_name: "",
+    content: "",
+    marriage_date: new Date(),
+    images: [""],
   });
 
   const handleInputChange = (
@@ -21,26 +23,26 @@ export const useStoryForm = () => {
     if (date) {
       setFormData((prev) => ({
         ...prev,
-        marriageDate: format(date, "yyyy-MM-dd"),
+        marriage_date: date,
       }));
     }
   };
 
   const resetForm = () => {
     setFormData({
-      coupleName: "",
-      story: "",
-      marriageDate: "",
-      image: "",
+      partner_name: "",
+      content: "",
+      marriage_date: new Date(),
+      images: [""],
     });
   };
 
-  const populateForm = (story: UserStory) => {
+  const populateForm = (story: Story) => {
     setFormData({
-      coupleName: story.coupleName,
-      story: story.story,
-      marriageDate: story.marriageDate,
-      image: story.image,
+      partner_name: story.partner_name,
+      content: story.content,
+      marriage_date: story.marriage_date,
+      images: story.images,
     });
   };
 

@@ -1,17 +1,18 @@
+import { Diet, Exercise, Habits, Pets, SleepSchedule, SocialLife, Travel } from "@/types/enums";
 import { LifestylePreferencesTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialLifestylePreferencesState: LifestylePreferencesTypes = {
-  diet: '',
-  smoking: '',
-  drinking: '',
-  exercise: '',
-  sleepSchedule: '',
-  socialLife: '',
+  diet: Diet.VEG,
+  smoking: Habits.NEVER,
+  drinking: Habits.NEVER,
+  exercise: Exercise.NEVER,
+  sleepSchedule: SleepSchedule.REGULAR,
+  socialLife: SocialLife.INTROVERT,
   hobbies: '',
   languages: '',
-  travel: '',
-  pets: '',
+  travel: Travel.LOVE,
+  pets: Pets.LOVE,
   otherPreferences: ''
 }
 

@@ -1,22 +1,23 @@
+import { Diet, Education, Exercise, Habits, MaritalStatus, Religion, SleepSchedule, SocialLife } from "@/types/enums";
 import { PartnerPreferencesTypes } from "@/types/user";
 import { useState } from "react";
 
 const initialPartnerPreferencesState: PartnerPreferencesTypes = {
-  partnerMaritalStatus: '',
-  partnerReligion: '',
+  partnerMaritalStatus: MaritalStatus.NEVER_MARRIED,
+  partnerReligion: Religion.HINDUISM,
   partnerCaste: '',
   partnerCommunity: '',
   partnerMotherTongue: '',
-  partnerEducation: '',
+  partnerEducation: Education.OTHER,
   partnerOccupation: '',
   partnerIncome: '',
   partnerLocation: '',
-  partnerDiet: '',
-  partnerSmoking: '',
-  partnerDrinking: '',
-  partnerExercise: '',
-  partnerSleepSchedule: '',
-  partnerSocialLife: '',
+  partnerDiet: Diet.VEG,
+  partnerSmoking: Habits.NEVER,
+  partnerDrinking: Habits.NEVER,
+  partnerExercise: Exercise.NEVER,
+  partnerSleepSchedule: SleepSchedule.NIGHT_OWL,
+  partnerSocialLife: SocialLife.EXTROVERT,
   partnerWantChildren: '',
   partnerOtherPreferences: '',
   partnerAgeRangeMin: "",

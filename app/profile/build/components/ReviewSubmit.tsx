@@ -60,7 +60,7 @@ export function ReviewSubmit({
             </div>
             <div>
               <Label>Phone</Label>
-              <p>{basicInfo.phone || "Not provided"}</p>
+              <p>{basicInfo.phoneNumber || "Not provided"}</p>
             </div>
             <div>
               <Label>Date of Birth</Label>
@@ -93,6 +93,14 @@ export function ReviewSubmit({
             <div>
               <Label>Mother Tongue</Label>
               <p>{personalDetails.motherTongue || "Not provided"}</p>
+            </div>
+            <div>
+              <Label>Address</Label>
+              <p>{personalDetails.address || "Not provided"}</p>
+            </div>
+            <div>
+              <Label>About Me</Label>
+              <p>{basicInfo.aboutMe || "Not provided"}</p>
             </div>
           </CardContent>
         </Card>
@@ -207,6 +215,10 @@ export function ReviewSubmit({
             <div>
               <Label>Family Preferences</Label>
               <p>{familyDetails.familyPreferences || "Not provided"}</p>
+            </div>
+            <div>
+              <Label>About Family</Label>
+              <p>{familyDetails.aboutFamily || "Not provided"}</p>
             </div>
           </CardContent>
         </Card>
