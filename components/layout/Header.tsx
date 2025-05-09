@@ -43,10 +43,10 @@ export default function Header() {
       <header className={`bg-white shadow-sm transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            <Link href="/" className="flex-shrink-0">
+            <Link href={user ? "/dashboard" : "/"} className="flex-shrink-0">
               <div className="text-accent text-xl sm:text-3xl font-bold flex items-center gap-2">
                 <Heart className="md:w-8 w-6 md:h-8 h-6 fill-accent cursor-pointer" />
-                HeavenlyMatch
+                {user ? 'Dashboard' : 'HeavenlyMatch'}
               </div>
             </Link>
 
