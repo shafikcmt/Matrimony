@@ -1,4 +1,4 @@
-import GenderEnum from "@/constants/genderEnum";
+import { Gender } from "@/types/enums";
 import { supabase } from "../supabase";
 
 export type UserSignUpPayload = {
@@ -7,7 +7,7 @@ export type UserSignUpPayload = {
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    gender: GenderEnum;
+    gender: Gender;
     dateOfBirth: Date
 }
 
