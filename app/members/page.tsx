@@ -132,7 +132,7 @@ export default function MembersPage() {
           <Card key={member.id} className="relative rounded-xl shadow-lg overflow-hidden bg-white flex flex-col justify-between">
             {/* Profile Image with Badges */}
             <div className="relative">
-              <Image src={member.avatar_url || ""} alt={member.full_name} className="w-full h-56 object-cover" height={224} width={224}/>
+              <Image src={member.avatar_url || ""} alt={member.full_name} className="w-full h-56 object-cover" height={1920} width={1080}/>
               {/* Online Badge */}
               {member.isOnline && (
                 <span className="absolute top-3 left-3 bg-green-600/80 text-white text-xs px-3 py-1 rounded-full shadow">
