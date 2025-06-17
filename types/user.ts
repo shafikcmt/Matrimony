@@ -1,53 +1,124 @@
-export interface UserProfile {
-  id: string;
-  full_name: string;
+import {
+  Gender,
+  Plan,
+  MaritalStatus,
+  Religion,
+  FamilyType,
+  FamilyValues,
+  FamilyStatus,
+  Diet,
+  Habits,
+  Exercise,
+  SleepSchedule,
+  SocialLife,
+  Travel,
+  Pets,
+  Education,
+  Industry
+} from "./enums";
+
+export type UserProfileType = BasicInfoTypes &
+  PersonalDetailsTypes &
+  EducationCareerTypes &
+  FamilyDetailsTypes &
+  LifestylePreferencesTypes &
+  PartnerPreferencesTypes &
+  PhotosGalleryTypes;
+
+export interface BasicInfoTypes {
+  firstName: string;
+  lastName: string;
   email: string;
-  phone: string;
-  date_of_birth: string;
-  gender: string;
-  religion: string;
+  phoneNumber: string;
+  gender: Gender;
+  dateOfBirth: string;
+  plan: Plan;
+  aboutMe: string;
+  isVerified: boolean;
+}
+
+export interface PersonalDetailsTypes {
+  height: string;
+  maritalStatus: MaritalStatus;
+  religion: Religion;
   caste: string;
-  education: string;
+  community: string;
+  motherTongue: string;
+  wantChildren: string;
+  address: string;
+}
+
+export interface EducationCareerTypes {
+  highestQualification: Education;
+  fieldOfStudy: string;
+  university: string;
+  yearOfPassing: string;
+  grade: string;
   occupation: string;
+  industry: Industry;
+  company: string;
+  experience: string;
   income: string;
-  city: string;
-  state: string;
-  country: string;
-  about: string;
-  profile_picture: string;
-  avatar_url?: string;
-  created_at: string;
-  updated_at: string;
-  
-  // Additional properties for the public profile page
-  firstName?: string;
-  lastName?: string;
-  introduction?: string;
-  maritalStatus?: string;
-  annualSalary?: string;
-  onBehalfOf?: string;
-  community?: string;
-  diet?: string;
-  smoking?: string;
-  drinking?: string;
-  postalCode?: string;
-  preferredAge?: string;
-  preferredHeight?: string;
-  preferredReligion?: string;
-  preferredCaste?: string;
-  profileImage?: string;
-  package?: {
-    name: string;
-    expiryDate: string;
-    features: {
-      name: string;
-      enabled: boolean;
-    }[];
-    stats: {
-      remainingInterest: number;
-      remainingContactView: number;
-      profileViewerView: number;
-      galleryImageUpload: number;
-    };
-  };
-} 
+  workLocation: string;
+  achievements: string;
+  futurePlans: string;
+}
+
+export interface FamilyDetailsTypes {
+  fatherName: string;
+  fatherOccupation: string;
+  motherName: string;
+  motherOccupation: string;
+  brothers: string;
+  sisters: string;
+  familyType: FamilyType;
+  familyValues: FamilyValues;
+  familyStatus: FamilyStatus;
+  familyLocation: string;
+  familyBackground: string;
+  familyPreferences: string;
+  aboutFamily: string;
+}
+
+export interface LifestylePreferencesTypes {
+  diet: Diet;
+  smoking: Habits;
+  drinking: Habits;
+  exercise: Exercise;
+  sleepSchedule: SleepSchedule;
+  socialLife: SocialLife;
+  hobbies: string;
+  languages: string;
+  travel: Travel;
+  pets: Pets;
+  otherPreferences: string;
+}
+
+export interface PartnerPreferencesTypes {
+  partnerAgeRangeMin: string;
+  partnerAgeRangeMax: string;
+  partnerHeightRangeMin: string;
+  partnerHeightRangeMax: string;
+  partnerMaritalStatus: MaritalStatus;
+  partnerReligion: Religion;
+  partnerCaste: string;
+  partnerCommunity: string;
+  partnerMotherTongue: string;
+  partnerEducation: Education;
+  partnerOccupation: string;
+  partnerIncome: string;
+  partnerLocation: string;
+  partnerDiet: Diet;
+  partnerSmoking: Habits;
+  partnerDrinking: Habits;
+  partnerExercise: Exercise;
+  partnerSleepSchedule: SleepSchedule;
+  partnerSocialLife: SocialLife;
+  partnerWantChildren: string;
+  partnerOtherPreferences: string;
+}
+
+export interface PhotosGalleryTypes {
+  profilePicture: string;
+  galleryImages: string[];
+}

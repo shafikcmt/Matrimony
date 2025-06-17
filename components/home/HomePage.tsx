@@ -2,12 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Search, Users, Shield, Gift, MessageCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userSelector } from "@/store/auth";
+import { useState, useEffect } from "react";
 
 interface SuccessStory {
   id: string;
@@ -20,47 +17,11 @@ interface SuccessStory {
 const HomePage = () => {
   const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const user = useRecoilValue(userSelector);
 
   useEffect(() => {
     const fetchSuccessStories = async () => {
       setIsLoading(true);
       try {
-        // In a real app, this would be an API call
-        // For now, we'll simulate an API response
-        const response = await fetch('/api/stories');
-        if (response.ok) {
-          const data = await response.json();
-          setSuccessStories(data);
-        } else {
-          // Fallback data if API fails
-          setSuccessStories([
-            {
-              id: '1',
-              coupleName: 'Sarah & John',
-              story: "We found each other here and couldn't be happier. Thank you for helping us find true love!",
-              marriageDate: 'June 2024',
-              image: 'https://images.unsplash.com/photo-1527647449401-87d4cb3db31b?ixlib=rb-4.0.3'
-            },
-            {
-              id: '2',
-              coupleName: 'Michael & Emily',
-              story: "After years of searching, we finally found each other. The matching algorithm really works!",
-              marriageDate: 'July 2024',
-              image: 'https://images.unsplash.com/photo-1527647449402-87d4cb3db31b?ixlib=rb-4.0.3'
-            },
-            {
-              id: '3',
-              coupleName: 'David & Lisa',
-              story: "We connected instantly and knew we were meant to be. Getting married next month!",
-              marriageDate: 'August 2024',
-              image: 'https://images.unsplash.com/photo-1527647449403-87d4cb3db31b?ixlib=rb-4.0.3'
-            }
-          ]);
-        }
-      } catch (error) {
-        console.error('Error fetching success stories:', error);
-        // Fallback data if API fails
         setSuccessStories([
           {
             id: '1',
@@ -84,6 +45,8 @@ const HomePage = () => {
             image: 'https://images.unsplash.com/photo-1527647449403-87d4cb3db31b?ixlib=rb-4.0.3'
           }
         ]);
+      } catch (error) {
+        console.error('Error fetching success stories:', error);
       } finally {
         setIsLoading(false);
       }
@@ -94,7 +57,6 @@ const HomePage = () => {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="relative min-h-[600px] bg-gradient-to-r from-primary/90 to-primary flex items-center">
         <div className="absolute inset-0 z-0">
           <img
@@ -111,7 +73,6 @@ const HomePage = () => {
             <p className="text-xl text-white/90 mb-8">
               Join millions of people finding their life partner through our platform
             </p>
-            
             <Card className="p-6 bg-white/95 backdrop-blur">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Select defaultValue="looking">
@@ -124,7 +85,6 @@ const HomePage = () => {
                     <SelectItem value="groom">Groom</SelectItem>
                   </SelectContent>
                 </Select>
-                
                 <Select defaultValue="age">
                   <SelectTrigger>
                     <SelectValue placeholder="Age" />
@@ -138,7 +98,6 @@ const HomePage = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                
                 <Select defaultValue="religion">
                   <SelectTrigger>
                     <SelectValue placeholder="Religion" />
@@ -152,7 +111,6 @@ const HomePage = () => {
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                
                 <Button className="w-full bg-primary hover:bg-primary/90">
                   <Search className="w-4 h-4 mr-2" /> Search
                 </Button>
@@ -162,7 +120,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
@@ -172,19 +129,16 @@ const HomePage = () => {
               <h3 className="text-xl font-semibold mb-2">Verified Profiles</h3>
               <p className="text-gray-600">All profiles are manually verified for authenticity</p>
             </Card>
-            
             <Card className="p-6 text-center hover:shadow-lg transition-shadow">
               <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-semibold mb-2">Privacy Control</h3>
               <p className="text-gray-600">Your privacy is our top priority</p>
             </Card>
-            
             <Card className="p-6 text-center hover:shadow-lg transition-shadow">
               <MessageCircle className="w-12 h-12 mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-semibold mb-2">Easy Communication</h3>
               <p className="text-gray-600">Connect with matches through our secure messaging system</p>
             </Card>
-            
             <Card className="p-6 text-center hover:shadow-lg transition-shadow">
               <Gift className="w-12 h-12 mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-semibold mb-2">Special Features</h3>
@@ -194,7 +148,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Success Stories */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
@@ -228,7 +181,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 bg-primary text-white text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -246,4 +198,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;
